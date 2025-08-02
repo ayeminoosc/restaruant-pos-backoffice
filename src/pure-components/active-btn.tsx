@@ -4,7 +4,7 @@ export default function ActiveBtn() {
             <input
                 type="checkbox"
                 id="active-checkbox"
-                className="w-[1.5rem] h-[1.5rem] " // Optional styling
+                className="w-[1.5rem] h-[1.5rem] " 
             />
             <label htmlFor="active-checkbox" className="font-inter font-medium text-[1.25rem] leading-[1.5rem] tracking-[0.03125rem]">
                 Active

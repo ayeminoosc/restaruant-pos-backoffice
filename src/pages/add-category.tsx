@@ -1,40 +1,49 @@
-import TitleBar from "@/common/title-bar";
+import TitleBar from "@/pure-components/title-bar";
 import { Pencil, Trash, ArrowLeft } from "lucide-react";
-import ImageBox from "@/common/image-box";
-import MainInputBox from "@/common/main-input-box";
-import OptionalInputBox from "@/common/optional-input-box";
-import AdvancedSettingBox from "@/common/advanced-setting-box-acp";
-import ActiveBtn from "@/common/active-btn";
-import SaveCancelBtn from "@/common/save-cancle-btn";
+import ImageBox from "@/pure-components/image-box";
+import MainInputBox from "@/pure-components/main-input-box";
+import OptionalInputBox from "@/pure-components/optional-input-box";
+import AdvancedSettingBox from "@/pure-components/advanced-setting-box-acp";
+import ActiveBtn from "@/pure-components/active-btn";
+import SaveCancelBtn from "@/pure-components/save-cancle-btn";
+import { useRouter } from 'next/router'
 
 export default function AddCategoryPg() {
-    return (
-        <div className="w-full h-full ">
-            <div className="h-[8%]">
-                <TitleBar />
-            </div>
-            <div className="h-[92%] w-full flex flex-col px-[7%] gap-10">
+    const router = useRouter()
 
-                <div className="w-[20%] h-[13%] mx-auto mt-10 mb-5 border-2 border-dashed border-gray-400 p-3">
+    const handleBack = () => {
+        router.back() 
+    }
+
+    return (
+        <div className="w-full h-screen">
+            <div className="h-[10%]">
+                <TitleBar label="Add New Category" onClick={handleBack} />
+            </div>
+
+            <div className="h-[90%] w-full flex flex-col px-[15%] pt-[4%] gap-[3.2rem] pb-[4%]">
+
+                <div className="self-center">
                     <ImageBox />
                 </div>
+
                 <div className="w-full h-[9%]">
-                    <MainInputBox label="Category Name" />
+                    <MainInputBox label="Category Name" placeHolder="Enter Category Name..." />
                 </div>
 
                 <div className="w-full h-[9%]">
-                    <OptionalInputBox label="Bilingual Name" />
+                    <OptionalInputBox label="Bilingual Name" placeHolder="Enter Bilingual Name..." />
                 </div>
 
                 <div className="w-full ">
                     <AdvancedSettingBox />
                 </div>
 
-                <div className="w-full mt-3">
+                <div className="w-full ">
                     <ActiveBtn />
                 </div>
 
-                <div className="w-full mt-8">
+                <div className="w-full ">
                     <SaveCancelBtn />
                 </div>
             </div>

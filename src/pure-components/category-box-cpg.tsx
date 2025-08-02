@@ -4,10 +4,10 @@ import { useState } from "react";
 import { ChevronRight, PencilLine} from "lucide-react";
 import SubCategoryBoxOfCPg from "./sub-category-box-cpg";
 import { PencilSimpleLine,Trash} from "phosphor-react";
+import type { CategoryType } from "@/store/app-data";
 
-export default function CategoryBoxOfCPg() {
+export default function CategoryBoxOfCPg({ id, name, bilingualName, image, isActive, subCategoryList }: CategoryType) {
     const [showSubs, setShowSubs] = useState(false);
-
     const handleToggle = () => setShowSubs(!showSubs);
 
     return (
@@ -19,17 +19,17 @@ export default function CategoryBoxOfCPg() {
                         />
                     </button>
                     <img
-                        src="/assets/menu30.jpg"
+                        src={image}
                         alt="Menu 12"
                         className="w-[3.125rem] h-[3.125rem] rounded-[0.625rem] object-cover"
                     />
                     <div className="categoryTitle flex flex-col  gap-[1.25rem] pl-2 justify-start">
                         <div className="font-inter font-semibold text-[1.5rem] leading-none">
-                            Appetizers
+                           {name}
                         </div>
 
                         <div className="bg-[#EAEAEA] rounded-[0.625rem] px-[0.5rem] py-[0.25rem] text-[1rem] font-medium leading-[1.5rem] tracking-[0.03125rem] font-inter text-black w-fit">
-                            2 Subs
+                            {subCategoryList.length} Subs
                         </div>
 
                     </div>
@@ -44,8 +44,16 @@ export default function CategoryBoxOfCPg() {
 
             {showSubs && (
                 <div >
-                    <SubCategoryBoxOfCPg />
-                    <SubCategoryBoxOfCPg />
+                    {subCategoryList.map((subCategory) => (
+                        <SubCategoryBoxOfCPg
+                            key={subCategory.id}
+                            id={subCategory.id}
+                            name={subCategory.name}
+                            bilingualName={subCategory.bilingualName}
+                            image={subCategory.image}
+                            isActive={subCategory.isActive}
+                        />
+                    ))}
 
                 </div>
             )}
