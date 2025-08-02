@@ -7,9 +7,10 @@ import HeaderBar from "@/pure-components/header-bar";
 import MainSideBar from "./main-side-bar";
 import { Plus, CaretRight } from "phosphor-react";
 import { appData } from "@/store/app-data";
+import { useTranslation } from 'react-i18next';
 
 export default function CategoryPg() {
-  console.log("appdata", appData.sidebarItems);
+  const { t } = useTranslation();
   const categoryList = appData.categoryList;
 
   return (
@@ -21,13 +22,13 @@ export default function CategoryPg() {
 
       <div className="flex flex-col w-[75%] h-screen">
         <div className="h-[10%]">
-          <HeaderBar categoryName="Category" />
+          <HeaderBar categoryName={t('category')} placeHolder={t('search')} />
         </div>
 
         <div className="h-[90%] w-full bodyPart  ">
 
           <div className="headerBarWithAddButton flex justify-between items-center px-[1.8rem] py-10">
-            <div className="text-[1.5rem] font-semibold font-inter">{appData.menuCategoryLabel} ({appData.menuCategoryCount})</div>
+            <div className="text-[1.5rem] font-semibold font-inter">{t('menu-category')} ({appData.menuCategoryCount})</div>
 
             <div className="buttons flex gap-x-[0.625rem] ">
               <Link href="/add-category">
@@ -35,7 +36,7 @@ export default function CategoryPg() {
                   className="bg-[#FF6E30] text-white text-[1.25rem] font-medium font-inter rounded-[0.625rem] px-[1.5rem] py-[1.5rem] flex gap-[0.625rem] leading-[1.5rem] tracking-[0.03125rem]"
                 >
                   <Plus className="w-[1.5rem] h-[1.5rem] font-medium" />
-                  <span>{appData.menuCategoryAddButtonText}</span>
+                  <span>{t('add-category')}</span>
                 </Button>
               </Link>
 
@@ -47,7 +48,7 @@ export default function CategoryPg() {
 
                 >
                   <Plus className="w-[1.5rem] h-[1.5rem] font-medium" />
-                  <div>{appData.menuSubCategoryAddButtonText}</div>
+                  <div>{t('add-subcategory')}</div>
                 </Button>
               </Link>
 
