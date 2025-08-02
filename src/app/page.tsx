@@ -1,14 +1,5 @@
-import AddCategoryPg from "@/pages/add-category";
-import CategoryPg from "@/pages/category-pg";
-import MainSideBar from "@/pages/main-side-bar";
-import { Main } from "next/document";
-import Image from "next/image";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return (
-    <div className="w-full h-full">
-      <CategoryPg/>
-      {/* <AddCategoryPg/> */}
-    </div>
-  );
+  return redirect("/dashboard");
 }
