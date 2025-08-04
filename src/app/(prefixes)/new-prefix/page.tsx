@@ -1,5 +1,6 @@
 "use client";
 
+import CustomPageTitle from "@/components/custom-page-title";
 import { PrefixForm } from "@/components/prefixes/addPrefix";
 import { usePrefixStore } from "@/store/prefixStore";
 import { Prefix, PrefixFormInput } from "@/types/type";
@@ -9,7 +10,6 @@ export default function AddPrefixPage() {
   const { addPrefix } = usePrefixStore();
 
   const handleSubmit = async (data: PrefixFormInput) => {
-    console.log('clicking add')
 
     const payload: Partial<Prefix> = {
       ...data,
@@ -24,7 +24,7 @@ export default function AddPrefixPage() {
 
 
   return (
-    <div>
+         
     <PrefixForm
       mode="create"
       defaultValues={{
@@ -38,6 +38,5 @@ export default function AddPrefixPage() {
       }}
       onSubmit={handleSubmit}
     />
-    </div>
   );
 }

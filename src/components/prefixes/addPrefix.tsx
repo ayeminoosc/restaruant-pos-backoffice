@@ -19,43 +19,28 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 // import { Button } from "./Themecomponents/Button";
-import SaveCancelBtn from "@/common/save-cancle-btn";
-import { LucidePlus, ChevronRight, ChevronDown  } from "lucide-react";
+import { LucidePlus, ChevronRight, ChevronDown, LoaderCircle  } from "lucide-react";
+import CustomInput from "../custom-input";
+import CustomAdvanceSetting from "../custom-advance-setting";
+import { ColorPicker } from "../color-picker";
+import CustomButton from "../custom-button";
+import { usePrefixStore } from "@/store/prefixStore";
 
 interface PrefixFormProps {
   defaultValues: Partial<PrefixFormInput>;
   onSubmit: (data: PrefixFormInput) => void;
   mode: "create" | "edit";
 }
-const COLOR_OPTIONS = [
-  "#ff7a3d",  // Orange
-  "#4de100",  // Lime Green
-  "#ff2270",  // Pink
-  "#0096ff",  // Blue
-  "#00aaff",  // Teal
-  "#5e16b9",  // Purple
-  "#15b15b",  // Dark Green
-  "#b76d1e",  // Brown
-  "#ffffff",  // White
-  "#642818",  // Brown
-  "#000000",  // Black
-  "#0a29ff",  // Dark Blue
-  "#14720e",  // Green
-  "#624248",  // Brown
-  "#0b2d41",  // Dark Teal
-  "#19e1b7",  // Aqua
-  "#e5f3ff",  // Light Purple
-  "#8f0d0a",  // Maroon
-  "#ff630d",  // Orange
-  "#ff9883",  // Peach
-  "#a3c1ff",  // Light Blue
-];
 
 export function PrefixForm({ defaultValues, onSubmit, mode }: PrefixFormProps) {
+
+  const {isSubmitting } = usePrefixStore()
   const form = useForm<PrefixFormInput>({
     resolver: zodResolver(prefixFormSchema),
     defaultValues,
   });
+
+  
 
   const [showAdvanced, setShowAdvanced] = useState(false);
 
@@ -67,37 +52,28 @@ export function PrefixForm({ defaultValues, onSubmit, mode }: PrefixFormProps) {
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-6 p-4 w-full"
           >
-            <FormField
-              control={form.control as any}
-              name="name"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel className="font-medium text-[20px] text-[#2A2A2A]">
-                    Create prefix name <span className="text-red-500">*</span>
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="w-full border-[#9C9C9C] "
-                      placeholder="Enter prefix name"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <CustomInput
+            control={form.control}
+            name="name"
+            label="Create prefix name"
+            placeholder="Eg., No, Less, Extra"
+            optional={false}
+          />
 
             <FormField
               control={form.control as any}
               name="bilingualName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-medium text-[20px] text-[#2A2A2A]">
-                    Bilingual Name{" "}
-                    <span className="text-gray-300 text-[20px] font-medium">(optional)</span>
-                  </FormLabel>
-                  <FormControl>
-                    <Input className="border-[#9C9C9C]" placeholder="Enter translated name (e.g., ‘Hta-min-kyaw’)" {...field} />
+                      <FormControl>
+                    {/* <Input className="border-[#9C9C9C]" placeholder="Enter translated name (e.g., ‘Hta-min-kyaw’)" {...field} /> */}
+                      <CustomInput
+                                control={form.control}
+                                name="bilingualName"
+                                label="Bilingual name"
+                                placeholder="Enter translated name (e.g., 'Hta-min-kyaw')"
+                                optional
+                              />
                   </FormControl>
                 </FormItem>
               )}
@@ -108,49 +84,27 @@ export function PrefixForm({ defaultValues, onSubmit, mode }: PrefixFormProps) {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-medium text-[20px] text-[#2A2A2A]">Description <span className="text-gray-300 text-[20px] font-medium">(optional)</span></FormLabel>
+                  <FormLabel className="font-medium text-[20px] text-[#2A2A2A]">Description <span className="text-gray-400 ml-1">(Optional)</span></FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Describe what this prefix means.."
-                      className="w-full h-[192px] resize-none border-[#9C9C9C]"
+                      className="w-full h-[192px] resize-none md:text-lg placeholder:text-lg placeholder:text-gray-300 focus-visible:ring-0 focus:outline-none aria-invalid:border-[#cdcdcd] border-ring"
                       {...field}
                     />
                   </FormControl>
                 </FormItem>
               )}
             />           
-               <div className="flex justify-between border-b-2 pb-4 "  onClick={() => setShowAdvanced((prev) => !prev)}>
-              <FormLabel>Advanced Setting</FormLabel> {showAdvanced ? <ChevronDown size={20} /> : <ChevronRight size={20}/>}
-         
-            </div>
+             
 
-            {showAdvanced && (
-              <>
-                <FormField
-                  control={form.control as any}
-                  name="color"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-medium text-[20px] text-black">Select Button Color</FormLabel>
-                      <div className="flex flex-wrap gap-2">
-                        {COLOR_OPTIONS.map((color) => (
-                          <div
-                            key={color}
-                            className={`w-[40px] h-[40px] rounded-[10px] cursor-pointer border-2 border-[#D9D9D9] ${
-                              field.value === color
-                                ? "border-black"
-                                : "border-transparent"
-                            }`}
-                            style={{ backgroundColor: color }}
-                            onClick={() => field.onChange(color)}
-                          />
-                        ))}
-                      </div>
-                    </FormItem>
-                  )}
-                />
-              </>
-            )}
+          
+               <CustomAdvanceSetting
+                        control={form.control}
+                        isAdvancedOpen={showAdvanced}
+                        setIsAdvancedOpen={setShowAdvanced}
+                      >
+                        <ColorPicker name="buttonColor" />
+                      </CustomAdvanceSetting>
 
             <FormField 
               
@@ -170,14 +124,48 @@ export function PrefixForm({ defaultValues, onSubmit, mode }: PrefixFormProps) {
               )}
             />
 
-            <div className="flex gap-4 mt-6">
+            {/* <div className="flex gap-4 mt-6">
+               <CustomButton
+              onClick={() => form.reset()}
+              variant="outline"
+              className="flex-1 bg-secondary h-14 font-medium text-xl cursor-pointer hover:bg-[#bfbfbf] transition-colors duration-200"
+              
+            >
+              Cancel
+            </CustomButton>
                <SaveCancelBtn
   onSave={form.handleSubmit(onSubmit)}
   onCancel={() => form.reset()} 
   mode={mode}
 />
 
-            </div>
+            </div> */}
+
+             <div className="flex gap-3 pt-4 mb-10">
+                        <CustomButton
+                          type="submit"
+                          onClick={form.handleSubmit(onSubmit)}
+                          className="flex-1 bg-primary hover:bg-orange-600 h-14 font-medium text-xl cursor-pointer transition-colors duration-200"
+                          disabled={isSubmitting}
+                        >
+                          {isSubmitting ? (
+                            <div className="flex gap-2 items-center">
+                              <LoaderCircle className="animate-spin size-6" />
+                              <span>Saving...</span>
+                            </div>
+                          ) : (
+                            "Save"
+                          )}
+                        </CustomButton>
+                        <CustomButton
+                          onClick={() => form.reset()}
+                          variant="outline"
+                          className="flex-1 bg-secondary h-14 font-medium text-xl cursor-pointer hover:bg-[#bfbfbf] transition-colors duration-200"
+                          disabled={isSubmitting}
+                        >
+                          Cancel
+                        </CustomButton>
+                      </div>
           </form>
         </Form>
       </div>

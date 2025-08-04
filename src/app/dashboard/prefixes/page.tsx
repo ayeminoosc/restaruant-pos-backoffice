@@ -1,72 +1,40 @@
 "use client";
-import DataTable from "@/components/prefixes/dataTable";
 import React, { useEffect } from "react";
-import { DataTableProps } from "@/types/type";
 import { usePrefixStore } from "@/store/prefixStore";
-import { FaTrashAlt } from "react-icons/fa";
-import { useRouter } from "next/navigation";
-import { AiOutlineEdit } from "react-icons/ai";
-import EditIcon from "@/components/prefixes/editIcon";
-
-const ActionButtons = ({ id, onEdit, onDelete }: { id: string; onEdit: (id: string) => void; onDelete: (id: string) => void }) => (
-  <div className="flex justify-end gap-5" >
-     <button
-  onClick={() => onEdit(id)}
-  className="text-blue-600 hover:underline text-sm"
-> 
-<EditIcon/>
-</button>
-
-<button
-  onClick={() => onDelete(id)}
-  className="text-red-600 hover:underline text-sm"
->
-  <FaTrashAlt size={20} color="#ea1414" />
- 
-</button>
-  </div>
-);
+import PrefixTable from "@/components/prefixes/prefix-table";
+import CustomSidebarItemHeader from "@/components/custom-sidebar-item-header";
+import CustomTableHeader from "@/components/custom-table-header";
+import CustomButton from "@/components/custom-button";
+import { Plus } from "lucide-react";
 
 const Prefix = () => {
-  const { fetchPrefixes, prefixes, deletePrefix , loading} = usePrefixStore();
-
-  const router = useRouter()
+  const { fetchPrefixes, prefixes } = usePrefixStore();
 
   useEffect(() => {
-    fetchPrefixes();
-  }, []);
-
-  const handleEdit = (id: string) => {
-    router.push(`/dashboard/prefixes/edit/${id}`)
-  };
-
-  const handleDelete =async (id: string) => {
-     await deletePrefix(id)
-  };
-
-  const dataMap = prefixes.map((p) => [
-    p.name,
-    p.description || "",
-    <ActionButtons key={p.id} id={p.id} onEdit={handleEdit} onDelete={handleDelete} />,
-  ]);
-
-  const handleAdd = () => {
-    router.push('/dashboard/prefixes/add')
-  }
-
-  const dataProps: DataTableProps = {
-    title: "Prefixes",
-    columns: ["Prefix Name", "Description", "Action"],
-    data: dataMap,
-    add: handleAdd,
-  };
-
+    fetchPrefixes
+  }, [])
 
   return (
     <div>
-     
-        <DataTable {...dataProps} />
-      
+      <section>
+        <CustomSidebarItemHeader>
+          Prefix Management
+        </CustomSidebarItemHeader>
+        <div className="p-5 h-[calc(55.375rem-7.688rem)]">
+          <CustomTableHeader title={`Prefixes (${prefixes.length})`}>
+            <CustomButton
+              href="/new-prefix"
+              className="h-full font-medium text-xl"
+            >
+              <Plus className="size-6" /> Add Prefix
+            </CustomButton>
+          </CustomTableHeader>
+          <div className="h-[calc(47.69rem-5rem)] pb-4 space-y-8">
+            <PrefixTable />
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 };
