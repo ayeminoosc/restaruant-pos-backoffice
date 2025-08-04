@@ -1,13 +1,8 @@
 import { Label } from "@/components/ui/label";
+import { useGlobalStore } from "@/store/global-store";
 import { Controller, useFormContext } from "react-hook-form";
+import { Colortype } from "../../types/global";
 
-// prettier-ignore
-const colors = [
-  "#FF5722", "#23e229", "#E91E63", "#2196F3", "#10be79",
-  "#673AB7", "#ed8722", "#795548", "#ffffff", "#000000",
-  "#2333e2", "#14af19", "#784558", "#004671", "#2f0058",
-  "#a5ffdb", "#aa0000", "#ed8722", "#fe9d9d", "#818bff"
-]
 type ColorPickerProps = {
   name: string;
   label?: string;
@@ -18,6 +13,8 @@ export const ColorPicker = ({
   label = "Select Button Color",
 }: ColorPickerProps) => {
   const { control } = useFormContext();
+  const data: Colortype[] = useGlobalStore((store) => store.advanceColors);
+  const colors = data[0].colors;
 
   return (
     <div className="space-y-2">
@@ -31,7 +28,7 @@ export const ColorPicker = ({
               <button
                 key={idx}
                 type="button"
-                className={`size-8 rounded-md border-2 ${
+                className={`size-[2.72rem] rounded-md border-2 ${
                   field.value === color
                     ? "border-4 border-gray-400"
                     : "border-gray-200"

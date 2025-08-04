@@ -3,7 +3,7 @@
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-const NewModifierGroupTitle = () => {
+const CustomPageTitle = ({ title }: { title: string }) => {
   const router = useRouter();
 
   return (
@@ -11,11 +11,11 @@ const NewModifierGroupTitle = () => {
       <div className="flex items-center ">
         <ArrowLeft className="size-12" onClick={() => router.back()} />
         <div className="flex-1">
-          <span className="text-[32px]">Add new modifier group</span>
+          <span className="text-[32px]">{title}</span>
         </div>
       </div>
     </div>
   );
 };
 
-export default NewModifierGroupTitle;
+export default CustomPageTitle;
