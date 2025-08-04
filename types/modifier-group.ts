@@ -1,16 +1,13 @@
-export interface TableRowType {
-  name: string;
-  type: "Single" | "Multiple";
-  required: "Required" | "Optional";
-  modifierItems: number;
-  selectionRange: {
-    min: number;
-    max: number;
-  };
-  status: "Active" | "InActive";
-}
-
-export interface ModifierItem {
-  name: string;
-  price: string; // Change price to number
+export interface ModifierGroupsType {
+  id?: string;
+  groupName: string;
+  bilingualName?: string;
+  price: string;
+  minSelection: string;
+  maxSelection: string;
+  selectionType: "single" | "multiple";
+  required: "yes" | "no";
+  buttonColor: string;
+  status: boolean;
+  modifierItems: { name: string; price: string }[];
 }

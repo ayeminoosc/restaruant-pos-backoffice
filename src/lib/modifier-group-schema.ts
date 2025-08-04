@@ -25,6 +25,31 @@ export const modifierGroupSchema = z.object({
       }
     ),
 
+  modifierItems: z
+    .array(
+      z.object({
+        name: z
+          .string()
+          .min(1, { message: "Modifier name is required" })
+          .refine((val) => /^[A-Za-z\s]+$/.test(val), {
+            message: "Modifier name must contain only letters",
+          })
+          .min(2, { message: "Modifier name must be at least 2 characters" }),
+
+        price: z
+          .string()
+          .min(1, { message: "Price is required" })
+          .refine(
+            (val) => {
+              const num = Number.parseFloat(val);
+              return !isNaN(num) && num > 0;
+            },
+            { message: "Price must be a valid positive number" }
+          ),
+      })
+    )
+    .min(1, "At least one modifier item is required"),
+
   price: z
     .string()
     .min(1, "Price is required")
@@ -64,23 +89,5 @@ export const modifierGroupSchema = z.object({
       message: "Invalid color format",
     }),
 
-  active: z.boolean(),
-});
-
-export const modifierModelSchema = z.object({
-  name: z
-    .string()
-    .min(1, "Modifier name is required")
-    .refine((val) => /^[A-Za-z\s]+$/.test(val), {
-      message: "Modifier name must contain only letters",
-    })
-    .min(2, "Modifier name must be at least 2 characters"),
-
-  price: z
-    .string() // Keep as string for form input, convert to number on submit
-    .min(1, "Price is required")
-    .refine((val) => {
-      const num = Number.parseFloat(val);
-      return !isNaN(num) && num > 0;
-    }, "Price must be a valid positive number"),
+  status: z.boolean(),
 });
