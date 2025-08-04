@@ -2,7 +2,7 @@
 import SideBarItem, { SideBarItemsType } from "@/components/sidebar-item";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const sidebarItems: SideBarItemsType[] = [
   {
@@ -68,7 +68,7 @@ const sidebarItems: SideBarItemsType[] = [
 ];
 
 export default function MainSideBar() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const pathname = usePathname();
 
   return (
     <section>
@@ -87,21 +87,23 @@ export default function MainSideBar() {
       </div>
 
       <div className="flex flex-col w-full h-[47.6875rem] overflow-y-auto">
-        {sidebarItems.map((item, index) => (
-          <Link key={index} href={item.url}>
-            <div
-              className={`w-full h-14 flex items-center 
-                        ${
-                          activeIndex === index
-                            ? "bg-[#FFECD0] border-l-4 border-primary -ps-10"
-                            : "hover:bg-[#F6F6F6]"
-                        }`}
-              onClick={() => setActiveIndex(index)}
-            >
-              <SideBarItem label={item.label} svg={item.svg} url={item.url} />
-            </div>
-          </Link>
-        ))}
+        {sidebarItems.map((item, index) => {
+          const isActive = pathname === item.url;
+
+          return (
+            <Link key={index} href={item.url}>
+              <div
+                className={`w-full h-14 flex items-center border-l-4 transition-colors duration-200 ${
+                  isActive
+                    ? "bg-[#FFECD0] border-primary "
+                    : "hover:bg-[#F6F6F6]"
+                }`}
+              >
+                <SideBarItem label={item.label} svg={item.svg} url={item.url} />
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </section>
   );

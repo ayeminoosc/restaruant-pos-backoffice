@@ -1,7 +1,8 @@
+import AppInitializer from "@/components/app-initializer";
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import { Inter } from "next/font/google";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -31,8 +32,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}      >
-        {children}
+        className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <Toaster
+          position="top-center"
+          closeButton
+          richColors
+          duration={4000}
+          expand={true}
+        />
+        <AppInitializer>{children}</AppInitializer>
       </body>
     </html>
   );

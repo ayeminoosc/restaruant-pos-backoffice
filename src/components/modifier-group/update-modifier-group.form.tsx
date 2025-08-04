@@ -30,59 +30,81 @@ import { Input } from "../ui/input";
 
 type FormData = z.infer<typeof modifierGroupSchema>;
 
-export function ModifierGroupForm() {
+export function UpdateModifierGroupForm({ dataId }: { dataId: string }) {
   const [inputBoxOpen, setInputBoxOpen] = useState(false);
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
-  const createModifierGroup = useModifierGroupStore(
-    (s) => s.createModifierGroup
+  const updateModifierGroup = useModifierGroupStore(
+    (s) => s.updateModifierGroup
   );
+  const getSingleModifierGroupsData = useModifierGroupStore(
+    (s) => s.getSingleModifierGroupsData
+  );
+  const isFetching = useModifierGroupStore((s) => s.isFetching);
   const isSubmitting = useModifierGroupStore((s) => s.isSubmitting);
   const error = useModifierGroupStore((s) => s.error);
   const status = useModifierGroupStore((s) => s.status);
   const resetStatus = useModifierGroupStore((s) => s.resetStatus);
   const router = useRouter();
+  const groupData = useModifierGroupStore((s) => s.singleModifierGroup);
 
   const form = useForm<FormData>({
     mode: "onChange",
     shouldFocusError: true,
     resolver: zodResolver(modifierGroupSchema),
     defaultValues: {
-      groupName: "",
-      bilingualName: "",
-      price: "",
-      minSelection: "",
-      maxSelection: "",
-      selectionType: "single",
-      required: "yes",
-      buttonColor: "#FF5722",
-      modifierItems: [],
-      status: true,
+      groupName: groupData?.groupName,
+      bilingualName: groupData?.bilingualName || "",
+      price: groupData?.price,
+      minSelection: groupData?.minSelection,
+      maxSelection: groupData?.minSelection,
+      selectionType: groupData?.selectionType,
+      required: groupData?.required,
+      buttonColor: groupData?.buttonColor,
+      modifierItems: groupData?.modifierItems,
+      status: groupData?.status,
     },
   });
 
-  //only works with array fields (array of objects)
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: "modifierItems",
   });
 
   const onSubmit = (data: FormData) => {
-    createModifierGroup(data);
+    updateModifierGroup(dataId, data);
   };
 
   useEffect(() => {
+    getSingleModifierGroupsData(dataId);
+  }, [dataId, getSingleModifierGroupsData]);
+
+  useEffect(() => {
+    if (groupData) form.reset(groupData);
+  }, [groupData]);
+
+  useEffect(() => {
     if (status === "success") {
-      toast.success("Modifier group created!");
+      toast.success("Modifier group updated!");
       router.push("/dashboard/modifier-groups");
       resetStatus();
     } else if (status === "error") {
       toast.error(error);
       resetStatus();
     }
-  }, [status]);
+  }, [status, error, resetStatus, router]);
+
+  if (isFetching)
+    return (
+      <div className="flex justify-center pt-40 ">
+        <div className="flex items-center space-x-2">
+          <div className="size-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+          <span>Loading data...</span>
+        </div>
+      </div>
+    );
 
   return (
-    <div className="max-w-[1025px] overflow-y-auto mx-auto mt-10">
+    <div className="max-w-[64.063rem] overflow-y-auto mx-auto mt-10">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {/* GROUP NAME */}
@@ -117,7 +139,7 @@ export function ModifierGroupForm() {
                   Add new customize modifier items
                 </p>
 
-                {inputBoxOpen && (
+                {(inputBoxOpen || fields.length > 0) && (
                   <div className="space-y-1 ">
                     {fields.map((field, index) => (
                       <div key={field.id} className="flex gap-2 items-center">
@@ -349,14 +371,14 @@ export function ModifierGroupForm() {
               {isSubmitting ? (
                 <div className="flex gap-2 items-center">
                   <LoaderCircle className="animate-spin size-6" />
-                  <span>Saving...</span>
+                  <span>Updating...</span>
                 </div>
               ) : (
-                "Save"
+                "Update"
               )}
             </CustomButton>
             <CustomButton
-              onClick={() => form.reset()}
+              onClick={() => router.back()}
               variant="outline"
               className="flex-1 bg-secondary h-14 font-medium text-xl cursor-pointer hover:bg-[#bfbfbf] transition-colors duration-200"
               disabled={isSubmitting}
