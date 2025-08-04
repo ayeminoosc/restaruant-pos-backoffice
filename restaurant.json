@@ -1,0 +1,20 @@
+{
+  "prefixes": [
+    {
+      "id": "c8da4c41-e57f-43ab-b2c0-a80029d101f1",
+      "name": "11",
+      "active": true,
+      "advancedSetting": false,
+      "bilingualName": "111",
+      "description": "1111"
+    },
+    {
+      "id": "d85a34a6-92f3-4843-991d-92803a93ac2c",
+      "name": "www",
+      "active": true,
+      "advancedSetting": false,
+      "bilingualName": "",
+      "description": "ffffff"
+    }
+  ]
+}
