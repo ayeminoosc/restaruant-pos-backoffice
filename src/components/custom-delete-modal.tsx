@@ -34,13 +34,7 @@ export function CustomDeleteModal({
   error,
   resetStatus,
 }: CustomDeleteModalProps) {
-  // const deleteModifierGroup = useModifierGroupStore(
-  //   (s) => s.deleteModifierGroup
-  // );
-  // const isSubmitting = useModifierGroupStore((s) => s.isSubmitting);
-  // const status = useModifierGroupStore((s) => s.status);
-  // const error = useModifierGroupStore((s) => s.error);
-  // const resetStatus = useModifierGroupStore((s) => s.resetStatus);
+  
 
   useEffect(() => {
     if (status === "success") {

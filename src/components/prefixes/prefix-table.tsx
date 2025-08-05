@@ -5,7 +5,7 @@ import { Switch } from "../ui/switch";
 import React, { useEffect, useState } from "react";
 import { CustomDeleteModal } from "../custom-delete-modal";
 import { useRouter } from "next/navigation";
-import { usePrefixStore } from "@/store/prefixStore";
+import { usePrefixStore } from "@/store/prefix-store";
 const PrefixTable = () => {
   const { fetchPrefixes, prefixes, deletePrefix, status, isSubmitting, error, resetStatus } = usePrefixStore();
 
@@ -44,23 +44,6 @@ const PrefixTable = () => {
       label: "Description",
       render: (val) => <div className="text-[#7b7b7b] text-base">{val}</div>,
     },
-    // {
-    //   key: "status",
-    //   label: "Status",
-    //   render: (val) => (
-    //     <Switch
-    //       checked={val}
-    //       disabled
-    //       aria-readonly
-    //       className="data-[state=checked]:bg-green-500"
-    //     />
-    //   ),
-    // },
-    // {
-    //   key: "usedInModifier",
-    //   label: "Used in modifier",
-    //   render: (val) => <div className="text-xl">{val}</div>,
-    // },
     {
       key: "actions",
       label: "Action",
@@ -70,10 +53,10 @@ const PrefixTable = () => {
             alt="edit svg"
             src={"/assets/edit.svg"}
             className="cursor-pointer"
-            onClick={() => router.push(`/prefix/${row.id}`)}
+            onClick={() => router.push(`/prefixes/${row.id}`)}
           />
           <img
-            alt="edit svg"
+            alt="delete svg"
             src={"/assets/trash.svg"}
             className="cursor-pointer"
             onClick={() => openModal(row.id!)}
@@ -82,9 +65,7 @@ const PrefixTable = () => {
       ),
     },
   ];
-
-
-
+  
   return (
     <>
       <ReusableTable data={data} columns={columns} />

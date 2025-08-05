@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { usePrefixStore } from "@/store/prefixStore";
+import { usePrefixStore } from "@/store/prefix-store";
 import PrefixTable from "@/components/prefixes/prefix-table";
 import CustomSidebarItemHeader from "@/components/custom-sidebar-item-header";
 import CustomTableHeader from "@/components/custom-table-header";
@@ -23,7 +23,7 @@ const Prefix = () => {
         <div className="p-5 h-[calc(55.375rem-7.688rem)]">
           <CustomTableHeader title={`Prefixes (${prefixes.length})`}>
             <CustomButton
-              href="/new-prefix"
+              href="/prefixes/new"
               className="h-full font-medium text-xl"
             >
               <Plus className="size-6" /> Add Prefix

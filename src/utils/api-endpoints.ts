@@ -12,8 +12,8 @@ export const ENDPOINTS = {
     `${API_BASE_URL}/modifier-groups/1/modifier/${id}`,
 
   /* ---------- Prefixes ----------- */
-  getPrefixes: `${API_BASE_URL}/prefixes`,
-  deletePrefix: (id: number | string) => `${API_BASE_URL}/prefixes/${id}`,
-  addPrefix: `${API_BASE_URL}/prefixes`,
-  updatePrefix: (id: number | string) => `${API_BASE_URL}/prefixes/${id}`,
+  getPrefixes: `${API_BASE_URL}/mockprefixes/1.0/prefixes`,
+  deletePrefix: (id: number | string) => `${API_BASE_URL}/mockprefixes/1.0/prefixes/${id}`,
+  addPrefix: `${API_BASE_URL}/mockprefixes/1.0/prefixes`,
+  updatePrefix: (id: number | string) => `${API_BASE_URL}/mockprefixes/1.0/prefixes/${id}`,
 };

@@ -2,9 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { usePrefixStore } from "@/store/prefixStore";
+import { usePrefixStore } from "@/store/prefix-store";
 import { PrefixForm } from "@/components/prefixes/addPrefix";
-import { Prefix, PrefixFormInput } from "@/types/type";
+import { Prefix } from "@/types/prefix";
+import { PrefixFormInput } from "@/lib/validations/prefix-schema";
+import CustomPageTitle from "@/components/custom-page-title";
+
 
 export default function EditPrefixPage() {
   const router = useRouter();
@@ -33,7 +36,9 @@ export default function EditPrefixPage() {
   if (!defaultValues) return <p>Loading...</p>;
 
   return (
-    
+     <section>
+      <CustomPageTitle title="Edit prefix" />
     <PrefixForm mode="edit" defaultValues={defaultValues} onSubmit={handleSubmit} />
+    </section>
   );
 }

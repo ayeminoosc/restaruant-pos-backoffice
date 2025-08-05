@@ -1,9 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { prefixFormSchema } from "@/types/type";
-import { PrefixFormInput } from "@/types/type";
+import { prefixFormSchema, PrefixFormInput } from "@/lib/validations/prefix-schema";
 import {
   Form,
   FormControl,
@@ -12,37 +10,28 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
-// import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-// import { Button } from "./Themecomponents/Button";
-import { LucidePlus, ChevronRight, ChevronDown, LoaderCircle  } from "lucide-react";
+import { LucidePlus, ChevronRight, ChevronDown, LoaderCircle } from "lucide-react";
 import CustomInput from "../custom-input";
 import CustomAdvanceSetting from "../custom-advance-setting";
 import { ColorPicker } from "../color-picker";
 import CustomButton from "../custom-button";
-import { usePrefixStore } from "@/store/prefixStore";
+import { usePrefixStore } from "@/store/prefix-store";
 
 interface PrefixFormProps {
   defaultValues: Partial<PrefixFormInput>;
   onSubmit: (data: PrefixFormInput) => void;
   mode: "create" | "edit";
 }
-
 export function PrefixForm({ defaultValues, onSubmit, mode }: PrefixFormProps) {
-
-  const {isSubmitting } = usePrefixStore()
+  const [showAdvanced, setShowAdvanced] = useState(false);
+  const { isSubmitting } = usePrefixStore()
   const form = useForm<PrefixFormInput>({
     resolver: zodResolver(prefixFormSchema),
     defaultValues,
   });
-
-  
-
-  const [showAdvanced, setShowAdvanced] = useState(false);
 
   return (
     <div className="flex justify-center">
@@ -52,33 +41,31 @@ export function PrefixForm({ defaultValues, onSubmit, mode }: PrefixFormProps) {
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-6 p-4 w-full"
           >
-          <CustomInput
-            control={form.control}
-            name="name"
-            label="Create prefix name"
-            placeholder="Eg., No, Less, Extra"
-            optional={false}
-          />
+            <CustomInput
+              control={form.control}
+              name="name"
+              label="Create prefix name"
+              placeholder="Eg., No, Less, Extra"
+              optional={false}
+            />
 
             <FormField
               control={form.control as any}
               name="bilingualName"
               render={({ field }) => (
                 <FormItem>
-                      <FormControl>
-                    {/* <Input className="border-[#9C9C9C]" placeholder="Enter translated name (e.g., ‘Hta-min-kyaw’)" {...field} /> */}
-                      <CustomInput
-                                control={form.control}
-                                name="bilingualName"
-                                label="Bilingual name"
-                                placeholder="Enter translated name (e.g., 'Hta-min-kyaw')"
-                                optional
-                              />
+                  <FormControl>
+                    <CustomInput
+                      control={form.control}
+                      name="bilingualName"
+                      label="Bilingual name"
+                      placeholder="Enter translated name (e.g., 'Hta-min-kyaw')"
+                      optional
+                    />
                   </FormControl>
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control as any}
               name="description"
@@ -94,20 +81,17 @@ export function PrefixForm({ defaultValues, onSubmit, mode }: PrefixFormProps) {
                   </FormControl>
                 </FormItem>
               )}
-            />           
-             
+            />
 
-          
-               <CustomAdvanceSetting
-                        control={form.control}
-                        isAdvancedOpen={showAdvanced}
-                        setIsAdvancedOpen={setShowAdvanced}
-                      >
-                        <ColorPicker name="buttonColor" />
-                      </CustomAdvanceSetting>
+            <CustomAdvanceSetting
+              control={form.control}
+              isAdvancedOpen={showAdvanced}
+              setIsAdvancedOpen={setShowAdvanced}
+            >
+              <ColorPicker name="buttonColor" />
+            </CustomAdvanceSetting>
 
-            <FormField 
-              
+            <FormField
               control={form.control as any}
               name="active"
               render={({ field }) => (
@@ -123,49 +107,31 @@ export function PrefixForm({ defaultValues, onSubmit, mode }: PrefixFormProps) {
                 </FormItem>
               )}
             />
-
-            {/* <div className="flex gap-4 mt-6">
-               <CustomButton
-              onClick={() => form.reset()}
-              variant="outline"
-              className="flex-1 bg-secondary h-14 font-medium text-xl cursor-pointer hover:bg-[#bfbfbf] transition-colors duration-200"
-              
-            >
-              Cancel
-            </CustomButton>
-               <SaveCancelBtn
-  onSave={form.handleSubmit(onSubmit)}
-  onCancel={() => form.reset()} 
-  mode={mode}
-/>
-
-            </div> */}
-
-             <div className="flex gap-3 pt-4 mb-10">
-                        <CustomButton
-                          type="submit"
-                          onClick={form.handleSubmit(onSubmit)}
-                          className="flex-1 bg-primary hover:bg-orange-600 h-14 font-medium text-xl cursor-pointer transition-colors duration-200"
-                          disabled={isSubmitting}
-                        >
-                          {isSubmitting ? (
-                            <div className="flex gap-2 items-center">
-                              <LoaderCircle className="animate-spin size-6" />
-                              <span>Saving...</span>
-                            </div>
-                          ) : (
-                            "Save"
-                          )}
-                        </CustomButton>
-                        <CustomButton
-                          onClick={() => form.reset()}
-                          variant="outline"
-                          className="flex-1 bg-secondary h-14 font-medium text-xl cursor-pointer hover:bg-[#bfbfbf] transition-colors duration-200"
-                          disabled={isSubmitting}
-                        >
-                          Cancel
-                        </CustomButton>
-                      </div>
+            <div className="flex gap-3 pt-4 mb-10">
+              <CustomButton
+                type="submit"
+                onClick={form.handleSubmit(onSubmit)}
+                className="flex-1 bg-primary hover:bg-orange-600 h-14 font-medium text-xl cursor-pointer transition-colors duration-200"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <div className="flex gap-2 items-center">
+                    <LoaderCircle className="animate-spin size-6" />
+                    <span>Saving...</span>
+                  </div>
+                ) : (
+                  "Save"
+                )}
+              </CustomButton>
+              <CustomButton
+                onClick={() => form.reset()}
+                variant="outline"
+                className="flex-1 bg-secondary h-14 font-medium text-xl cursor-pointer hover:bg-[#bfbfbf] transition-colors duration-200"
+                disabled={isSubmitting}
+              >
+                Cancel
+              </CustomButton>
+            </div>
           </form>
         </Form>
       </div>
