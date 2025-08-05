@@ -1,7 +1,7 @@
+import { Colortype } from "@/types/global";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
-import { Colortype } from "../../types/global";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
 

@@ -236,7 +236,7 @@ export function ModifierGroupForm() {
             <CustomInput
               control={form.control}
               name="maxSelection"
-              label="Min Selection"
+              label="Max Selection"
               optional={false}
               placeholder="1"
               type="number"

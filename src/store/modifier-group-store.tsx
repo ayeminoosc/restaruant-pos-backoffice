@@ -1,7 +1,7 @@
+import { ModifierGroupsType } from "@/types/modifier-group";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
-import { ModifierGroupsType } from "../../types/modifier-group";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
 
