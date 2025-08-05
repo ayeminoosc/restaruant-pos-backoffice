@@ -1,11 +1,11 @@
 import { create } from "zustand";
-import { ENDPOINTS } from "@/config";
 import { Prefix } from "@/types/type";
 import { prefixFormSchema } from "@/types/type";
 import { z } from "zod";
+import { ENDPOINTS } from '../config';
 
 type PrefixFormInput = z.infer<typeof prefixFormSchema>;
-
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
 interface PrefixStore {
   prefixes: Prefix[];
   loading: boolean;
@@ -28,9 +28,10 @@ export const usePrefixStore = create<PrefixStore>((set) => ({
   status: "idle",
 
   fetchPrefixes: async () => {
+     console.log('Endpoiontsget', ENDPOINTS.getPrefixes)
     set({ loading: true, error: null });
     try {
-      const res = await fetch(ENDPOINTS.getPrefixes);
+      const res = await fetch(`${API_BASE}/mockprefixes/1.0/prefixes`);
       if (!res.ok) throw new Error("Failed to fetch prefixes");
       const data: Prefix[] = await res.json();
       set({ prefixes: data, loading: false });
@@ -42,7 +43,7 @@ export const usePrefixStore = create<PrefixStore>((set) => ({
   deletePrefix: async (id) => {
     set({ isSubmitting: true, error: null, status: "idle" });
     try {
-      const response = await fetch(ENDPOINTS.deletePrefix(id), {
+      const response = await fetch(`${API_BASE}/mockprefixes/1.0/prefixes/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete prefix");
@@ -64,7 +65,7 @@ export const usePrefixStore = create<PrefixStore>((set) => ({
   addPrefix: async (data) => {
     set({ isSubmitting: true, error: null, status: "idle" });
     try {
-      const response = await fetch(ENDPOINTS.addPrefix, {
+      const response = await fetch(`${API_BASE}/mockprefixes/1.0/prefixes`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -90,7 +91,7 @@ export const usePrefixStore = create<PrefixStore>((set) => ({
   editPrefix: async (id, updatedPrefix) => {
     set({ isSubmitting: true, error: null, status: "idle" });
     try {
-      const response = await fetch(ENDPOINTS.updatePrefix(id), {
+      const response = await fetch(`${API_BASE}/mockprefixes/1.0/prefixes/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedPrefix),
