@@ -1,19 +1,22 @@
+"use client";
+
 import CustomButton from "@/components/custom-button";
 import CustomSidebarItemHeader from "@/components/custom-sidebar-item-header";
 import CustomTableHeader from "@/components/custom-table-header";
 import ModifierTable from "@/components/modifier-group/modifier-table";
 import { Plus } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const ModifierGroupPage = () => {
+  const { t } = useTranslation();
+
   return (
     <section>
-      <CustomSidebarItemHeader>
-        Modifier Group Management
-      </CustomSidebarItemHeader>
+      <CustomSidebarItemHeader>{t("modifier")}</CustomSidebarItemHeader>
       <div className="p-5 h-[calc(55.375rem-7.688rem)]">
         <CustomTableHeader title={"Modifier Groups (3)"}>
           <CustomButton
-            href="/new-modifier-group"
+            href="/modifier-groups/new"
             className="h-full font-medium text-xl"
           >
             <Plus className="size-6" /> Add Modifier Group
