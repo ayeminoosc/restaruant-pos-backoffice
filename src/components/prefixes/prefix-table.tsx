@@ -15,7 +15,6 @@ const PrefixTable = () => {
   const openModal = (id: string) => {
     setSelectedId(id);
     setShowModal(true);
-    console.log('id', selectedId)
   };
 
 
