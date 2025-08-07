@@ -1,17 +1,22 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronRight, PencilLine} from "lucide-react";
-import SubCategoryBoxOfCPg from "./sub-category-box-cpg";
-import { PencilSimpleLine,Trash} from "phosphor-react";
+import { ChevronRight, PencilLine } from "lucide-react";
+import SubCategoryBoxOfCPg from "./sub-category-box";
+import { PencilSimpleLine, Trash } from "phosphor-react";
 import type { CategoryType } from "@/store/app-data";
+interface CategoryBoxOfCPgProps extends CategoryType {
+    handleEdit: () => void;
+    handleDelete: () => void;
+    handleDeleteForSub?: (id: string) => void;
+    handleEditForSub?: (id: string) => void;
+}
 
-export default function CategoryBoxOfCPg({ id, name, bilingualName, image, isActive, subCategoryList }: CategoryType) {
+export default function CategoryBoxOfCPg({ id, name, bilingualName, image, isActive, subCategoryList, handleEdit, handleDelete, handleEditForSub, handleDeleteForSub }: CategoryBoxOfCPgProps) {
     const [showSubs, setShowSubs] = useState(false);
     const handleToggle = () => setShowSubs(!showSubs);
-
     return (
-        <div className="categoryWrapper border-b border-gray-300 py-2 ">
+        <div className="categoryWrapper border-b border-gray-300  ">
             <div className="categoryBox  flex justify-between  p-[1rem]">
                 <div className="left-side flex items-start  gap-x-2">
                     <button onClick={handleToggle} className="self-start">
@@ -25,7 +30,7 @@ export default function CategoryBoxOfCPg({ id, name, bilingualName, image, isAct
                     />
                     <div className="categoryTitle flex flex-col  gap-[1.25rem] pl-2 justify-start">
                         <div className="font-inter font-semibold text-[1.5rem] leading-none">
-                           {name}
+                            {name}
                         </div>
 
                         <div className="bg-[#EAEAEA] rounded-[0.625rem] px-[0.5rem] py-[0.25rem] text-[1rem] font-medium leading-[1.5rem] tracking-[0.03125rem] font-inter text-black w-fit">
@@ -37,21 +42,24 @@ export default function CategoryBoxOfCPg({ id, name, bilingualName, image, isAct
                 </div>
 
                 <div className="right-side flex  gap-[1rem]">
-                    <PencilSimpleLine className="w-[1.6rem] h-[1.6rem]" />
-                    <Trash className="w-[1.6rem] h-[1.6rem]" color="#EA1414" />
+                    <PencilSimpleLine className="w-[1.6rem] h-[1.6rem]" onClick={handleEdit} />
+                    <Trash className="w-[1.6rem] h-[1.6rem]" color="#EA1414" onClick={handleDelete} />
                 </div>
             </div>
 
             {showSubs && (
                 <div >
                     {subCategoryList.map((subCategory) => (
+                        
                         <SubCategoryBoxOfCPg
                             key={subCategory.id}
                             id={subCategory.id}
                             name={subCategory.name}
                             bilingualName={subCategory.bilingualName}
-                            image={subCategory.image}
-                            isActive={subCategory.isActive}
+                            image={subCategory.imageUrl}
+                            isActive={subCategory.active}
+                            handleDelete={() => handleDeleteForSub?.(subCategory.id)} // Pass the ID here
+                            handleEdit={() => handleEditForSub?.(subCategory.id)}
                         />
                     ))}
 

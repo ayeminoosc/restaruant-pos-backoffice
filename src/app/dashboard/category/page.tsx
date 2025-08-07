@@ -1,48 +1,122 @@
 "use client";
-import CategoryBoxOfCPg from "@/common/category-box-cpg";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+
+import { useRouter } from "next/navigation";
+import CategoryBoxOfCPg from "@/components/category/category-box";
 import { Plus } from "phosphor-react";
+import { useCategoryStore } from "@/store/category-store";
+import { useEffect, useState } from "react";
+import CustomSidebarItemHeader from "@/components/custom-sidebar-item-header";
+import CustomTableHeader from "@/components/custom-table-header";
+import CustomButton from "@/components/custom-button";
 
-export default function CategoryPag() {
+export default function CategoryPg() {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const {
+    categories,
+    fetchCategories,
+    subCategories,
+    fetchSubCategories,
+    deleteCategoryById,
+    deleteSubCategoryById,
+  } = useCategoryStore();
+
+  useEffect(() => {
+    const loadData = async () => {
+      await fetchCategories();
+      await fetchSubCategories();
+    };
+
+    loadData();
+  }, []);
+
+  // Filter categories based on search query
+  const filteredCategories = categories.filter(category =>
+    category.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (category.bilingualName && category.bilingualName.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
+
+  // Filter subcategories based on search query
+  const filteredSubCategories = subCategories?.filter(sub =>
+    sub.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (sub.bilingualName && sub.bilingualName.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    sub.category.toLowerCase().includes(searchQuery.toLowerCase())
+  ) || [];
+
+
+  const handleCategoryDelete = async (categoryId: string, categoryName: string) => {
+    if (confirm(`Are you sure you want to delete category "${categoryName}"?`)) {
+      await deleteCategoryById(categoryId);
+      await fetchCategories();
+    }
+  };
+
+  const handleCategoryEdit = (categoryId: string) => {
+    router.push(`/new-category?id=${categoryId}`);
+  };
+
+  const handleSubCategoryDelete = async (subCategoryId: string) => {
+    const subCategory = subCategories?.find(sub => sub.id === subCategoryId);
+    if (confirm(`Are you sure you want to delete subcategory "${subCategory?.name}"?`)) {
+      await deleteSubCategoryById(subCategoryId);
+      await fetchSubCategories();
+    }
+  };
+
+  const handleSubCategoryEdit = (subCategoryId: string) => {
+    router.push(`/new-sub-category?id=${subCategoryId}`);
+  };
+
   return (
-    <div className="flex-1 flex-col ">
-      <div className="headerBarWithAddButton flex justify-between items-center  pt-10">
-        <div className="text-[1.5rem] font-semibold font-inter">
-          Menu Categories (2)
-        </div>
+    <div className="w-full h-full">
+      <CustomSidebarItemHeader
+        searchValue={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search categories..."
+      >
+        Category
+      </CustomSidebarItemHeader>
 
-        <div className="buttons flex gap-x-[0.625rem] ">
-          <Link href="/add-category">
-            <Button
-              className="bg-[#FF6E30] text-white text-[1.25rem] font-medium font-inter rounded-[0.625rem] p-[1.5rem] flex gap-[0.625rem]"
-              style={{
-                lineHeight: "var(--Static-Body-Large-Line-Height, 1.5rem)",
-                letterSpacing: "var(--Static-Body-Large-Tracking, 0.03125rem)",
-              }}
+      <div className="p-5 h-[calc(55.375rem-7.688rem)]">
+        <CustomTableHeader title={`Menu-category (${filteredCategories.length})`}>
+          <div className="buttons flex gap-[0.625rem]">
+            <CustomButton
+              href="/new-category"
+              className="h-full font-medium text-xl"
             >
-              <Plus className="w-[1.5rem] h-[1.5rem]" />
-              <div>Add Category</div>
-            </Button>
-          </Link>
+              <Plus className="size-6" />
+              Add Category
+            </CustomButton>
+            <CustomButton
+              href="/new-sub-category"
+              className="h-full font-medium text-xl"
+            >
+              <Plus className="size-6" />
+              Add Sub-Category
+            </CustomButton>
+          </div>
+        </CustomTableHeader>
 
-          <Button
-            className="border border-[#FF6E30] text-black text-[1.25rem] bg-white font-medium font-inter rounded-[0.625rem] p-[1.5rem]"
-            style={{
-              lineHeight: "var(--Static-Body-Large-Line-Height, 1.5rem)",
-              letterSpacing: "var(--Static-Body-Large-Tracking, 0.03125rem)",
-            }}
-          >
-            <Plus className="w-[1.5rem] h-[1.5rem] font-medium" />
-            <div>Add SubCategory</div>
-          </Button>
+        <div className="h-[calc(47.69rem-5rem)] pb-4 space-y-8">
+          <div className="flex flex-col rounded-[1.25rem] shadow-md ">
+            {filteredCategories.map((category) => (
+              <div key={category.id} className="categoryBoxOfCPg">
+                <CategoryBoxOfCPg
+                  id={category.id}
+                  name={category.name}
+                  bilingualName={category.bilingualName}
+                  image={category.imageUrl}
+                  isActive={category.active}
+                  subCategoryList={filteredSubCategories.filter(sub => sub.category === category.name) || []} handleDelete={() => handleCategoryDelete(category.id, category.name)}
+                  handleEdit={() => handleCategoryEdit(category.id)}
+                  handleDeleteForSub={handleSubCategoryDelete}
+                  handleEditForSub={handleSubCategoryEdit}
+                />
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-
-      <div className="bodyPart rounded-[1.25rem] mt-5 shadow-md border border-[#D9D9D9]">
-        <CategoryBoxOfCPg />
-        <CategoryBoxOfCPg />
-        <CategoryBoxOfCPg />
       </div>
     </div>
   );
