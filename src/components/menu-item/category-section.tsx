@@ -1,6 +1,6 @@
 import CategoryInput from "./category-input-box";
-import { useEffect, useState } from 'react';
-import { categoryApi, SubCategory } from '@/utils/category-api';
+import { useEffect } from 'react';
+import { useCategoryStore } from '@/store/category-store';
 
 interface CategorySectionProps {
     selectedCategory: string;
@@ -15,35 +15,24 @@ export default function CategorySection({
     selectedSubCategory, 
     setSelectedSubCategory 
 }: CategorySectionProps) {
-    const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
-    const [loading, setLoading] = useState(false);
+    const { 
+        categories, 
+        subCategories, 
+        isLoading, 
+        fetchCategories, 
+        fetchSubCategories 
+    } = useCategoryStore();
 
     useEffect(() => {
-        const fetchSubCategories = async () => {
-            if (!selectedCategory) {
-                setSubCategories([]);
-                return;
-            }
-
-            setLoading(true);
-            try {
-                // Get the category name from the selected category ID
-                const categories = await categoryApi.getCategories();
-                const selectedCategoryData = categories.find(cat => cat.id === selectedCategory);
-                
-                if (selectedCategoryData) {
-                    const data = await categoryApi.getSubCategoriesByCategory(selectedCategoryData.name);
-                    setSubCategories(data);
-                }
-            } catch (error) {
-                console.error('Error fetching subcategories:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
+        fetchCategories();
         fetchSubCategories();
-    }, [selectedCategory]);
+    }, [fetchCategories, fetchSubCategories]);
+
+    // Filter subcategories for the selected category
+    const selectedCategoryData = categories.find(cat => cat.id === selectedCategory);
+    const filteredSubCategories = selectedCategoryData 
+        ? subCategories.filter(sub => sub.category === selectedCategoryData.name)
+        : [];
 
     return (
         <>
@@ -60,20 +49,20 @@ export default function CategorySection({
                         Choose subcategory
                         <div className="text-gray-400"> (Optional)</div>
                     </label>
-                    <div className="relative">
+                    <div className="relative h-14">
                         <select 
                             value={selectedSubCategory}
                             onChange={(e) => setSelectedSubCategory(e.target.value)}
-                            className="w-full
+                            className="w-full h-14
                             px-4 py-2.5 border border-[#9C9C9C] rounded-[10px]
-                            font-inter text-[1.25rem] pl-6 pr-10 appearance-none bg-white"
+                            font-inter text-[1.25rem] appearance-none bg-white"
                             disabled={!selectedCategory}
                         >
                             <option value="">Select a subcategory</option>
-                            {loading ? (
+                            {isLoading ? (
                                 <option value="" disabled>Loading subcategories...</option>
                             ) : (
-                                subCategories.map((subCategory) => (
+                                filteredSubCategories.map((subCategory) => (
                                     <option key={subCategory.id} value={subCategory.id}>
                                         {subCategory.name}
                                     </option>

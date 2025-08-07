@@ -142,7 +142,11 @@ export const useMenuItemStore = create<
         try {
           const data = await categoryApi.getSubCategories();
           set((state) => {
-            state.subcategories = data;
+            state.subcategories = data.map(sub => ({
+              id: sub.id,
+              name: sub.name,
+              categoryId: sub.category
+            }));
           });
         } catch (err: any) {
           setError(set, err.message || "Something went wrong");
@@ -155,7 +159,11 @@ export const useMenuItemStore = create<
         try {
           const data = await categoryApi.getSubCategoriesByCategory(categoryName);
           set((state) => {
-            state.subcategories = data;
+            state.subcategories = data.map(sub => ({
+              id: sub.id,
+              name: sub.name,
+              categoryId: sub.category
+            }));
           });
         } catch (err: any) {
           setError(set, err.message || "Something went wrong");
