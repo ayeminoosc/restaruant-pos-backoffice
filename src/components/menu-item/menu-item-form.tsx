@@ -26,7 +26,7 @@ import { usePrefixStore } from "@/store/prefix-store";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { inventoryApi, InventoryItem } from "@/utils/inventory-api";
-import ImageBox from "@/common/image-box";
+import ImageBox from "@/components/custom-image-box";
 import { useMenuItemDraftStore } from "@/store/menu-item-draft-store";
 
 interface MenuItemFormProps {
@@ -138,11 +138,20 @@ export function MenuItemForm({ defaultValues, onSubmit, mode }: MenuItemFormProp
     group.groupName.toLowerCase().includes(searchModifiers.toLowerCase())
   );
 
+  // Handler for when an image is cropped
+  const handleImageCropped = (imageData: string) => {
+    form.setValue('photo', imageData);
+  };
+
+  // Handler for when an image is removed
+  const handleImageRemoved = () => {
+    form.setValue('photo', '');
+  };
 
 
   return (
     <div className="flex justify-center">
-      <div className="w-[1025px] mx-auto pb-">
+      <div className="w-[1025px] mx-auto pb-24">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6 p-4 w-full">
             {/* Header */}
@@ -159,9 +168,13 @@ export function MenuItemForm({ defaultValues, onSubmit, mode }: MenuItemFormProp
 
             {/* Item Photo Section */}
             <div className="flex justify-center">
-              <div className="w-[240px] h-[218px] mx-auto mt-10 mb-5 border-2 border-dashed border-gray-400 p-3">
-                <ImageBox />
-              </div>
+             
+                <ImageBox
+                  imageUrl={form.watch('photo') || undefined}
+                  onImageCropped={handleImageCropped}
+                  onImageRemoved={handleImageRemoved}
+                />
+              
             </div>
 
             {/* Basic Information */}
