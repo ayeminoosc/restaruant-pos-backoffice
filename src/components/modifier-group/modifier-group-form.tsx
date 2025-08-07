@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { modifierGroupSchema } from "@/lib/modifier-group-schema";
+import { modifierGroupSchema } from "@/lib/validations/modifier-group-schema";
 import { useModifierGroupStore } from "@/store/modifier-group-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle, Plus, Trash2 } from "lucide-react";
@@ -236,7 +236,7 @@ export function ModifierGroupForm() {
             <CustomInput
               control={form.control}
               name="maxSelection"
-              label="Min Selection"
+              label="Max Selection"
               optional={false}
               placeholder="1"
               type="number"

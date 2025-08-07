@@ -12,6 +12,12 @@ const ModifierTable = () => {
   const modifierGroups = useModifierGroupStore((s) => s.modifierGroups);
   const isFetching = useModifierGroupStore((s) => s.isFetching);
   const error = useModifierGroupStore((s) => s.error);
+  const deleteModifierGroup = useModifierGroupStore((s) => s.deleteModifierGroup);
+  const isSubmitting = useModifierGroupStore((s) => s.isSubmitting);
+  const status = useModifierGroupStore((s) => s.status);
+  const resetStatus = useModifierGroupStore((s) => s.resetStatus);
+
+
   const getModifierGroupsData = useModifierGroupStore(
     (s) => s.getModifierGroupsData
   );
@@ -141,6 +147,11 @@ const ModifierTable = () => {
           id={selectedId}
           showModal={showModal}
           setShowModal={setShowModal}
+          onDelete={deleteModifierGroup}
+          isSubmitting={isSubmitting}
+          status={status}
+          error={error}
+          resetStatus={resetStatus}
         />
       )}
     </>

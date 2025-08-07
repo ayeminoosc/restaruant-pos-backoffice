@@ -1,6 +1,7 @@
 "use client";
 import { Search } from "lucide-react";
 import { ReactNode } from "react";
+import LanguageSwitcher from "./language-switcher";
 import { Input } from "./ui/input";
 
 type CustomSidebarItemHeaderProps = {
@@ -19,6 +20,7 @@ const CustomSidebarItemHeader = ({
   return (
     <div className="flex items-center justify-between px-5 border-b-[2px] h-[7.688rem] border-[#D9D9D9]">
       <div className="text-[2rem] font-semibold font-inter">{children}</div>
+      <LanguageSwitcher />
       <div className="max-w-[45rem] min-w-[33.688rem] h-14 bg-[#f6f6f6] px-4 rounded-[10px] relative">
         <Search className="absolute text-[#a2a2a2] size-[1.375rem] top-4" />
         <Input

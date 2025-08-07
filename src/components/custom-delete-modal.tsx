@@ -17,20 +17,24 @@ type CustomDeleteModalProps = {
   showModal: boolean;
   setShowModal: (val: boolean) => void;
   id: string;
+  onDelete: (id: string) => void;
+  isSubmitting: boolean;
+  status: "idle" | "success" | "error";
+  error?: string | null;
+  resetStatus: () => void;
 };
 
 export function CustomDeleteModal({
   id,
   setShowModal,
   showModal,
+  onDelete,
+  isSubmitting,
+  status,
+  error,
+  resetStatus,
 }: CustomDeleteModalProps) {
-  const deleteModifierGroup = useModifierGroupStore(
-    (s) => s.deleteModifierGroup
-  );
-  const isSubmitting = useModifierGroupStore((s) => s.isSubmitting);
-  const status = useModifierGroupStore((s) => s.status);
-  const error = useModifierGroupStore((s) => s.error);
-  const resetStatus = useModifierGroupStore((s) => s.resetStatus);
+  
 
   useEffect(() => {
     if (status === "success") {
@@ -57,7 +61,7 @@ export function CustomDeleteModal({
           <AlertDialogCancel disabled={isSubmitting}>Cancel</AlertDialogCancel>
           <AlertDialogAction
             className="bg-red-500 cursor-pointer hover:bg-red-600"
-            onClick={() => deleteModifierGroup(id)}
+            onClick={() => onDelete(id)}
             disabled={isSubmitting}
           >
             {isSubmitting ? (
