@@ -1,7 +1,7 @@
 import { Label } from "@/components/ui/label";
 import { useGlobalStore } from "@/store/global-store";
 import { Controller, useFormContext } from "react-hook-form";
-import { Colortype } from "../../types/global";
+import { Colortype } from "@/types/global";
 
 type ColorPickerProps = {
   name: string;

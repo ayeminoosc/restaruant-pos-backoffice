@@ -16,4 +16,16 @@ export const ENDPOINTS = {
   deletePrefix: (id: number | string) => `${API_BASE_URL}/mockprefixes/1.0/prefixes/${id}`,
   addPrefix: `${API_BASE_URL}/mockprefixes/1.0/prefixes`,
   updatePrefix: (id: number | string) => `${API_BASE_URL}/mockprefixes/1.0/prefixes/${id}`,
+
+  /* ---------- Menu Items ----------- */
+  getMenuItems: `${API_BASE_URL}/Menu+Api/1.0/Menu`,
+  getMenuItemById: (id: number | string) =>
+    `${API_BASE_URL}/Menu+Api/1.0/Menu/${id}`,
+  addMenuItem: `${API_BASE_URL}/Menu+Api/1.0/Menu`,
+  updateMenuItem: (id: number | string) =>
+    `${API_BASE_URL}/Menu+Api/1.0/Menu/${id}`,
+  deleteMenuItem: (id: number | string) =>
+    `${API_BASE_URL}/Menu+Api/1.0/Menu/${id}`,
+
+
 };
