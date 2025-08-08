@@ -16,6 +16,7 @@ import CustomAdvanceSetting from "@/components/custom-advance-setting";
 import { ColorPicker } from "@/components/color-picker";
 import TitleBar from "@/components/category/title-bar";
 import ImageBox from "@/components/custom-image-box";
+import CustomPageTitle from "@/components/custom-page-title";
 
 // Form schema
 const categorySchema = z.object({
@@ -149,19 +150,15 @@ function CategoryPageContent() {
 
     return (
         <div className="w-full h-screen">
-            <div className="h-[10%]">
-                <TitleBar
-                    label={isEditMode ? "Edit Category" : "Add New Category"}
-                    onClick={() => router.back()}
-                />
-            </div>
+                <CustomPageTitle title={isEditMode ? "Edit Category" : "Add New Category"} />
+           
 
-            <div className="max-w-[1025px] overflow-y-auto mx-auto mt-10 px-4">
+            <div className="max-w-[1025px] overflow-visible mx-auto my-13">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
                         {/* IMAGE SECTION */}
-                        <div className="flex justify-center">
+                        <div className="flex justify-center overflow-visible">
                             <ImageBox
                                 imageUrl={formImageUrl}
                                 onImageCropped={handleImageCropped}
