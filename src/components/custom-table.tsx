@@ -45,46 +45,78 @@ export function ReusableTable<T extends { [key: string]: any }>({
             ))}
           </TableRow>
         </TableHeader>
-        <TableBody>
-          {/*  Render each data row here */}
-          {data.map((dataItem, rowIndex) => (
-            <TableRow key={rowIndex} className="h-20">
-              {columns.map((col, colIndex) => (
-                <TableCell
-                  key={String(col.key)}
-                  className={cn(
-                    "px-4",
-                    colIndex === columns.length - 1 && "text-end"
-                  )}
-                >
-                  {/* {col.key === "actions" ? (
-                    <div className="flex items-center justify-between ">
-                      <img
-                        alt="edit svg"
-                        src={"/assets/edit.svg"}
-                        className="cursor-pointer"
-                      />
 
-                      <img
-                        alt="edit svg"
-                        src={"/assets/trash.svg"}
-                        className="cursor-pointer"
-                      />
-                    </div>
-                  ) : col.render ? (
-                    col.render(dataItem[col.key], dataItem)
-                  ) : (
-                    dataItem[col.key]
-                  )} */}
-                  {col.render
-                    ? col.render(dataItem[col.key], dataItem)
-                    : dataItem[col.key]}
-                </TableCell>
-              ))}
+        <TableBody>
+          {data.length > 0 ? (
+            data.map((dataItem, rowIndex) => (
+              <TableRow key={rowIndex} className="h-20">
+                {columns.map((col, colIndex) => (
+                  <TableCell
+                    key={String(col.key)}
+                    className={cn(
+                      "px-4",
+                      colIndex === columns.length - 1 && "text-end"
+                    )}
+                  >
+                    {col.render
+                      ? col.render(dataItem[col.key], dataItem)
+                      : dataItem[col.key]}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell
+                colSpan={columns.length}
+                className="text-center py-10 text-gray-500 text-lg"
+              >
+                No matching data found
+              </TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
     </div>
   );
 }
+
+// {/* <TableBody>
+//   {/*  Render each data row here */}
+//   {data.map((dataItem, rowIndex) => (
+//     <TableRow key={rowIndex} className="h-20">
+//       {columns.map((col, colIndex) => (
+//         <TableCell
+//           key={String(col.key)}
+//           className={cn(
+//             "px-4",
+//             colIndex === columns.length - 1 && "text-end"
+//           )}
+//         >
+//           {/* {col.key === "actions" ? (
+//             <div className="flex items-center justify-between ">
+//               <img
+//                 alt="edit svg"
+//                 src={"/assets/edit.svg"}
+//                 className="cursor-pointer"
+//               />
+
+//               <img
+//                 alt="edit svg"
+//                 src={"/assets/trash.svg"}
+//                 className="cursor-pointer"
+//               />
+//             </div>
+//           ) : col.render ? (
+//             col.render(dataItem[col.key], dataItem)
+//           ) : (
+//             dataItem[col.key]
+//           )} */}
+//           {col.render
+//             ? col.render(dataItem[col.key], dataItem)
+//             : dataItem[col.key]}
+//         </TableCell>
+//       ))}
+//     </TableRow>
+//   ))}
+// </TableBody> */}
