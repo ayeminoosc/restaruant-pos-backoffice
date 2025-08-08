@@ -40,7 +40,7 @@ export default function DropdownBox({ label, placeHolder, categoryNameList, valu
                         <SelectItem
                             key={index}
                             value={categoryName}
-                            className="md:text-lg p-[0.625rem] cursor-pointer hover:bg-[#FFE5D6] focus:bg-[#FFE5D6] data-[highlighted]:bg-[#FFE5D6] data-[state=checked]:bg-[#FFE5D6]"
+                            className="md:text-lg p-[0.625rem] cursor-pointer hover:bg-[#FFE5D6]  data-[highlighted]:bg-[#FFE5D6] "
                         >
                             {categoryName}
                         </SelectItem>

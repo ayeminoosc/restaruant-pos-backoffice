@@ -16,6 +16,7 @@ import CustomAdvanceSetting from "@/components/custom-advance-setting";
 import { ColorPicker } from "@/components/color-picker";
 import CustomDropDownBox from "@/components/custom-drop-down-box";
 import ImageBox from "@/components/custom-image-box";
+import CustomPageTitle from "@/components/custom-page-title";
 
 // SubCategory Form schema
 const subCategorySchema = z.object({
@@ -155,14 +156,10 @@ function SubCategoryPageContent() {
 
     return (
         <div className="w-full h-screen">
-            <div className="h-[10%]">
-                <TitleBar
-                    label={isEditMode ? "Edit SubCategory" : "Add New SubCategory"}
-                    onClick={handleCancel}
-                />
-            </div>
+            <CustomPageTitle title={isEditMode ? "Edit SubCategory" : "Add New SubCategory"} />
 
-            <div className="max-w-[1025px] overflow-y-auto mx-auto mt-10 px-4">
+
+            <div className="max-w-[1025px] overflow-visible mx-auto my-13 ">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
@@ -181,7 +178,7 @@ function SubCategoryPageContent() {
                             name="categoryName"
                             label="Choose Category"
                             placeholder="Select a category"
-                            options={categories}  
+                            options={categories}
                             editId={editId}
                             optional={false}
                         />

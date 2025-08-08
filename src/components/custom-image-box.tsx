@@ -46,7 +46,7 @@ const ImageBox = ({ imageUrl, onImageCropped, onImageRemoved }: ImageBoxProps) =
 
   if (!selectedFile && !croppedImage) {
     return (
-      <div className="space-y-4">
+      <div className="space-y-4 relative overflow-visible">
         <div
           className="w-[15rem] h-[13.625rem] max-w-full relative flex flex-col items-center justify-center bg-[#F9F9F9] rounded-[0.625rem] cursor-pointer overflow-hidden hover:bg-gray-100 transition-colors"
           onClick={() => document.getElementById('file-input')?.click()}
@@ -101,8 +101,9 @@ const ImageBox = ({ imageUrl, onImageCropped, onImageRemoved }: ImageBoxProps) =
 
   if (croppedImage && !selectedFile) {
     return (
-      <div className="space-y-1">
-        <div className="flex justify-end items-center gap-1">
+      <div className="space-y-1 relative overflow-visible">
+        {/* Floating X icon half outside */}
+        <div className="absolute -top-4 -right-2 z-30">
           <Button
             onClick={handleReset}
             size="icon"
@@ -112,6 +113,7 @@ const ImageBox = ({ imageUrl, onImageCropped, onImageRemoved }: ImageBoxProps) =
             <XIcon className="size-6" />
           </Button>
         </div>
+
         <div
           className="w-[15rem] h-[13.625rem] max-w-full relative flex flex-col items-center justify-center bg-[#F9F9F9] rounded-[0.625rem] cursor-pointer overflow-hidden hover:bg-gray-100 transition-colors"
           onClick={() => document.getElementById('file-input')?.click()}
@@ -150,7 +152,7 @@ const ImageBox = ({ imageUrl, onImageCropped, onImageRemoved }: ImageBoxProps) =
   }
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-1 relative overflow-visible">
       <ImageCrop
         aspect={1}
         file={selectedFile}
@@ -159,18 +161,22 @@ const ImageBox = ({ imageUrl, onImageCropped, onImageRemoved }: ImageBoxProps) =
         onComplete={console.log}
         onCrop={handleCroppedImage}
       >
-        <div className="flex justify-end items-center gap-1">
-          <ImageCropApply type='button' />
-          <Button
-            onClick={handleReset}
-            size="icon"
-            type="button"
-            variant="ghost"
-          >
-            <XIcon className="size-6" />
-          </Button>
+        <div className="relative w-full">
+          {/* Floating icon buttons outside crop box */}
+          <div className="absolute -top-4.5 right-0 flex z-30" style={{ transform: 'translateX(10%)' }}>
+            <ImageCropApply type="button" />
+            <Button
+              onClick={handleReset}
+              size="icon"
+              type="button"
+              variant="ghost"
+              className="ml-2 "
+            >
+              <XIcon className="size-6" />
+            </Button>
+          </div>
+          <ImageCropContent className="max-w-md" />
         </div>
-        <ImageCropContent className="max-w-md" />
       </ImageCrop>
     </div>
   );

@@ -11,11 +11,11 @@ type ColorPickerProps = {
 export const ColorPicker = ({ name, label }: ColorPickerProps) => {
   const { control } = useFormContext();
   const data: Colortype[] = useGlobalStore((store) => store.advanceColors);
-  const colors = data[0].colors;
+  const colors = data && data.length > 0 ? data[0].colors : [];
 
   return (
     <div className="space-y-2">
-      <Label className="text-lg font-medium block">{label}</Label>
+      <Label className="text-[20px] font-medium block">{label}</Label>
       <Controller
         name={name}
         control={control}
