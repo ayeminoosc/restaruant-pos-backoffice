@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { categoryApi, Category } from '@/utils/category-api';
+import { useEffect } from 'react';
+import { useCategoryStore } from '@/store/category-store';
 
 interface CategoryInputProps {
     selectedCategory: string;
@@ -10,24 +10,11 @@ export default function CategoryInput({
     selectedCategory,
     setSelectedCategory 
 }: CategoryInputProps) {
-    const [categories, setCategories] = useState<Category[]>([]);
-    const [loading, setLoading] = useState(false);
+    const { categories, isLoading, fetchCategories } = useCategoryStore();
 
     useEffect(() => {
-        const fetchCategories = async () => {
-            setLoading(true);
-            try {
-                const data = await categoryApi.getCategories();
-                setCategories(data);
-            } catch (error) {
-                console.error('Error fetching categories:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchCategories();
-    }, []);
+    }, [fetchCategories]);
 
     return (
         <div className="w-full h-full flex flex-col gap-4">
@@ -39,12 +26,12 @@ export default function CategoryInput({
                 <select 
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="w-full
+                    className="w-full h-14
                     px-4 py-2.5 border border-[#9C9C9C] rounded-[10px]
-                    font-inter text-[1.25rem] pl-6 pr-10 appearance-none bg-white"
+                    font-inter text-[1.25rem] appearance-none bg-white"
                 >
                     <option value="">Select a category</option>
-                    {loading ? (
+                    {isLoading ? (
                         <option value="" disabled>Loading categories...</option>
                     ) : (
                         categories.map((category) => (

@@ -5,16 +5,16 @@ import { Input } from "./ui/input";
 
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation();
-  const [checked, setChecked] = useState(i18n.language === "my");
+  const [checked, setChecked] = useState(i18n.language === "mm");
 
   const toggleLanguage = () => {
-    const newLang = checked ? "en" : "my";
+    const newLang = checked ? "en" : "mm";
     i18n.changeLanguage(newLang);
     setChecked(!checked);
   };
 
   useEffect(() => {
-    setChecked(i18n.language === "my");
+    setChecked(i18n.language === "mm");
   }, [i18n.language]);
 
   return (

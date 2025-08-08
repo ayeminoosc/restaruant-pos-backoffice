@@ -1,0 +1,143 @@
+{
+  "buttons": {
+    "save": "Save",
+    "update": "Update",
+    "cancel": "Cancel",
+    "delete": "Delete"
+  },
+  "statuses": {
+    "save": "Saving...",
+    "update": "Updating...",
+    "delete": "Deleting...",
+    "cancel": "Cancelling..."
+  },
+  "placeholders": {
+    "search": "Search"
+  },
+  "labels": {
+    "active": "Active",
+    "advance_setting": "Advance Setting",
+    "price": "Price",
+    "bilingual_name": "Bilingual name",
+    "select_btn_color": "Select Button Color"
+  },
+  "confirmations": {
+    "delete": "Are you sure you want to delete this item?",
+    "delete_message": "This action cannot be undone. This will permanently delete your table row and its data."
+  },
+  "messages": {
+    "error": "Something went wrong.",
+    "loading": "Loading data..."
+  },
+  "modifier_group": {
+    "buttons": {
+      "add_group": "Add Modifier Group",
+      "add_modifier": "Add Modifier"
+    },
+    "labels": {
+      "create_group_name": "Create modifier group name",
+      "update_group_name": "Update modifier group name",
+      "bilingual_name": "Bilingual name",
+      "modifier_item": "Modifier Items",
+      "modifier_item_sub": "Add new customize modifier items",
+      "price": "Price",
+      "currency_symbol": "MMK",
+      "min_selection": "Min Selection",
+      "max_selection": "Max Selection",
+      "selection": "Selection Type",
+      "required": "Required"
+    },
+    "placeholders": {
+      "enter_name": "Enter group name",
+      "enter_bliingual_name": "Enter translated name (e.g., 'Hta-min-kyaw')",
+      "enter_modifier_item": "Modifier Item Name",
+      "price": "00 ks",
+      "min": "0",
+      "max": "1"
+    },
+    "titles": {
+      "group_management": "Modifier Group Management",
+      "add_new": "Add new modifier group",
+      "update": "Update modifier group"
+    },
+    "messages": {
+      "success_update": "Modifier group updated!",
+      "success_create": "Modifier group created!",
+      "success_delete": "Modifier group deleted!"
+    }
+  },
+
+  "category": {
+    "buttons": {
+      "add_category": "Add Category",
+      "add_sub_category": "Add Sub Category"
+    },
+    "labels": {
+      "create_category_name": "Create category name",
+      "update_category_name": "Update category name",
+      "create_sub_category_name": "Create sub category name",
+      "update_sub_category_name": "Update sub category name",
+      "bilingual_name": "Bilingual name",
+      "image_url": "Image URL",
+      "active": "Active"
+    },
+    "placeholders": {
+      "enter_name": "Enter category name",
+      "enter_bliingual_name": "Enter translated name (e.g., 'Hta-min-kyaw')",
+      "enter_image_url": "Enter image URL"
+    },
+    "titles": {
+      "category_management": "Category Management",
+      "add_new_category": "Add new category",
+      "update_category": "Update category",
+      "add_new_sub_category": "Add new sub category",
+      "update_sub_category": "Update sub category"
+    },
+    "messages": {
+      "success_update_category": "Category updated!",
+      "success_create_category": "Category created!",
+      "success_delete_category": "Category deleted!",
+      "success_update_sub_category": "Sub Category updated!",
+      "success_create_sub_category": "Sub Category created!",
+      "success_delete_sub_category": "Sub Category deleted!"
+    }
+  },
+  "sub-category": {
+    "buttons": {
+      "add_sub_category": "Add Sub Category"
+    },
+    "labels": {
+      "create_sub_category_name": "Create sub category name",
+      "update_sub_category_name": "Update sub category name",
+      "bilingual_name": "Bilingual name",
+      "image_url": "Image URL",
+      "active": "Active"
+    },
+    "placeholders": {
+      "enter_name": "Enter sub category name",
+      "enter_bliingual_name": "Enter translated name (e.g., 'Hta-min-kyaw')",
+      "enter_image_url": "Enter image URL"
+    },
+    "titles": {
+      "sub_category_management": "Sub Category Management",
+      "add_new_sub_category": "Add new sub category",
+      "update_sub_category": "Update sub category"
+    },
+    "messages": {
+      "success_update_sub_category": "Sub Category updated!",
+      "success_create_sub_category": "Sub Category created!",
+      "success_delete_sub_category": "Sub Category deleted!"
+    }
+  },
+  "inventory":{
+    "labels":{
+
+    },
+    "titles":{
+      "item_in": "Item In",
+      "receipt_management": "Receipt Information"
+    }
+  }
+
+
+}

@@ -15,10 +15,7 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState, useEffect } from "react";
 import { ArrowLeft, Camera, Plus, Trash2, ChevronDown, ChevronUp } from "lucide-react";
-import MenuItemInput from "./menu-item-input";
 import MenuItemCurrencyInput from "./menu-item-currency-input";
-import { MenuItemColorPicker } from "./menu-item-color-picker";
-import MenuItemButton from "./menu-item-button";
 import CategorySection from "./category-section";
 import { useMenuItemStore } from "@/store/menu-item-store";
 import { useModifierGroupStore } from "@/store/modifier-group-store";
@@ -28,6 +25,12 @@ import { toast } from "sonner";
 import { inventoryApi, InventoryItem } from "@/utils/inventory-api";
 import ImageBox from "@/components/custom-image-box";
 import { useMenuItemDraftStore } from "@/store/menu-item-draft-store";
+import CustomInput from "../custom-input";
+import { ModifierSection } from "./modifier-section";
+import { PrefixSection } from "./prefix-section";
+import { ColorPicker } from "../color-picker";
+import { MenuItemType } from "@/types/menu-item";
+import CustomButton from "../custom-button";
 
 interface MenuItemFormProps {
   defaultValues: Partial<MenuItemFormInput>;
@@ -40,6 +43,8 @@ export function MenuItemForm({ defaultValues, onSubmit, mode }: MenuItemFormProp
   const [searchModifiers, setSearchModifiers] = useState("");
   const [searchPrefixes, setSearchPrefixes] = useState("");
   const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
+  const [showModifierGroupForm, setShowModifierGroupForm] = useState(false);
+  const [showPrefixForm, setShowPrefixForm] = useState(false);
   const { 
     isSubmitting, 
     status, 
@@ -48,7 +53,25 @@ export function MenuItemForm({ defaultValues, onSubmit, mode }: MenuItemFormProp
   const { modifierGroups, getModifierGroupsData } = useModifierGroupStore();
   const { prefixes, fetchPrefixes } = usePrefixStore();
   const router = useRouter();
-  const { draft, setDraft, clearDraft } = useMenuItemDraftStore();
+  const { draft, setDraft, clearDraft, clearDraftOnManualNavigation } = useMenuItemDraftStore();
+
+  const handleAddNewModifierGroup = () => {
+    router.push("/modifier-groups/new");
+  };
+
+  const handleAddNewPrefix = () => {
+    router.push("/prefixes/new");
+  };
+
+  const handleModifierGroupCreated = () => {
+    setShowModifierGroupForm(false);
+    getModifierGroupsData(); // Refresh the list
+  };
+
+  const handlePrefixCreated = () => {
+    setShowPrefixForm(false);
+    fetchPrefixes(); // Refresh the list
+  };
 
   const form = useForm<MenuItemFormInput>({
     resolver: zodResolver(menuItemFormSchema),
@@ -116,21 +139,22 @@ export function MenuItemForm({ defaultValues, onSubmit, mode }: MenuItemFormProp
     }
   }, [status, mode, router, resetStatus]);
 
-  // Sync form changes to draft
+  // Sync form changes to draft (for browser navigation only)
   useEffect(() => {
     const subscription = form.watch((values) => {
-      setDraft(values);
+      setDraft(values as Partial<MenuItemType>);
     });
     return () => subscription.unsubscribe();
   }, [form, setDraft]);
 
   const handleSubmit = async (data: MenuItemFormInput) => {
+    console.log(data)
     await onSubmit(data);
     clearDraft();
   };
 
   const handleCancel = () => {
-    clearDraft();
+    clearDraftOnManualNavigation(); // Clear draft on manual cancel
     router.back();
   };
 
@@ -150,21 +174,11 @@ export function MenuItemForm({ defaultValues, onSubmit, mode }: MenuItemFormProp
 
 
   return (
-    <div className="flex justify-center">
-      <div className="w-[1025px] mx-auto pb-24">
+    
+      <div className="max-w-[1025px] overflow-y-auto mx-auto pb-24 mt-10">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6 p-4 w-full">
-            {/* Header */}
-            <div className="flex items-center gap-4 mb-6">
-              <button
-                type="button"
-                onClick={() => router.back()}
-                className="p-2 hover:bg-gray-100 rounded-lg"
-              >
-                <ArrowLeft className="w-6 h-6" />
-              </button>
-              <h1 className="text-2xl font-semibold">Add new item</h1>
-            </div>
+          <form onSubmit={form.handleSubmit(handleSubmit)} className=" space-y-6">
+            
 
             {/* Item Photo Section */}
             <div className="flex justify-center">
@@ -180,7 +194,7 @@ export function MenuItemForm({ defaultValues, onSubmit, mode }: MenuItemFormProp
             {/* Basic Information */}
             <div className="space-y-6">
               
-              <MenuItemInput
+              <CustomInput
                 control={form.control}
                 name="name"
                 label="Create new item name"
@@ -188,19 +202,19 @@ export function MenuItemForm({ defaultValues, onSubmit, mode }: MenuItemFormProp
                 optional={false}
               />
 
-              <MenuItemInput
+              <CustomInput
                 control={form.control}
                 name="bilingualName"
                 label="Bilingual name"
-                placeholder="Enter translated name (e.g., '炒饭')"
+                placeholder="Enter translated name (e.g., 'Hta-min-kyaw')"
                 optional
               />
 
-              <MenuItemInput
+              <CustomInput
                 control={form.control}
                 name="barCode"
                 label="Bar Code"
-                placeholder="eg., ACF00--"
+                placeholder="eg., ACF00-0000"
                 optional={false}
               />
 
@@ -221,269 +235,45 @@ export function MenuItemForm({ defaultValues, onSubmit, mode }: MenuItemFormProp
             </div>
 
             {/* Modifier Section */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold text-[#2A2A2A]">Modifier</h2>
-                <FormField
-                  control={form.control}
-                  name="modifiers.enabled"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                          className="data-[state=checked]:bg-green-600"
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              {modifiersEnabled && (
-                <div className="space-y-4 border border-gray-200 rounded-lg p-4 bg-[#F9F9F9]">
-                  <div className="relative">
-                    <input
-                      type="text"
-                      placeholder="Search modifier groups"
-                      value={searchModifiers}
-                      onChange={(e) => setSearchModifiers(e.target.value)}
-                      className="w-full h-12 px-4 border border-gray-300 rounded-lg text-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    {modifierGroups.length > 0 ? (
-                      (() => {
-                        const filteredModifierGroups = searchModifiers 
-                          ? modifierGroups.filter(group => 
-                              group.groupName.toLowerCase().includes(searchModifiers.toLowerCase())
-                            )
-                          : modifierGroups;
-                        
-                        // Split into left and right columns
-                        const leftColumn = filteredModifierGroups.slice(0, Math.ceil(filteredModifierGroups.length / 2));
-                        const rightColumn = filteredModifierGroups.slice(Math.ceil(filteredModifierGroups.length / 2));
-                        
-                        return (
-                          <>
-                            {/* Left Column */}
-                            <div className="space-y-3">
-                              <FormField
-                                control={form.control}
-                                name="modifiers.modifierGroups"
-                                render={({ field }) => (
-                                  <FormItem>
-                                    <FormControl>
-                                      <div className="space-y-3">
-                                        {leftColumn.map((group) => (
-                                          <div key={group.id} className="flex items-center space-x-3">
-                                            <Checkbox
-                                              checked={field.value?.includes(group.id || "")}
-                                              onCheckedChange={(checked) => {
-                                                const currentValues = field.value || [];
-                                                if (checked) {
-                                                  field.onChange([...currentValues, group.id || ""]);
-                                                } else {
-                                                  field.onChange(currentValues.filter(id => id !== group.id));
-                                                }
-                                              }}
-                                            />
-                                            <FormLabel className="text-lg cursor-pointer">
-                                              {group.groupName} ({group.modifierItems.map(item => item.name).join(", ")})
-                                            </FormLabel>
-                                          </div>
-                                        ))}
-                                      </div>
-                                    </FormControl>
-                                  </FormItem>
-                                )}
-                              />
-                            </div>
-
-                            {/* Right Column */}
-                            <div className="space-y-3">
-                              <FormField
-                                control={form.control}
-                                name="modifiers.modifierGroups"
-                                render={({ field }) => (
-                                  <FormItem>
-                                    <FormControl>
-                                      <div className="space-y-3">
-                                        {rightColumn.map((group) => (
-                                          <div key={group.id} className="flex items-center space-x-3">
-                                            <Checkbox
-                                              checked={field.value?.includes(group.id || "")}
-                                              onCheckedChange={(checked) => {
-                                                const currentValues = field.value || [];
-                                                if (checked) {
-                                                  field.onChange([...currentValues, group.id || ""]);
-                                                } else {
-                                                  field.onChange(currentValues.filter(id => id !== group.id));
-                                                }
-                                              }}
-                                            />
-                                            <FormLabel className="text-lg cursor-pointer">
-                                              {group.groupName} ({group.modifierItems.map(item => item.name).join(", ")})
-                                            </FormLabel>
-                                          </div>
-                                        ))}
-                                      </div>
-                                    </FormControl>
-                                  </FormItem>
-                                )}
-                              />
-                            </div>
-                          </>
-                        );
-                      })()
-                    ) : (
-                      <div className="col-span-2 text-center py-8 text-gray-500">
-                        No modifier groups available. Please add modifier groups first.
-                      </div>
-                    )}
-                  </div>
-
-                    <MenuItemButton
-                    type="button"
-                    variant="outline"
-                    className="w-fit h-8.5 text-lg border-2 border-[#FF6E30] rounded-lg"
-                    onClick={() => router.push("/modifier-groups/new")}
-                  >
-                    <Plus className="w-5 h-5 mr-2" />
-                    New modifier group
-                  </MenuItemButton>
-                </div>
-              )}
-            </div>
+            <ModifierSection 
+              modifierGroups={modifierGroups}
+              searchModifiers={searchModifiers}
+              setSearchModifiers={setSearchModifiers}
+              onAddNewModifierGroup={handleAddNewModifierGroup}
+            />
 
             {/* Prefixes Section */}
-            <div className="space-y-4 rounded-lg ">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold text-[#2A2A2A]">Prefixes (Depending on modifier groups)</h2>
-                <FormField
-                  control={form.control}
-                  name="prefixes.enabled"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                          className="data-[state=checked]:bg-green-600"
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
+            <PrefixSection 
+              modifierGroups={modifierGroups}
+              prefixes={prefixes}
+              searchPrefixes={searchPrefixes}
+              setSearchPrefixes={setSearchPrefixes}
 
-              {form.watch("prefixes.enabled") && (
-                  <div className="space-y-4 border border-gray-200 rounded-lg p-4 bg-[#F9F9F9]">
-                    <div className="relative">
-                      <input
-                        type="text"
-                        placeholder="Search prefixes"
-                        value={searchPrefixes}
-                        onChange={(e) => setSearchPrefixes(e.target.value)}
-                        className="w-full h-12 px-4 border border-gray-300 rounded-lg text-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                      />
-                    </div>
-
-                    {/* Prefix Categories Grid */}
-                    <div className="space-y-6">
-                      {prefixes.length > 0 ? (
-                        // Filter prefixes based on search
-                        (() => {
-                          const filteredPrefixes = searchPrefixes 
-                            ? prefixes.filter(prefix => 
-                                prefix.name.toLowerCase().includes(searchPrefixes.toLowerCase())
-                              )
-                            : prefixes;
-                          
-                          return Array.from({ length: Math.ceil(filteredPrefixes.length / 3) }, (_, rowIndex) => (
-                            <div key={rowIndex} className="grid grid-cols-3 gap-6">
-                              {filteredPrefixes.slice(rowIndex * 3, (rowIndex + 1) * 3).map((prefix) => (
-                                <div key={prefix.id} className="p-4">
-                                  <div className="font-bold text-lg mb-3">{prefix.name}</div>
-                                  <div className="space-y-2">
-                                    {["No", "Less", "Extra"].map((option) => (
-                                      <FormField
-                                        key={`${prefix.id}-${option}`}
-                                        control={form.control}
-                                        name="prefixes.selectedPrefixes"
-                                        render={({ field }) => (
-                                          <FormItem>
-                                            <FormControl>
-                                              <div className="flex items-center space-x-2">
-                                                <Checkbox
-                                                  checked={field.value?.includes(`${prefix.id}-${option}`)}
-                                                  onCheckedChange={(checked) => {
-                                                    const currentValues = field.value || [];
-                                                    if (checked) {
-                                                      field.onChange([...currentValues, `${prefix.id}-${option}`]);
-                                                    } else {
-                                                      field.onChange(currentValues.filter(name => name !== `${prefix.id}-${option}`));
-                                                    }
-                                                  }}
-                                                />
-                                                <FormLabel className="text-base cursor-pointer">{option}</FormLabel>
-                                              </div>
-                                            </FormControl>
-                                          </FormItem>
-                                        )}
-                                      />
-                                    ))}
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          ));
-                        })()
-                      ) : (
-                        <div className="text-center py-8 text-gray-500">
-                          No prefixes available. Please add prefixes first.
-                        </div>
-                      )}
-                    </div>
-
-                    <MenuItemButton
-                      type="button"
-                      variant="outline"
-                    className="w-fit h-8.5 text-lg border-2 border-[#FF6E30] rounded-lg"
-                      onClick={() => router.push("/prefixes/new")}
-                    >
-                      <Plus className="w-5 h-5 mr-2" />
-                      Add new prefix
-                    </MenuItemButton>
-                  </div>
-                )}
-              </div>
+            />
 
             {/* Advanced Settings */}
             <div className="space-y-4">
               <div 
-                className="flex items-center justify-between cursor-pointer"
+                className="flex items-center justify-between cursor-pointer border-b"
                 onClick={() => setShowAdvanced(!showAdvanced)}
               >
                 <h2 className="text-xl font-semibold text-[#2A2A2A]">Advanced Setting</h2>
-                {showAdvanced ? <ChevronUp className="w-6 h-6" /> : <ChevronDown className="w-6 h-6" />}
+                {showAdvanced ? <ChevronUp className="w-8 h-8" /> : <ChevronDown className="w-8 h-8" />}
               </div>
 
               {showAdvanced && (
-                <div className="space-y-6 pl-4">
+                <div className="space-y-6 mt-4">
                   <FormField
                     control={form.control}
                     name="advancedSettings.connectToRecipes"
                     render={({ field }) => (
                       <FormItem className="flex items-center justify-between">
-                        <FormLabel className="text-lg">Connect to recipes</FormLabel>
+                        <FormLabel className="text-[20px]">Connect to recipes</FormLabel>
                         <FormControl>
                           <Switch
                             checked={field.value}
                             onCheckedChange={field.onChange}
-                            className="data-[state=checked]:bg-green-600"
+                            className="data-[state=checked]:bg-green-600 w-[64px] h-[28px] ml-2"
                           />
                         </FormControl>
                       </FormItem>
@@ -495,12 +285,12 @@ export function MenuItemForm({ defaultValues, onSubmit, mode }: MenuItemFormProp
                     name="advancedSettings.connectToInventory"
                     render={({ field }) => (
                       <FormItem className="flex items-center justify-between">
-                        <FormLabel className="text-lg">Connect to inventory</FormLabel>
+                        <FormLabel className="text-[20px] font-medium">Connect to inventory</FormLabel>
                         <FormControl>
                           <Switch
                             checked={field.value}
                             onCheckedChange={field.onChange}
-                            className="data-[state=checked]:bg-green-600"
+                            className="data-[state=checked]:bg-green-600 w-[64px] h-[28px] ml-2"
                           />
                         </FormControl>
                       </FormItem>
@@ -511,63 +301,70 @@ export function MenuItemForm({ defaultValues, onSubmit, mode }: MenuItemFormProp
                     <div className="space-y-4">
                       {fields.map((field, index) => (
                         <div key={field.id} className="flex gap-4 items-center">
-                                      <div className="flex-1">
+                          <div className="flex-1">
                             <FormField
                               control={form.control}
                               name={`advancedSettings.inventoryItems.${index}.inventoryName`}
                               render={({ field }) => (
                                 <FormItem>
-                                    <Select onValueChange={field.onChange} value={field.value}>
-                                     <FormControl>
-                                       <SelectTrigger className="w-full h-full px-4 text-base border border-input bg-background rounded-md shadow-sm flex items-center focus:outline-none focus:ring-1 focus:ring-ring focus:ring-offset-1">
-                                         <SelectValue placeholder="Inventory name" />
-                                       </SelectTrigger>
-                                     </FormControl>
-                                    <SelectContent>
-                                      {inventoryItems.map((item) => (
-                                        <SelectItem key={item.id} value={item.id}>
-                                          {item.name}
-                                        </SelectItem>
-                                      ))}
-                                    </SelectContent>
-                                  </Select>
+                                  <div className="relative">
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        // Toggle dropdown logic here
+                                      }}
+                                      className="w-full h-14 px-4 text-base border border-[#9C9C9C] bg-white rounded-lg focus:outline-none focus:ring-1 focus:ring-black flex items-center justify-between"
+                                    >
+                                      <span className={field.value ? "text-black" : "text-gray-500"}>
+                                        {field.value || "Inventory name"}
+                                      </span>
+                                      <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                      </svg>
+                                    </button>
+                                   
+                                  </div>
                                 </FormItem>
                               )}
                             />
-                           </div>
+                          </div>
                           
-                            <div className="flex-1">
-                            <MenuItemInput
+                          <div className="flex-1">
+                            <CustomInput
                               control={form.control}
                               name={`advancedSettings.inventoryItems.${index}.stock`}
                               placeholder="Stock"
                               label=""
                             />
-                           </div>
+                          </div>
                           
-                                                     <div className="flex-1">
+                          <div className="flex-1">
                             <FormField
                               control={form.control}
                               name={`advancedSettings.inventoryItems.${index}.unit`}
                               render={({ field }) => (
                                 <FormItem>
-                                                                     <Select onValueChange={field.onChange} value={field.value}>
-                                     <FormControl>
-                                       <SelectTrigger className="w-full h-14 px-4 text-base border border-input bg-background rounded-md shadow-sm flex items-center focus:outline-none focus:ring-1 focus:ring-ring focus:ring-offset-1">
-                                         <SelectValue placeholder="Unit" />
-                                       </SelectTrigger>
-                                     </FormControl>
-                                    <SelectContent>
-                                      <SelectItem value="kg">Kg</SelectItem>
-                                      <SelectItem value="g">g</SelectItem>
-                                      <SelectItem value="l">L</SelectItem>
-                                      <SelectItem value="pcs">Pieces</SelectItem>
-                                    </SelectContent>
-                                  </Select>
+                                  <div className="relative">
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        // Toggle dropdown logic here
+                                      }}
+                                      className="w-full h-14 px-4 text-base border border-[#9C9C9C] bg-white rounded-lg focus:outline-none focus:ring-1 focus:ring-black flex items-center justify-between"
+                                    >
+                                      <span className={field.value ? "text-black" : "text-gray-500"}>
+                                        {field.value || "Unit"}
+                                      </span>
+                                      <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                      </svg>
+                                    </button>
+                                    {/* Dropdown content would go here */}
+                                  </div>
                                 </FormItem>
                               )}
                             />
-                           </div>
+                          </div>
                           
                           <button
                             type="button"
@@ -579,19 +376,19 @@ export function MenuItemForm({ defaultValues, onSubmit, mode }: MenuItemFormProp
                         </div>
                       ))}
                       
-                      <MenuItemButton
+                      <CustomButton
                         type="button"
                         variant="outline"
                         onClick={() => append({
                           inventoryName: "",
                           stock: "",
-                          unit: "",
+                          unit: ""
                         })}
-                        className="w-full h-12 text-lg"
+                        className="h-8.5 text-[16px] font-[400] border-1 border-[#FF6E30] rounded-[10px] w-fit"
                       >
-                        <Plus className="w-5 h-5 mr-2" />
+                        <Plus className="w-6 h-6 mr-1" />
                         Add new inventory
-                      </MenuItemButton>
+                      </CustomButton>
                     </div>
                   )}
                 </div>
@@ -600,7 +397,7 @@ export function MenuItemForm({ defaultValues, onSubmit, mode }: MenuItemFormProp
 
             {/* Button Color */}
             <div className="space-y-4">
-              <MenuItemColorPicker control={form.control} name="buttonColor" />
+              <ColorPicker name="buttonColor" label="Button Color"/>
             </div>
 
             {/* Active Status */}
@@ -613,34 +410,35 @@ export function MenuItemForm({ defaultValues, onSubmit, mode }: MenuItemFormProp
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
+                      className="size-4.5 border-2 border-black"
                     />
                   </FormControl>
-                  <FormLabel className="text-lg">Active</FormLabel>
+                  <FormLabel className="text-[20px]">Active</FormLabel>
                 </FormItem>
               )}
             />
 
             {/* Action Buttons */}
             <div className="flex gap-4 pt-6">
-              <MenuItemButton
+              <CustomButton
                 type="submit"
                 disabled={isSubmitting}
                 className="flex-1 h-12 text-lg font-medium"
               >
                 {isSubmitting ? "Saving..." : "Save"}
-              </MenuItemButton>
-              <MenuItemButton
+              </CustomButton>
+              <CustomButton
                 type="button"
                 variant="outline"
                 onClick={handleCancel}
                 className="flex-1 h-12 text-lg"
               >
                 Cancel
-              </MenuItemButton>
+              </CustomButton>
             </div>
           </form>
         </Form>
       </div>
-    </div>
+   
   );
 } 

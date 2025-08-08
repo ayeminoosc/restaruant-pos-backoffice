@@ -51,7 +51,7 @@ const MenuItemCurrencyInput = ({
                 {...field}
                 placeholder={placeholder}
                 className={cn(
-                  "pl-22 h-14 text-lg placeholder:text-lg placeholder:text-gray-300 focus-visible:ring-0 focus:outline-none aria-invalid:border-[#cdcdcd] border-ring"
+                  "pl-22 h-14 md:text-lg placeholder:text-lg placeholder:text-gray-300 focus-visible:ring-0 focus:outline-none aria-invalid:border-[#cdcdcd] border-ring"
                 )}
               />
             </div>

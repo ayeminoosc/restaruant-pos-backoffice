@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import "../config";
+import "./i18n";
 
 export function I18nProvider({ children }: { children: ReactNode }) {
   return children;

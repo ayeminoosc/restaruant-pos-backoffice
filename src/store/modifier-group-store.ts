@@ -15,15 +15,17 @@ const initialState: ModifierGroupsStoreState = {
   isSubmitting: false,
   status: "idle",
   error: "",
+  searchTerm: "",
 };
 
 export const useModifierGroupStore = create<
   ModifierGroupsStoreState & ModifierGroupsStoreActions
 >()(
   persist(
-    immer((set) => ({
+    immer((set, get) => ({
       ...initialState,
       getModifierGroupsData: async () => {
+        // if (get().modifierGroups.length > 0) return;
         setLoading(set, "isFetching");
         try {
           const res = await fetch(ENDPOINTS.getModifierGroups);
@@ -32,12 +34,17 @@ export const useModifierGroupStore = create<
           set((state) => {
             state.modifierGroups = data;
           });
-        } catch (err: any) {
-          setError(set, err.message || "Something went wrong");
+        } catch (err: unknown) {
+          if (err instanceof Error) {
+            setError(set, err.message);
+          } else {
+            setError(set, "Something went wrong");
+          }
         } finally {
           resetLoading(set, "isFetching");
         }
       },
+
       getSingleModifierGroupsData: async (id) => {
         setLoading(set, "isFetching");
         try {
@@ -49,12 +56,17 @@ export const useModifierGroupStore = create<
           set((state) => {
             state.singleModifierGroup = data;
           });
-        } catch (err: any) {
-          setError(set, err.message || "Something went wrong");
+        } catch (err: unknown) {
+          if (err instanceof Error) {
+            setError(set, err.message);
+          } else {
+            setError(set, "Something went wrong");
+          }
         } finally {
           resetLoading(set, "isFetching");
         }
       },
+
       createModifierGroup: async (groupData) => {
         setLoading(set, "isSubmitting");
         try {
@@ -71,12 +83,17 @@ export const useModifierGroupStore = create<
             state.modifierGroups.push(data);
             state.status = "success";
           });
-        } catch (err: any) {
-          setError(set, err.message || "Something went wrong");
+        } catch (err: unknown) {
+          if (err instanceof Error) {
+            setError(set, err.message);
+          } else {
+            setError(set, "Something went wrong");
+          }
         } finally {
           resetLoading(set, "isSubmitting");
         }
       },
+
       updateModifierGroup: async (id, groupData) => {
         setLoading(set, "isSubmitting");
         try {
@@ -96,12 +113,17 @@ export const useModifierGroupStore = create<
             );
             state.status = "success";
           });
-        } catch (err: any) {
-          setError(set, err.message || "Something went wrong");
+        } catch (err: unknown) {
+          if (err instanceof Error) {
+            setError(set, err.message);
+          } else {
+            setError(set, "Something went wrong");
+          }
         } finally {
           resetLoading(set, "isSubmitting");
         }
       },
+
       deleteModifierGroup: async (id) => {
         setLoading(set, "isSubmitting");
         try {
@@ -116,12 +138,17 @@ export const useModifierGroupStore = create<
             );
             state.status = "success";
           });
-        } catch (err: any) {
-          setError(set, err.message || "Something went wrong");
+        } catch (err: unknown) {
+          if (err instanceof Error) {
+            setError(set, err.message);
+          } else {
+            setError(set, "Something went wrong");
+          }
         } finally {
           resetLoading(set, "isSubmitting");
         }
       },
+      setSearchTerm: (term) => set({ searchTerm: term }),
       resetStatus: () =>
         set((state) => {
           state.status = "idle";
