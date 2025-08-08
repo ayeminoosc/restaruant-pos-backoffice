@@ -23,6 +23,3 @@ export const resetLoading = (set: any, key: "isFetching" | "isSubmitting") => {
     state[key] = false;
   });
 };
-
-
-
