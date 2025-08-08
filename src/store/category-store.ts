@@ -1,6 +1,7 @@
 import { create } from 'zustand';
+import { ENDPOINTS } from "@/utils/api-endpoints";
 
-type Category = {
+export type Category = {
   id: string;
   name: string;
   imageUrl?: string;
@@ -9,7 +10,7 @@ type Category = {
   buttonColor?: string;
 };
 
-type SubCategory = {
+export type SubCategory = {
   id: string;
   category: string;
   name: string;
@@ -20,15 +21,12 @@ type SubCategory = {
 };
 
 type CategoryStore = {
-  // API data
   categories: Category[];
   subCategories: SubCategory[];
   isLoading: boolean;
   isSubmitting: boolean;
   status: 'idle' | 'loading' | 'success' | 'error';
   error: string | null;
-
-  // API methods
   fetchCategories: () => Promise<void>;
   addCategory: (data: Partial<Category>) => Promise<void>;
   updateCategoryById: (id: string, data: Partial<Category>) => Promise<void>;
@@ -38,23 +36,15 @@ type CategoryStore = {
   updateSubCategoryById: (id: string, data: Partial<SubCategory>) => Promise<void>;
   deleteSubCategoryById: (id: string) => Promise<void>;
   resetStatus: () => void;
-
-  // Form state
   formImageUrl: string | null;
   formSubCategoryImageUrl: string | null;
-
-  // Form handlers
   setFormImageUrl: (imageUrl: string | null) => void;
   setFormSubCategoryImageUrl: (imageUrl: string | null) => void;
   resetForm: () => void;
   resetSubCategoryForm: () => void;
 };
 
-const API_BASE = `${process.env.NEXT_PUBLIC_API_BASE_URL}/category/1.0`;
-const SUBCATEGORY_API_BASE = `${process.env.NEXT_PUBLIC_API_BASE_URL}/subCategory/1.0`;
-
 export const useCategoryStore = create<CategoryStore>((set, get) => ({
-  // Initial state
   categories: [],
   subCategories: [],
   isLoading: false,
@@ -64,14 +54,12 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
   formImageUrl: null,
   formSubCategoryImageUrl: null,
 
-  // Status management
   resetStatus: () => set({ status: 'idle', error: null }),
 
-  // Category API methods
   fetchCategories: async () => {
     set({ isLoading: true });
     try {
-      const res = await fetch(`${API_BASE}/category`);
+      const res = await fetch(ENDPOINTS.getCategories);
       const data = await res.json();
       set({ categories: data });
     } catch (err) {
@@ -84,7 +72,7 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
   addCategory: async (data) => {
     set({ isSubmitting: true, status: 'loading' });
     try {
-      const res = await fetch(`${API_BASE}/category`, {
+      const res = await fetch(ENDPOINTS.addCategory, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -110,7 +98,7 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
   updateCategoryById: async (id, data) => {
     set({ isSubmitting: true, status: 'loading' });
     try {
-      const res = await fetch(`${API_BASE}/category/${id}`, {
+      const res = await fetch(ENDPOINTS.updateCategory(id), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -135,7 +123,7 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
 
   deleteCategoryById: async (id) => {
     try {
-      const res = await fetch(`${API_BASE}/category/${id}`, {
+      const res = await fetch(ENDPOINTS.deleteCategory(id), {
         method: 'DELETE',
       });
       if (!res.ok) throw new Error('Failed to delete');
@@ -145,11 +133,10 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
     }
   },
 
-  // SubCategory API methods
   fetchSubCategories: async () => {
     set({ isLoading: true });
     try {
-      const res = await fetch(`${SUBCATEGORY_API_BASE}/subCategory`);
+      const res = await fetch(ENDPOINTS.getSubCategories);
       const data = await res.json();
       set({ subCategories: data });
     } catch (err) {
@@ -162,7 +149,7 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
   addSubCategory: async (data) => {
     set({ isSubmitting: true, status: 'loading' });
     try {
-      const res = await fetch(`${SUBCATEGORY_API_BASE}/subCategory`, {
+      const res = await fetch(ENDPOINTS.addSubCategory, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -188,7 +175,7 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
   updateSubCategoryById: async (id, data) => {
     set({ isSubmitting: true, status: 'loading' });
     try {
-      const res = await fetch(`${SUBCATEGORY_API_BASE}/subCategory/${id}`, {
+      const res = await fetch(ENDPOINTS.updateSubCategory(id), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -213,7 +200,7 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
 
   deleteSubCategoryById: async (id) => {
     try {
-      const res = await fetch(`${SUBCATEGORY_API_BASE}/subCategory/${id}`, {
+      const res = await fetch(ENDPOINTS.deleteSubCategory(id), {
         method: 'DELETE',
       });
       if (!res.ok) throw new Error('Failed to delete subcategory');
@@ -223,7 +210,6 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
     }
   },
 
-  // Form handlers
   setFormImageUrl: (imageUrl) => {
     set({ formImageUrl: imageUrl });
   },

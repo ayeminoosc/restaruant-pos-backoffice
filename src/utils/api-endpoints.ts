@@ -27,5 +27,25 @@ export const ENDPOINTS = {
   deleteMenuItem: (id: number | string) =>
     `${API_BASE_URL}/Menu+Api/1.0/Menu/${id}`,
 
+  /* ---------- Categories ----------- */
+  getCategories: `${API_BASE_URL}/category/1.0/category`,
+  getCategoryById: (id: number | string) =>
+    `${API_BASE_URL}/category/1.0/category/${id}`,
+  addCategory: `${API_BASE_URL}/category/1.0/category`,
+  updateCategory: (id: number | string) =>
+    `${API_BASE_URL}/category/1.0/category/${id}`,
+  deleteCategory: (id: number | string) =>
+    `${API_BASE_URL}/category/1.0/category/${id}`,
+
+  /* ---------- Sub-Categories ----------- */
+  getSubCategories: `${API_BASE_URL}/subCategory/1.0/subCategory`,
+  getSubCategoryById: (id: number | string) =>
+    `${API_BASE_URL}/subCategory/1.0/subCategory/${id}`,
+  addSubCategory: `${API_BASE_URL}/subCategory/1.0/subCategory`,
+  updateSubCategory: (id: number | string) =>
+    `${API_BASE_URL}/subCategory/1.0/subCategory/${id}`,
+  deleteSubCategory: (id: number | string) =>
+    `${API_BASE_URL}/subCategory/1.0/subCategory/${id}`
 
 };
+
