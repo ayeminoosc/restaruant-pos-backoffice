@@ -71,12 +71,12 @@ export default function InventoryTransactionsPage() {
       </CustomSidebarItemHeader>
     <div className="flex-1 p-6">
       
+      {/* text and buttons */}
       <div className="flex justify-between items-center mb-7">
         <div className="flex items-center gap-3">
         <h1 className="text-2xl font-semibold text-gray-900 font-inter">Inventory Transactions</h1>
         <p className="text-lg text-gray-500 font-inter">({filteredTransactions.length})</p>
         </div>
-
       {/* Action Buttons */}
       <div className="flex gap-4 mb-6">
         <CustomButton className="flex items-center gap-2 px-6 py-3 bg-orange-500 text-white hover:bg-orange-600">
@@ -91,7 +91,7 @@ export default function InventoryTransactionsPage() {
         </CustomButton>
       </div>
       </div>
-
+{/*  */}
 
       {/* Table */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
