@@ -17,17 +17,8 @@ import { ColorPicker } from "@/components/color-picker";
 import CustomDropDownBox from "@/components/custom-drop-down-box";
 import ImageBox from "@/components/custom-image-box";
 import CustomPageTitle from "@/components/custom-page-title";
+import { subCategorySchema } from "@/lib/validations/sub-category-schema";
 
-// SubCategory Form schema
-const subCategorySchema = z.object({
-    categoryName: z.string().min(1, "Category selection is required"),
-    subCategoryName: z.string()
-        .min(1, "SubCategory name is required")
-        .min(2, "SubCategory name must be at least 2 characters"),
-    bilingualName: z.string().optional(),
-    active: z.boolean().default(true),
-    buttonColor: z.string().default("#FF5722"),
-});
 type FormData = z.infer<typeof subCategorySchema>;
 
 function SubCategoryPageContent() {
@@ -124,12 +115,7 @@ function SubCategoryPageContent() {
             } else {
                 await addSubCategory(subcategoryData);
             }
-
-            toast.success(isEditMode ? "SubCategory updated!" : "SubCategory created!");
-            setTimeout(() => {
-                router.push("/dashboard/category");
-                resetStatus();
-            }, 1000);
+            router.push("/dashboard/category");
 
         } catch (error) {
             console.error('Error in onSubmit:', error);
@@ -155,11 +141,11 @@ function SubCategoryPageContent() {
     };
 
     return (
-        <div className="w-full h-screen">
+        <div className="w-full h-full flex flex-col">
             <CustomPageTitle title={isEditMode ? "Edit SubCategory" : "Add New SubCategory"} />
 
 
-            <div className="max-w-[1025px] overflow-visible mx-auto my-13 ">
+            <div className="flex-1 max-w-[1025px] w-full overflow-visible mx-auto my-13 ">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 

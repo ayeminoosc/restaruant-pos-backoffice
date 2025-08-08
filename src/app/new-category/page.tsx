@@ -14,22 +14,11 @@ import { LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 import CustomAdvanceSetting from "@/components/custom-advance-setting";
 import { ColorPicker } from "@/components/color-picker";
-import TitleBar from "@/components/category/title-bar";
 import ImageBox from "@/components/custom-image-box";
 import CustomPageTitle from "@/components/custom-page-title";
-
-// Form schema
-const categorySchema = z.object({
-    categoryName: z.string()
-        .min(1, "Category name is required")
-        .min(2, "Category name must be at least 2 characters"),
-    bilingualName: z.string().optional(),
-    active: z.boolean().default(true),
-    buttonColor: z.string().default("#FF5722"), // Add this
-});
+import { categorySchema } from "@/lib/validations/category-schema";
 
 type FormData = z.infer<typeof categorySchema>;
-
 function CategoryPageContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -113,12 +102,13 @@ function CategoryPageContent() {
                     buttonColor: data.buttonColor,
                 });
             }
-
-            toast.success(isEditMode ? "Category updated!" : "Category created!");
-            setTimeout(() => {
                 router.push("/dashboard/category");
-                resetStatus();
-            }, 1000);
+
+            // toast.success(isEditMode ? "Category updated!" : "Category created!");
+            // setTimeout(() => {
+            //     router.push("/dashboard/category");
+            //     resetStatus();
+            // }, 1000);
 
         } catch (error) {
             toast.error("Something went wrong. Please try again.");
@@ -149,11 +139,10 @@ function CategoryPageContent() {
     };
 
     return (
-        <div className="w-full h-screen">
+        <div className="w-full h-full flex flex-col">
                 <CustomPageTitle title={isEditMode ? "Edit Category" : "Add New Category"} />
            
-
-            <div className="max-w-[1025px] overflow-visible mx-auto my-13">
+            <div className="flex-1 max-w-[1025px] w-full overflow-visible mx-auto my-13 ">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
