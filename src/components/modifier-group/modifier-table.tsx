@@ -23,8 +23,20 @@ const ModifierTable = () => {
   const getModifierGroupsData = useModifierGroupStore(
     (s) => s.getModifierGroupsData
   );
-
+  const searchTerm = useModifierGroupStore((s) => s.searchTerm);
   const router = useRouter();
+
+  // filter logic
+  const lowerSearch = searchTerm.toLowerCase();
+  const filteredGroups = modifierGroups.filter((mg) => {
+    const statusText = mg.status ? "active" : "inactive";
+    return (
+      mg.groupName.toLowerCase().includes(lowerSearch) ||
+      mg.selectionType.toLowerCase().includes(lowerSearch) ||
+      (mg.required === "yes" ? "required" : "optional").includes(lowerSearch) ||
+      statusText.startsWith(lowerSearch)
+    );
+  });
 
   useEffect(() => {
     getModifierGroupsData();
@@ -46,7 +58,7 @@ const ModifierTable = () => {
     );
   if (error) return <div className="p-4 text-red-600">{error}</div>;
 
-  const data = modifierGroups.map((mg) => ({
+  const data = filteredGroups.map((mg) => ({
     id: mg.id,
     name: mg.groupName,
     type: mg.selectionType[0].toUpperCase() + mg.selectionType.slice(1),
