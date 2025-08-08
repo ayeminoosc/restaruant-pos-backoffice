@@ -19,6 +19,7 @@ import { LoaderCircle, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { z } from "zod";
 import { ColorPicker } from "../color-picker";
@@ -31,6 +32,7 @@ import { Input } from "../ui/input";
 type FormData = z.infer<typeof modifierGroupSchema>;
 
 export function UpdateModifierGroupForm({ dataId }: { dataId: string }) {
+  const { t } = useTranslation();
   const [inputBoxOpen, setInputBoxOpen] = useState(false);
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
   const updateModifierGroup = useModifierGroupStore(
@@ -84,7 +86,7 @@ export function UpdateModifierGroupForm({ dataId }: { dataId: string }) {
 
   useEffect(() => {
     if (status === "success") {
-      toast.success("Modifier group updated!");
+      toast.success(t("modifier_group.messages.success_update"));
       router.push("/dashboard/modifier-groups");
       resetStatus();
     } else if (status === "error") {
@@ -98,7 +100,7 @@ export function UpdateModifierGroupForm({ dataId }: { dataId: string }) {
       <div className="flex justify-center pt-40 ">
         <div className="flex items-center space-x-2">
           <div className="size-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-          <span>Loading data...</span>
+          <span>{t("messages.loading")}</span>
         </div>
       </div>
     );
@@ -111,8 +113,8 @@ export function UpdateModifierGroupForm({ dataId }: { dataId: string }) {
           <CustomInput
             control={form.control}
             name="groupName"
-            label="Create modifier group name"
-            placeholder="Enter group name"
+            label={t("modifier_group.labels.update_group_name")}
+            placeholder={t("modifier_group.placeholders.enter_name")}
             optional={false}
           />
 
@@ -120,8 +122,8 @@ export function UpdateModifierGroupForm({ dataId }: { dataId: string }) {
           <CustomInput
             control={form.control}
             name="bilingualName"
-            label="Bilingual name"
-            placeholder="Enter translated name (e.g., 'Hta-min-kyaw')"
+            label={t("modifier_group.labels.bilingual_name")}
+            placeholder={t("modifier_group.placeholders.enter_bliingual_name")}
             optional
           />
 
@@ -132,11 +134,12 @@ export function UpdateModifierGroupForm({ dataId }: { dataId: string }) {
             render={() => (
               <FormItem className="gap-0">
                 <FormLabel className="text-xl font-medium pb-0">
-                  Modifier Items <span className="text-red-500">*</span>
+                  {t("modifier_group.labels.modifier_item")}{" "}
+                  <span className="text-red-500">*</span>
                   <FormMessage className="text-base font-normal" />
                 </FormLabel>
                 <p className="text-base text-gray-500 ">
-                  Add new customize modifier items
+                  {t("modifier_group.labels.modifier_item_sub")}
                 </p>
 
                 {(inputBoxOpen || fields.length > 0) && (
@@ -156,7 +159,9 @@ export function UpdateModifierGroupForm({ dataId }: { dataId: string }) {
                                 </div>
                                 <Input
                                   {...field}
-                                  placeholder="Modifier Item Name"
+                                  placeholder={t(
+                                    "modifier_group.placeholders.enter_modifier_item"
+                                  )}
                                   className="placeholder:text-gray-300 h-14 md:text-lg placeholder:text-lg focus-visible:ring-0 focus:outline-none  border-ring"
                                 />
                               </FormItem>
@@ -176,8 +181,13 @@ export function UpdateModifierGroupForm({ dataId }: { dataId: string }) {
                                   <FormMessage className="text-base font-normal" />
                                 </div>
                                 <CustomCurrencyInput
+                                  currencySymbol={t(
+                                    "modifier_group.labels.currency_symbol"
+                                  )}
+                                  placeholder={t(
+                                    "modifier_group.placeholders.price"
+                                  )}
                                   {...field}
-                                  placeholder="00 Ks"
                                   type="number"
                                   step="0.01"
                                   min="0"
@@ -214,7 +224,7 @@ export function UpdateModifierGroupForm({ dataId }: { dataId: string }) {
                   className=" text-[15px] mt-2 font-normal border border-red-300  cursor-pointer w-fit"
                 >
                   <Plus className="size-6 mr-2" />
-                  Add Modifier
+                  {t("modifier_group.buttons.add_modifier")}
                 </Button>
               </FormItem>
             )}
@@ -227,12 +237,14 @@ export function UpdateModifierGroupForm({ dataId }: { dataId: string }) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xl font-medium">
-                  Price <span className="text-red-500">*</span>
+                  {t("modifier_group.labels.price")}{" "}
+                  <span className="text-red-500">*</span>
                   <FormMessage className="text-base font-normal" />
                 </FormLabel>
                 <FormControl>
                   <CustomCurrencyInput
-                    placeholder="00 Ks"
+                    currencySymbol={t("modifier_group.labels.currency_symbol")}
+                    placeholder={t("modifier_group.placeholders.price")}
                     type="number"
                     step="0.01"
                     min="0"
@@ -249,18 +261,18 @@ export function UpdateModifierGroupForm({ dataId }: { dataId: string }) {
             <CustomInput
               control={form.control}
               name="minSelection"
-              label="Min Selection"
+              label={t("modifier_group.labels.min_selection")}
+              placeholder={t("modifier_group.placeholders.min")}
               optional={false}
-              placeholder="0"
               type="number"
             />
 
             <CustomInput
               control={form.control}
               name="maxSelection"
-              label="Min Selection"
+              label={t("modifier_group.labels.max_selection")}
+              placeholder={t("modifier_group.placeholders.max")}
               optional={false}
-              placeholder="1"
               type="number"
             />
           </div>
@@ -272,7 +284,8 @@ export function UpdateModifierGroupForm({ dataId }: { dataId: string }) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xl font-medium">
-                  Selection Type <span className="text-red-500">*</span>
+                  {t("modifier_group.labels.selection")}{" "}
+                  <span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <RadioGroup
@@ -306,7 +319,8 @@ export function UpdateModifierGroupForm({ dataId }: { dataId: string }) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xl font-medium">
-                  Required <span className="text-red-500">*</span>
+                  {t("modifier_group.labels.required")}{" "}
+                  <span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <RadioGroup
@@ -339,7 +353,10 @@ export function UpdateModifierGroupForm({ dataId }: { dataId: string }) {
             isAdvancedOpen={isAdvancedOpen}
             setIsAdvancedOpen={setIsAdvancedOpen}
           >
-            <ColorPicker name="buttonColor" />
+            <ColorPicker
+              name="buttonColor"
+              label={t("labels.select_btn_color")}
+            />
           </CustomAdvanceSetting>
 
           {/* ACTIVE */}
@@ -355,7 +372,9 @@ export function UpdateModifierGroupForm({ dataId }: { dataId: string }) {
                   />
                 </FormControl>
                 <div className="space-y-1 leading-none">
-                  <FormLabel className="text-xl">Active</FormLabel>
+                  <FormLabel className="text-xl">
+                    {t("labels.active")}
+                  </FormLabel>
                 </div>
               </FormItem>
             )}
@@ -371,10 +390,10 @@ export function UpdateModifierGroupForm({ dataId }: { dataId: string }) {
               {isSubmitting ? (
                 <div className="flex gap-2 items-center">
                   <LoaderCircle className="animate-spin size-6" />
-                  <span>Updating...</span>
+                  <span> {t("statuses.update")}</span>
                 </div>
               ) : (
-                "Update"
+                <> {t("buttons.update")}</>
               )}
             </CustomButton>
             <CustomButton
@@ -383,7 +402,7 @@ export function UpdateModifierGroupForm({ dataId }: { dataId: string }) {
               className="flex-1 bg-secondary h-14 font-medium text-xl cursor-pointer hover:bg-[#bfbfbf] transition-colors duration-200"
               disabled={isSubmitting}
             >
-              Cancel
+              {t("buttons.cancel")}
             </CustomButton>
           </div>
         </form>

@@ -1,6 +1,6 @@
 import AppInitializer from "@/components/app-initializer";
 import { Toaster } from "@/components/ui/sonner";
-import { I18nProvider } from "@/i18n/providers/i18n-provider";
+import { I18nProvider } from "@/i18n/i18n-provider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";

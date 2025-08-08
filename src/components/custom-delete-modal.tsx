@@ -1,3 +1,5 @@
+"use client";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -8,9 +10,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useModifierGroupStore } from "@/store/modifier-group-store";
 import { LoaderCircle } from "lucide-react";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 type CustomDeleteModalProps = {
@@ -34,11 +36,11 @@ export function CustomDeleteModal({
   error,
   resetStatus,
 }: CustomDeleteModalProps) {
-  
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (status === "success") {
-      toast.success("Deleted successfully!");
+      toast.success(t("modifier_group.messages.success_delete"));
       setShowModal(false);
       resetStatus();
     } else if (status === "error" && error) {
@@ -51,14 +53,15 @@ export function CustomDeleteModal({
     <AlertDialog open={showModal} onOpenChange={setShowModal}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>{t("confirmations.delete")}</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            table row and its data.
+            {t("confirmations.delete_message")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isSubmitting}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel disabled={isSubmitting}>
+            {t("buttons.cancel")}
+          </AlertDialogCancel>
           <AlertDialogAction
             className="bg-red-500 cursor-pointer hover:bg-red-600"
             onClick={() => onDelete(id)}
@@ -67,10 +70,10 @@ export function CustomDeleteModal({
             {isSubmitting ? (
               <div className="flex gap-2 items-center ">
                 <LoaderCircle className="animate-spin size-6" />
-                <span>Processing...</span>
+                <span> {t("statuses.delete")}</span>
               </div>
             ) : (
-              "Continue"
+              <>{t("buttons.delete")}</>
             )}
           </AlertDialogAction>
         </AlertDialogFooter>

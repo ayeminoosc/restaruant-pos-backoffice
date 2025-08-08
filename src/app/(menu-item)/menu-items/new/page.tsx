@@ -26,6 +26,7 @@ export default function NewMenuItemPage() {
         mode="create" 
         defaultValues={{}} 
         onSubmit={handleSubmit} 
+        
       />
     </section>
   );

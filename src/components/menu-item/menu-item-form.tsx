@@ -397,7 +397,7 @@ export function MenuItemForm({ defaultValues, onSubmit, mode }: MenuItemFormProp
 
             {/* Button Color */}
             <div className="space-y-4">
-              <ColorPicker name="button-color"/>
+              <ColorPicker name="buttonColor" label="Button Color"/>
             </div>
 
             {/* Active Status */}

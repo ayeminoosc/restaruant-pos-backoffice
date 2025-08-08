@@ -8,10 +8,13 @@ import { useEffect, useState } from "react";
 import CustomSidebarItemHeader from "@/components/custom-sidebar-item-header";
 import CustomTableHeader from "@/components/custom-table-header";
 import CustomButton from "@/components/custom-button";
+import { CustomDeleteModal } from "@/components/custom-delete-modal";
 
 export default function CategoryPg() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string, name: string, isSub?: boolean } | null>(null);
 
   const {
     categories,
@@ -44,28 +47,36 @@ export default function CategoryPg() {
     sub.category.toLowerCase().includes(searchQuery.toLowerCase())
   ) || [];
 
-
-  const handleCategoryDelete = async (categoryId: string, categoryName: string) => {
-    if (confirm(`Are you sure you want to delete category "${categoryName}"?`)) {
-      await deleteCategoryById(categoryId);
-      await fetchCategories();
-    }
+  const handleCategoryDelete = (categoryId: string, categoryName: string) => {
+    setDeleteTarget({ id: categoryId, name: categoryName, isSub: false });
+    setShowDeleteModal(true);
   };
 
   const handleCategoryEdit = (categoryId: string) => {
     router.push(`/new-category?id=${categoryId}`);
   };
 
-  const handleSubCategoryDelete = async (subCategoryId: string) => {
+  const handleSubCategoryDelete = (subCategoryId: string) => {
     const subCategory = subCategories?.find(sub => sub.id === subCategoryId);
-    if (confirm(`Are you sure you want to delete subcategory "${subCategory?.name}"?`)) {
-      await deleteSubCategoryById(subCategoryId);
-      await fetchSubCategories();
-    }
+    setDeleteTarget({ id: subCategoryId, name: subCategory?.name ?? "", isSub: true });
+    setShowDeleteModal(true);
   };
 
   const handleSubCategoryEdit = (subCategoryId: string) => {
     router.push(`/new-sub-category?id=${subCategoryId}`);
+  };
+
+  const handleDeleteConfirmed = async () => {
+    if (!deleteTarget) return;
+    if (deleteTarget.isSub) {
+      await deleteSubCategoryById(deleteTarget.id);
+      await fetchSubCategories();
+    } else {
+      await deleteCategoryById(deleteTarget.id);
+      await fetchCategories();
+    }
+    setShowDeleteModal(false);
+    setDeleteTarget(null);
   };
 
   return (
@@ -108,7 +119,8 @@ export default function CategoryPg() {
                   bilingualName={category.bilingualName}
                   image={category.imageUrl}
                   isActive={category.active}
-                  subCategoryList={filteredSubCategories.filter(sub => sub.category === category.name) || []} handleDelete={() => handleCategoryDelete(category.id, category.name)}
+                  subCategoryList={filteredSubCategories.filter(sub => sub.category === category.name) || []}
+                  handleDelete={() => handleCategoryDelete(category.id, category.name)}
                   handleEdit={() => handleCategoryEdit(category.id)}
                   handleDeleteForSub={handleSubCategoryDelete}
                   handleEditForSub={handleSubCategoryEdit}
@@ -118,6 +130,20 @@ export default function CategoryPg() {
           </div>
         </div>
       </div>
+      {/* Custom delete modal */}
+      {showDeleteModal && (
+        <CustomDeleteModal
+          id={deleteTarget?.id}
+          showModal={showDeleteModal}
+          setShowModal={setShowDeleteModal}
+          onDelete={handleDeleteConfirmed}
+          isSubmitting={false}
+          status="idle"
+          error={null}
+          resetStatus={() => {}}
+          title={`Are you sure you want to delete ${deleteTarget?.isSub ? "subcategory" : "category"} "${deleteTarget?.name}"?`}
+        />
+      )}
     </div>
   );
 }
