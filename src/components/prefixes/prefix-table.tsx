@@ -37,7 +37,7 @@ const PrefixTable = () => {
     {
       key: "prefixName",
       label: "Prefix Name",
-      render: (val) => <div className=" text-xl max-w-[15.063rem]">{val}</div>,
+      render: (val) => <div className=" text-xl w-1/3">{val}</div>,
     },
     {
       key: "description",

@@ -15,7 +15,6 @@ const Prefix = () => {
   }, [])
 
   return (
-    <div>
       <section>
         <CustomSidebarItemHeader>
           Prefix Management
@@ -24,7 +23,7 @@ const Prefix = () => {
           <CustomTableHeader title={`Prefixes (${prefixes.length})`}>
             <CustomButton
               href="/prefixes/new"
-              className="h-full font-medium text-xl"
+              className="h-full font-medium text-xl bg-primary"
             >
               <Plus className="size-6" /> Add Prefix
             </CustomButton>
@@ -34,8 +33,6 @@ const Prefix = () => {
           </div>
         </div>
       </section>
-
-    </div>
   );
 };
 

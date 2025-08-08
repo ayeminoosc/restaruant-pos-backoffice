@@ -1,5 +1,9 @@
+import InventoryDashboard from "@/components/inventory/inventoryDashboard";
+
 const InventoryItemsPage = () => {
-  return <div>InventoryItemsPage</div>;
+  return (<div>
+    <InventoryDashboard />
+  </div>);
 };
 
 export default InventoryItemsPage;
