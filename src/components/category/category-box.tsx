@@ -4,15 +4,16 @@ import { useState } from "react";
 import { ChevronRight, PencilLine } from "lucide-react";
 import SubCategoryBoxOfCPg from "./sub-category-box";
 import { PencilSimpleLine, Trash } from "phosphor-react";
-import type { CategoryType } from "@/store/app-data";
-interface CategoryBoxOfCPgProps extends CategoryType {
+import type { SubCategory, Category } from "@/store/category-store";
+interface CategoryBoxOfCPgProps extends Category {
+    subCategoryList: SubCategory[];
     handleEdit: () => void;
     handleDelete: () => void;
     handleDeleteForSub?: (id: string) => void;
     handleEditForSub?: (id: string) => void;
 }
 
-export default function CategoryBoxOfCPg({ id, name, bilingualName, image, isActive, subCategoryList, handleEdit, handleDelete, handleEditForSub, handleDeleteForSub }: CategoryBoxOfCPgProps) {
+export default function CategoryBoxOfCPg({ id, name, bilingualName, imageUrl, active, subCategoryList, handleEdit, handleDelete, handleEditForSub, handleDeleteForSub }: CategoryBoxOfCPgProps) {
     const [showSubs, setShowSubs] = useState(false);
     const handleToggle = () => setShowSubs(!showSubs);
     return (
@@ -24,7 +25,7 @@ export default function CategoryBoxOfCPg({ id, name, bilingualName, image, isAct
                         />
                     </button>
                     <img
-                        src={image}
+                        src={imageUrl}
                         alt="Menu 12"
                         className="w-[3.125rem] h-[3.125rem] rounded-[0.625rem] object-cover"
                     />
@@ -50,14 +51,14 @@ export default function CategoryBoxOfCPg({ id, name, bilingualName, image, isAct
             {showSubs && (
                 <div >
                     {subCategoryList.map((subCategory) => (
-                        
+
                         <SubCategoryBoxOfCPg
                             key={subCategory.id}
                             id={subCategory.id}
                             name={subCategory.name}
                             bilingualName={subCategory.bilingualName}
-                            image={subCategory.imageUrl}
-                            isActive={subCategory.active}
+                            imageUrl={subCategory.imageUrl}
+                            active={subCategory.active}
                             handleDelete={() => handleDeleteForSub?.(subCategory.id)} // Pass the ID here
                             handleEdit={() => handleEditForSub?.(subCategory.id)}
                         />

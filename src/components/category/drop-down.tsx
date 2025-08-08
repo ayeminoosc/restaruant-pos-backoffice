@@ -18,12 +18,21 @@ export default function DropdownBox({ label, placeHolder, categoryNameList, valu
                 className="text-xl font-medium flex items-center gap-1"
             >
                 {label}
-                {optional ? (
-                    <span className="text-gray-400 ml-1">(Optional)</span>
-                ) : (
-                    <span className="text-red-500">*</span>
+                {!optional && (
+                    <>
+                        <span className="text-red-500 ml-1">*</span>
+                        {/* Add a space between * and error */}
+                        {error && (
+                            <span className="ml-1 text-red-500 text-base font-normal">
+                                {error}
+                            </span>
+                        )}
+                    </>
                 )}
+                {optional && <span className="text-gray-400 ml-1">(Optional)</span>}
             </label>
+
+
 
             <Select value={value} onValueChange={onChange}>
                 <SelectTrigger
@@ -48,11 +57,7 @@ export default function DropdownBox({ label, placeHolder, categoryNameList, valu
                 </SelectContent>
             </Select>
 
-            {error && (
-                <p className="text-red-500 text-base font-normal">
-                    {error}
-                </p>
-            )}
+
         </div>
     )
 }

@@ -53,7 +53,7 @@ export default function CategoryPg() {
   };
 
   const handleCategoryEdit = (categoryId: string) => {
-    router.push(`/new-category?id=${categoryId}`);
+    router.push(`/categories/${categoryId}`);
   };
 
   const handleSubCategoryDelete = (subCategoryId: string) => {
@@ -63,7 +63,7 @@ export default function CategoryPg() {
   };
 
   const handleSubCategoryEdit = (subCategoryId: string) => {
-    router.push(`/new-sub-category?id=${subCategoryId}`);
+    router.push(`/sub-categories/${subCategoryId}`);
   };
 
   const handleDeleteConfirmed = async () => {
@@ -93,14 +93,14 @@ export default function CategoryPg() {
         <CustomTableHeader title={`Menu-category (${filteredCategories.length})`}>
           <div className="buttons flex gap-[0.625rem]">
             <CustomButton
-              href="/new-category"
+            href="/categories/new"
               className="h-full font-medium text-xl"
             >
               <Plus className="size-6" />
               Add Category
             </CustomButton>
             <CustomButton
-              href="/new-sub-category"
+            href="/sub-categories/new"
               className="h-full font-medium text-xl"
             >
               <Plus className="size-6" />
@@ -117,8 +117,8 @@ export default function CategoryPg() {
                   id={category.id}
                   name={category.name}
                   bilingualName={category.bilingualName}
-                  image={category.imageUrl}
-                  isActive={category.active}
+                  imageUrl={category.imageUrl}
+                  active={category.active}
                   subCategoryList={filteredSubCategories.filter(sub => sub.category === category.name) || []}
                   handleDelete={() => handleCategoryDelete(category.id, category.name)}
                   handleEdit={() => handleCategoryEdit(category.id)}

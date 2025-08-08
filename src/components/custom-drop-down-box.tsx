@@ -13,7 +13,7 @@ interface CustomDropDownBoxProps<T extends FieldValues> {
     name: FieldPath<T>;
     label?: string;
     placeholder?: string;
-    options: DropdownOption[];  // ← More generic name
+    options: DropdownOption[];
     editId?: string | null;
     optional?: boolean;
 }
@@ -23,25 +23,25 @@ export default function CustomDropDownBox<T extends FieldValues>({
     name,
     label,
     placeholder,
-    options, 
+    options,
     editId,
-    optional ,
+    optional,
 }: CustomDropDownBoxProps<T>) {
     return (
         <FormField
             control={control}
             name={name}
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
                 <FormItem>
                     <DropdownBox
                         key={`dropdown-${editId}-${field.value}`}
                         label={label}
                         placeHolder={placeholder}
                         optional={optional}
-                        categoryNameList={options.map(option => option.name)}  // ← More generic
+                        categoryNameList={options.map(option => option.name)}
                         value={field.value}
                         onChange={field.onChange}
-                        error={control._formState.errors[name]?.message as string}
+                        error={fieldState.error?.message}
                     />
                 </FormItem>
             )}
