@@ -1,0 +1,69 @@
+{
+  "buttons": {
+    "save": "သိမ်းမယ်",
+    "update": "အသစ်ပြင်မယ်",
+    "cancel": "မလုပ်တော့ဘူး",
+    "delete": "ဖျက်မယ်"
+  },
+  "statuses": {
+    "save": "သိမ်းနေသည်...",
+    "update": "ပြင်ဆင်နေသည်...",
+    "delete": "ဖျက်နေသည်...",
+    "cancel": "မလုပ်တော့ဘဲ ပယ်နေသည်..."
+  },
+  "placeholders": {
+    "search": "ရှာပါ"
+  },
+  "labels": {
+    "active": "အသုံးပြုနေသည်",
+    "advance_setting": "အဆင့်မြင့် ဆက်တင်",
+    "price": "ဈေးနှုန်း",
+    "bilingual_name": "ဘာသာစုံ နာမည်",
+    "select_btn_color": "Button အရောင် ရွေးပါ"
+  },
+  "confirmations": {
+    "delete": "ဤအရာကို ဖျက်ချင်တာ သေချာပါသလား?",
+    "delete_message": "ဤလုပ်ဆောင်မှုကို ပြန်ဖြေရှင်း၍မရပါ။ ၎င်းသည် သင့်ဇယား အတန်းနှင့် ၎င်း၏ဒေတာများကို အမြဲတမ်း ဖျက်ပစ်မည်ဖြစ်သည်။"
+  },
+  "messages": {
+    "error": "တစ်ခုခု မှားယွင်းနေသည်။",
+    "loading": "ဒေတာကို ဖတ်နေသည်..."
+  },
+  "modifier_group": {
+    "buttons": {
+      "add_group": "Modifier Group အသစ် ထည့်မယ်",
+      "add_modifier": "Modifier အသစ် ထည့်မယ်"
+    },
+    "labels": {
+      "create_group_name": "Modifier Group နာမည် ဖန်တီးမယ်",
+      "update_group_name": "Modifier Group နာမည် ပြင်မယ်",
+      "bilingual_name": "ဘာသာစုံ နာမည်",
+      "modifier_item": "Modifier အမျိုးအစားများ",
+      "modifier_item_sub": "Customize Modifier အမျိုးအစားအသစ် ထည့်ပါ",
+      "price": "ဈေးနှုန်း",
+      "currency_symbol": "ကျပ်",
+      "min_selection": "အနည်းဆုံး ရွေးချယ်မှု",
+      "max_selection": "အများဆုံး ရွေးချယ်မှု",
+      "selection": "ရွေးချယ်မှု အမျိုးအစား",
+      "required": "လိုအပ်သည်"
+    },
+    "placeholders": {
+      "enter_name": "Group နာမည် ထည့်ပါ",
+      "enter_bliingual_name": "ဘာသာပြန် နာမည် ထည့်ပါ (ဥပမာ - 'ထမင်းကြော်')",
+      "enter_modifier_item": "Modifier Item နာမည်",
+      "price": "၀၀ ကျပ်",
+      "min": "0",
+      "max": "1"
+    },
+    "titles": {
+      "group_management": "Modifier Group စီမံခန့်ခွဲမှု",
+      "add_new": "Modifier Group အသစ် ထည့်မယ်",
+      "update": "Modifier Group ပြင်မယ်"
+    },
+    "messages": {
+      "success_update": "Modifier Group ပြင်ပြီး!",
+      "success_create": "Modifier Group ဖန်တီးပြီး!",
+      "success_delete": "Modifier Group ဖျက်ပြီး!"
+    }
+  }
+}

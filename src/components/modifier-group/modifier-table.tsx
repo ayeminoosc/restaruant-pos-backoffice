@@ -4,20 +4,22 @@ import { Column, ReusableTable } from "@/components/custom-table";
 import { useModifierGroupStore } from "@/store/modifier-group-store";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { CustomDeleteModal } from "../custom-delete-modal";
 
 const ModifierTable = () => {
+  const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const modifierGroups = useModifierGroupStore((s) => s.modifierGroups);
   const isFetching = useModifierGroupStore((s) => s.isFetching);
   const error = useModifierGroupStore((s) => s.error);
-  const deleteModifierGroup = useModifierGroupStore((s) => s.deleteModifierGroup);
+  const deleteModifierGroup = useModifierGroupStore(
+    (s) => s.deleteModifierGroup
+  );
   const isSubmitting = useModifierGroupStore((s) => s.isSubmitting);
   const status = useModifierGroupStore((s) => s.status);
   const resetStatus = useModifierGroupStore((s) => s.resetStatus);
-
-
   const getModifierGroupsData = useModifierGroupStore(
     (s) => s.getModifierGroupsData
   );
@@ -38,7 +40,7 @@ const ModifierTable = () => {
       <div className="flex justify-center pt-40 ">
         <div className="flex items-center space-x-2">
           <div className="size-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-          <span>Loading data...</span>
+          <span>{t("messages.loading")}</span>
         </div>
       </div>
     );
@@ -125,7 +127,7 @@ const ModifierTable = () => {
             alt="edit svg"
             src={"/assets/edit.svg"}
             className="cursor-pointer"
-            onClick={() => router.push(`/modifier-groups/${row.id}`)}
+            onClick={() => router.push(`/modifier-groups/edit?id=${row.id}`)}
           />
 
           <img

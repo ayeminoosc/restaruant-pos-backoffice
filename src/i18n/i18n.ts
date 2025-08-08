@@ -1,19 +1,24 @@
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
+"use client";
 
-import en from "./locales/en.json";
-import mm from "./locales/mm.json"; 
+import i18n from "i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+import { initReactI18next } from "react-i18next";
+
+import en from "./locales/i18n-en.json";
+import mm from "./locales/i18n-mm.json";
 
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: "en",
-    debug: true,
     resources: {
       en: { translation: en },
       mm: { translation: mm },
+    },
+    fallbackLng: "en",
+    detection: {
+      order: ["localStorage", "navigator"],
+      caches: ["localStorage"],
     },
     interpolation: {
       escapeValue: false,

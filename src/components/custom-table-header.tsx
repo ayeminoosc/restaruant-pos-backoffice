@@ -9,7 +9,7 @@ const CustomTableHeader = ({
 }) => {
   return (
     <div className="flex justify-between items-end h-14 mb-6">
-      <div className="font-semibold text-2xl "></div>
+      <div className="font-semibold text-2xl ">{title}</div>
       {children}
     </div>
   );

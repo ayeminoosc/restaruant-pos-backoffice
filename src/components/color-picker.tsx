@@ -1,17 +1,14 @@
 import { Label } from "@/components/ui/label";
 import { useGlobalStore } from "@/store/global-store";
+import { Colortype } from "@/types/global";
 import { Controller, useFormContext } from "react-hook-form";
-import { Colortype } from "../../types/global";
 
 type ColorPickerProps = {
   name: string;
-  label?: string;
+  label: string;
 };
 
-export const ColorPicker = ({
-  name,
-  label = "Select Button Color",
-}: ColorPickerProps) => {
+export const ColorPicker = ({ name, label }: ColorPickerProps) => {
   const { control } = useFormContext();
   const data: Colortype[] = useGlobalStore((store) => store.advanceColors);
   const colors = data[0].colors;
