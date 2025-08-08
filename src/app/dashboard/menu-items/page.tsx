@@ -4,17 +4,18 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { Plus } from "lucide-react";
-
 import { useMenuStore } from "@/store/useMenuStore";
 import ModifierGroupHeader from "@/components/modifier-group/modifier-group-header";
 import MenuItemList from "@/components/ui/menu-item-list";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 
 export default function MenuItemManagementPage() {
   const menu = useMenuStore((state) => state.menu);
   const fetchMenu = useMenuStore((state) => state.fetchMenu);
   const loading = useMenuStore((state) => state.loading);
   const error = useMenuStore((state) => state.error);
+  const {t} = useTranslation();
 
   useEffect(() => {
     fetchMenu();
@@ -31,8 +32,8 @@ export default function MenuItemManagementPage() {
           </div>
 
           <Button asChild className="h-full">
-            <Link href="/new-modifier-group" className="font-medium text-xl">
-              <Plus className="size-6" /> Add Menu Item
+            <Link href="/menu-items/new" className="font-medium text-xl">
+              <Plus className="size-6" /> {t("add-menu-item")}
             </Link>
           </Button>
         </div>

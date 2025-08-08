@@ -2,5 +2,7 @@
   "welcome": "Welcome",
   "language": "Language",
   "change_to_myanmar": "Change to Myanmar",
-  "modifier": "Modifier Group Management"
+  "modifier": "Modifier Group Management",
+  "menu-item-management": "Menu Item Management",
+  "add-menu-item": "Add Menu Item"
 }

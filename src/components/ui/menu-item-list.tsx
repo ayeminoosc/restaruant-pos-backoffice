@@ -12,26 +12,48 @@ export default function MenuItemList() {
   //   item.name.toLowerCase().includes(searchTerm.toLowerCase())
   // );
 
-  // if (filteredMenu.length === 0) {
-  //   return <div className="text-gray-500">No menu items found.</div>;
-  // }
 
   const filteredMenu = Array.isArray(menu)
-  ? menu.filter((item) =>
+    ? menu.filter((item) =>
       item.name?.toLowerCase().includes(searchTerm?.toLowerCase())
     )
-  : [];
+    : [];
 
-if (filteredMenu.length === 0) {
-  return <div className="text-gray-500">No menu items found.</div>;
-}
+  if (filteredMenu.length === 0) {
+    return <div className="text-gray-500">No menu items found.</div>;
+  }
 
 
-  return (
-    <div className="grid gap-4">
-      {filteredMenu.map((item) => (
+  // return (
+  //   <div className="grid gap-4">
+  //     {filteredMenu.map((item) => (
+  //       <MenuItemCard
+  //         key={item.id}
+  //         id={item.id}
+  //         title={item.name}
+  //         image={item.imageUrl}
+  //         imageTitle={item.text}
+  //         status={item.status}
+  //         category={item.category}
+  //         subCategory={item.subCategory}
+  //         price={item.price}
+  //         currency={item.currency}
+  //         onDelete={() => deleteMenuItem(item.id)}
+  //       />
+  //     ))}
+  //   </div>
+  // );
+
+
+return (
+  <div className="grid gap-4">
+    {filteredMenu.map((item) => {
+      
+      console.log("Menu item id:", item.id);
+      return (
         <MenuItemCard
           key={item.id}
+          id={item.id}
           title={item.name}
           image={item.imageUrl}
           imageTitle={item.text}
@@ -42,7 +64,9 @@ if (filteredMenu.length === 0) {
           currency={item.currency}
           onDelete={() => deleteMenuItem(item.id)}
         />
-      ))}
-    </div>
-  );
+      );
+    })}
+  </div>
+);
+
 }
