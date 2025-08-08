@@ -10,7 +10,9 @@ interface ItemProps {
 export const StockCard = ({ name, status, level, remaining }: ItemProps) => {
   return (
  
-    <div className='max-w-[1025px] flex flex-col bg-[#FFFBF5] h-[132px] border-b-2'>
+    <div className={`max-w-[1025px] flex flex-col h-[132px] border-b-2 last:border-b-0 ${status === "Warning"
+                ? "bg-[#FFFBF5]"
+                : "bg-[#FFEEEE]" }`}>
     <div className=" pl-4  flex items-start my-auto">
       {/* Icon */}
       <div className="mr-2 mt-1">
@@ -25,7 +27,7 @@ export const StockCard = ({ name, status, level, remaining }: ItemProps) => {
         <div className="flex items-center gap-3 mb-2">
           <p className="font-semibold text-[20px]">{name}</p>
           <div
-            className={`text-center px-2.5 rounded-[10px] text-[16px] ${
+            className={`text-center px-2.5 rounded-[10px] text-[16px] font-medium ${
               status === "Warning"
                 ? "bg-[#FFDFBA] text-[#F54A00]"
                 : "bg-[#FFBABA] text-[#E7000B]"

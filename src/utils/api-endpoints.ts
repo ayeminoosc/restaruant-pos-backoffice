@@ -27,5 +27,10 @@ export const ENDPOINTS = {
   deleteMenuItem: (id: number | string) =>
     `${API_BASE_URL}/Menu+Api/1.0/Menu/${id}`,
 
-
+  
+ /* ---------- Inventory ----------- */
+  getInventoryItems: `${API_BASE_URL}/inventory-allItems/1.0/allItems`,
+  getInventorySummary: `${API_BASE_URL}/inventory-summary/1.0/inventory-summary`,
+  getAlertStocks: `${API_BASE_URL}/stock-alert/1.0/stock-alert`,
 };
+ 

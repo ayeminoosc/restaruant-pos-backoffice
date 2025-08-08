@@ -1,60 +1,65 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Column, ReusableTable } from "../custom-table";
+import { useInventoryStore } from "@/store/inventory-store";
 
 const InventoryManagementTable = () => {
-  const data = [
-    {
-      id: 1,
-      Code: "A123",
-      Name: "Chicken",
-      Category: "Meat and Poultry",
-      Stock: 3,
-      Unit: "lbs",
-      Reorder: 5,
-      Vendor: "Local Farm",
-      Status: "Active",
-    },
-    {
-      id: 2,
-      Code: "B456",
-      Name: "Flour",
-      Category: "Baking Supplies",
-      Stock: 10,
-      Unit: "lbs",
-      Reorder: 8,
-      Vendor: "Baker's Hub",
-      Status: "Inactive",
-    },
-    {
-      id: 3,
-      Code: "C789",
-      Name: "Lettuce",
-      Category: "Fresh Produce",
-      Stock: 6,
-      Unit: "heads",
-      Reorder: 4,
-      Vendor: "Green Valley Farms",
-      Status: "Active",
-    },
-  ];
+  const { items, fetchInventoryData} = useInventoryStore()
+   useEffect(() => {
+      fetchInventoryData()
+    }, [])
+  // const data = [
+  //   {
+  //     id: 1,
+  //     Code: "A123",
+  //     Name: "Chicken",
+  //     Category: "Meat and Poultry",
+  //     Stock: 3,
+  //     Unit: "lbs",
+  //     Reorder: 5,
+  //     Vendor: "Local Farm",
+  //     Status: "Low stock",
+  //   },
+  //   {
+  //     id: 2,
+  //     Code: "B456",
+  //     Name: "Flour",
+  //     Category: "Baking Supplies",
+  //     Stock: 10,
+  //     Unit: "lbs",
+  //     Reorder: 8,
+  //     Vendor: "Sysco",
+  //     Status: "Out of stock",
+  //   },
+  //   {
+  //     id: 3,
+  //     Code: "C789",
+  //     Name: "Lettuce",
+  //     Category: "Fresh Produce",
+  //     Stock: 6,
+  //     Unit: "heads",
+  //     Reorder: 4,
+  //     Vendor: "Farm Direct",
+  //     Status: "In stock",
+  //   },
+  // ];
 
-  type RowType = (typeof data)[0];
+  type RowType = (typeof items)[0];
 
   const columns: Column<RowType>[] = [
     {
       key: "Code",
       label: "Code",
-      // Optional: min-width so it doesn't shrink too much
-      // width removed for flexibility
-      render: (val) => <div className="whitespace-normal text-xl min-w-[80px]">{val}</div>,
+      width: '110px',
+      render: (val) => <div className="whitespace-normal text-xl max-w-[110px]">{val}</div>,
     },
     {
       key: "Name",
       label: "Name",
+       width: '130px',
       render: (val, row) => (
-        <div className="py-0.5 rounded-md min-w-[140px]">
-          <p className="text-base font-semibold">{val}</p>
+        <div className="py-0.5 rounded-md max-w-[130px]">
+          <p className="text-xl font-semibold">{val}</p>
           <p className="text-sm text-gray-500">{row.Category}</p>
         </div>
       ),
@@ -62,42 +67,50 @@ const InventoryManagementTable = () => {
     {
       key: "Stock",
       label: "Stock",
-      render: (val) => <div className="text-base min-w-[50px]">{val}</div>,
+       width: '103px',
+      render: (val) => <div className="text-xl max-w-[103px] items-center text-center">{val}</div>,
     },
     {
       key: "Unit",
       label: "Unit",
-      render: (val) => <div className="text-xl min-w-[40px]">{val}</div>,
+       width: '94px',
+      render: (val) => <div className="text-xl font-[400] max-w-[94px] text-center">{val}</div>,
     },
     {
       key: "Reorder",
       label: "Reorder",
-      render: (val) => <div className="text-xl min-w-[60px]">{val}</div>,
+      width: '148px',
+      render: (val) => <div className="text-xl max-w-[148px] text-center">{val}</div>,
     },
     {
       key: "Vendor",
       label: "Vendors",
-      render: (val) => <div className="text-base min-w-[120px]">{val}</div>,
+      render: (val) => <div className="text-xl max-w-[165px] text-center">{val}</div>,
     },
     {
-      key: "Status",
-      label: "Status",
-      render: (val) => (
-        <div
-          // className={
-          //   val === "Active"
-          //     ? "bg-[#a1ffa4] text-base text-[#1e9222] py-0.5 px-2 rounded-md w-fit"
-          //     : "bg-red-600 text-base text-white py-0.5 px-2 rounded-md w-fit"
-          // }
-        >
-          {/* {val} */}
-        </div>
-      ),
-    },
+  key: "Status",
+  label: "Status",
+  render: (val) => (
+    <div className="max-w-[160px] flex justify-center">
+      <p
+        className={
+          "text-[16px] px-2.5 py-0.5 w-fit rounded-status text-center " +
+          (val === "Low stock"
+            ? "bg-[#FFDFBA] text-[#F54A00]"
+            : val === "Out of stock"
+            ? "bg-[#FFBABA] text-[#E7000B]"
+            : "bg-[#A1FFA4] text-[#007904]")
+        }
+      >
+        {val}
+      </p>
+    </div>
+  ),
+},
+
     {
       key: "actions",
       label: "Action",
-      width: "136px", // fixed width for action buttons
       render: () => (
         <div className="flex items-center justify-between gap-[10px] min-w-[90px]">
           <img alt="edit" src={"/assets/edit.svg"} className="cursor-pointer" />
@@ -110,9 +123,8 @@ const InventoryManagementTable = () => {
 
   return (
     <div className="w-full overflow-x-auto">
-      {/* min-w-max allows table to be as wide as content, enabling horizontal scroll on small screens */}
       <div className="min-w-max">
-        <ReusableTable data={data} columns={columns} />
+        <ReusableTable data={items} columns={columns} headerCenter={true}/>
       </div>
     </div>
   );
