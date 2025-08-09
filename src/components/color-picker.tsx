@@ -15,7 +15,7 @@ export const ColorPicker = ({ name, label }: ColorPickerProps) => {
 
   return (
     <div className="space-y-2">
-      <Label className="text-[20px] font-medium block">{label}</Label>
+      <Label className="text-[20px] text-[#2A2A2A] font-medium block">{label}</Label>
       <Controller
         name={name}
         control={control}

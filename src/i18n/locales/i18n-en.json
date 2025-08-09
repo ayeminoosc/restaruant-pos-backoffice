@@ -19,7 +19,8 @@
     "advance_setting": "Advance Setting",
     "price": "Price",
     "bilingual_name": "Bilingual name",
-    "select_btn_color": "Select Button Color"
+    "select_btn_color": "Select Button Color",
+    "action": "Action"
   },
   "confirmations": {
     "delete": "Are you sure you want to delete this item?",
@@ -66,6 +67,91 @@
       "success_delete": "Modifier group deleted!"
     }
   },
+
+  "inventory_items": {
+    "titles": {
+      "new_inventory": "Add new inventory item"
+    },
+    "labels": {
+      "create_group_name": "Create inventory item name",
+      "update_group_name": "Update inventory item name",
+      "bilingual_name": "Bilingual name",
+      "description": "Description",
+      "code": "Bar Code",
+      "unit": "Unit",
+      "reorder_level": "Reorder Level",
+      "group": "Group"
+    },
+    "placeholders": {
+      "enter_name": "Enter item name",
+      "enter_bliingual_name": "Enter translated name (e.g., 'Hta-min-kyaw')",
+      "description": "Describe what the prefix means..",
+      "unit": "Select unit",
+      "code": "eg., IV00--",
+      "reorder_level": "0",
+      "group": "Select group"
+    }
+  },
+  "adjust_stock": {
+    "titles": {
+      "adjust_stock": "Adjust Stock"
+    },
+    "labels": {
+      "select_adjust_item": "Select to adjust item stock",
+      "add_stock": "Add to stock",
+      "add_stock_text": "Increase inventory levels",
+      "substract_stock": "Substract from stock",
+      "substract_stock_text": "Decrease inventory levels",
+      "adjustment": "Adjustment Qty",
+      "current_stock": "Current Stock",
+      "new_stock": "New Stock",
+      "reorder_level": "Reorder Level",
+      "reason": "Reason",
+      "note": "Note"
+    },
+    "placeholders": {
+      "note": "Type some notes.."
+    },
+    "category": {
+      "buttons": {
+        "add_category": "Add Category",
+        "add_sub_category": "Add Sub Category"
+      },
+      "labels": {
+        "create_category_name": "Create category name",
+        "update_category_name": "Update category name",
+        "create_sub_category_name": "Create sub category name",
+        "update_sub_category_name": "Update sub category name",
+        "bilingual_name": "Bilingual name",
+        "image_url": "Image URL",
+        "active": "Active"
+      },
+      "placeholders": {
+        "enter_name": "Enter category name",
+        "enter_bliingual_name": "Enter translated name (e.g., 'Hta-min-kyaw')",
+        "enter_image_url": "Enter image URL"
+      },
+      "titles": {
+        "category_management": "Category Management",
+        "add_new_category": "Add new category",
+        "update_category": "Update category",
+        "add_new_sub_category": "Add new sub category",
+        "update_sub_category": "Update sub category"
+      },
+      "messages": {
+        "success_update_category": "Category updated!",
+        "success_create_category": "Category created!",
+        "success_delete_category": "Category deleted!",
+        "success_update_sub_category": "Sub Category updated!",
+        "success_create_sub_category": "Sub Category created!",
+        "success_delete_sub_category": "Sub Category deleted!"
+      }
+    }
+  },
+  "sub-category": {
+    "buttons": {
+      "add_sub_category": "Add Sub Category"
+    },
   "category-list": {
     "titles": {
       "category": "Category",
@@ -102,6 +188,39 @@
       "enter_bilingual_name": "Enter Bilingual Name "
     },
     "titles": {
+      "sub_category_management": "Sub Category Management",
+      "add_new_sub_category": "Add new sub category",
+      "update_sub_category": "Update sub category"
+    },
+    "messages": {
+      "success_update_sub_category": "Sub Category updated!",
+      "success_create_sub_category": "Sub Category created!",
+      "success_delete_sub_category": "Sub Category deleted!"
+    }
+  },
+  "inventory": {
+    "labels": {
+      "total_items": "Total Items",
+      "vendors": "Vendors",
+      "warehouses": "Warehouses",
+      "stock_alert": "Stock Alerts",
+      "view_details": "View details",
+      "code": "Code",
+      "name": "Name",
+      "stock": "Stock",
+      "unit": "Unit",
+      "reorder": "Reorder",
+      "status": "Status"
+    },
+
+    "buttons": {
+      "view_all_items": "View all items",
+      "view_all_transaction": "View all Transaction",
+      "adjust_stock": "Adjust Stock",
+      "add_item": "Add Item"
+    },
+
+    "titles": {
       "add_new_sub_category": "Add New Sub Category"
     }
   },
@@ -115,6 +234,10 @@
     },
     "titles": {
       "item_in": "Item In",
+      "receipt_management": "Receipt Information",
+      "inventory_management": "Inventory Management",
+      "inventory_dashboard": "Inventory Dashboard",
+      "inventory_summary": "Inventory Summary",
       "receipt_info": "Receipt Information"
     },
     "placeholders": {
@@ -123,5 +246,41 @@
       "vendor": "Select a vendor",
       "description": "Enter additional notes..."
     }
+  },
+
+  "prefix": {
+    "buttons": {
+      "add_prefix": "Add Prefix"
+    },
+    "labels": {
+      "update_prefix": "Update Prefix",
+      "bilingual_name": "Bilingual name",
+      "create_prefix_name": "Create prefix name",
+      "optional": "Optional",
+      "prefix_description": "Description",
+      "required": "Required",
+      "prefix_name": "Prefix Name",
+      "description": "Description",
+      "action": "Action"
+    },
+    "placeholders": {
+      "enter_name": "Eg., No, Less, Extra",
+      "enter_bliingual_name": "Enter translated name (e.g., 'Hta-min-kyaw')",
+      "enter_description": "Describe what this prefix means.."
+    },
+    "titles": {
+      "prefix_management": "Prefix Management",
+      "add_new": "Add new prefix",
+      "update_prefix": "Update prefix",
+      "prefixes": "Prefixes"
+    },
+    "messages": {
+      "success_update": "Prefix updated!",
+      "success_create": "Prefix  created!",
+      "success_delete": "Prefix  deleted!"
+    }
+  }
+}
+
   }
 }

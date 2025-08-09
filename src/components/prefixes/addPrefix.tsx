@@ -19,6 +19,7 @@ import CustomAdvanceSetting from "../custom-advance-setting";
 import { ColorPicker } from "../color-picker";
 import CustomButton from "../custom-button";
 import { usePrefixStore } from "@/store/prefix-store";
+import { useTranslation } from "react-i18next";
 
 interface PrefixFormProps {
   defaultValues: Partial<PrefixFormInput>;
@@ -32,7 +33,7 @@ export function PrefixForm({ defaultValues, onSubmit, mode }: PrefixFormProps) {
     resolver: zodResolver(prefixFormSchema),
     defaultValues,
   });
-
+  const { t } = useTranslation();
   return (
     <div className="flex justify-center">
       <div className=" w-5/6 pb-2">
@@ -44,8 +45,8 @@ export function PrefixForm({ defaultValues, onSubmit, mode }: PrefixFormProps) {
             <CustomInput
               control={form.control}
               name="name"
-              label="Create prefix name"
-              placeholder="Eg., No, Less, Extra"
+              label={t("prefix.labels.create_prefix_name")}
+              placeholder={t("prefix.placeholders.enter_name")}
               optional={false}
             />
 
@@ -58,8 +59,8 @@ export function PrefixForm({ defaultValues, onSubmit, mode }: PrefixFormProps) {
                     <CustomInput
                       control={form.control}
                       name="bilingualName"
-                      label="Bilingual name"
-                      placeholder="Enter translated name (e.g., 'Hta-min-kyaw')"
+                      label={t("prefix.labels.bilingual_name")}
+                      placeholder={t("prefix.placeholders.enter_bliingual_name")}
                       optional
                     />
                   </FormControl>
@@ -71,10 +72,10 @@ export function PrefixForm({ defaultValues, onSubmit, mode }: PrefixFormProps) {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-medium text-[20px] text-[#2A2A2A]">Description <span className="text-gray-400 ml-1">(Optional)</span></FormLabel>
+                  <FormLabel className="font-medium text-[20px] text-[#2A2A2A]">{t("prefix.labels.prefix_description")} <span className="text-gray-400 ml-1">({t("prefix.labels.optional")})</span></FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Describe what this prefix means.."
+                      placeholder={t("prefix.placeholders.enter_description")}
                       className="w-full h-[192px] resize-none md:text-lg placeholder:text-lg placeholder:text-gray-300 focus-visible:ring-0 focus:outline-none aria-invalid:border-[#cdcdcd] border-ring"
                       {...field}
                     />
@@ -88,7 +89,7 @@ export function PrefixForm({ defaultValues, onSubmit, mode }: PrefixFormProps) {
               isAdvancedOpen={showAdvanced}
               setIsAdvancedOpen={setShowAdvanced}
             >
-              <ColorPicker name="buttonColor" />
+              <ColorPicker name="buttonColor" label={t("labels.select_btn_color")}/>
             </CustomAdvanceSetting>
 
             <FormField
@@ -103,7 +104,7 @@ export function PrefixForm({ defaultValues, onSubmit, mode }: PrefixFormProps) {
                       className="border-[#1D1B20] border-2"
                     />
                   </FormControl>
-                  <FormLabel className="font-medium text-[20px] text-black">Active</FormLabel>
+                  <FormLabel className="font-medium text-[20px] text-black">{t("labels.active")}</FormLabel>
                 </FormItem>
               )}
             />
@@ -117,10 +118,10 @@ export function PrefixForm({ defaultValues, onSubmit, mode }: PrefixFormProps) {
                 {isSubmitting ? (
                   <div className="flex gap-2 items-center">
                     <LoaderCircle className="animate-spin size-6" />
-                    <span>Saving...</span>
+                    <span>{t("statuses.save")}</span>
                   </div>
                 ) : (
-                  "Save"
+                  t("buttons.save")
                 )}
               </CustomButton>
               <CustomButton
@@ -129,7 +130,7 @@ export function PrefixForm({ defaultValues, onSubmit, mode }: PrefixFormProps) {
                 className="flex-1 bg-secondary h-14 font-medium text-xl cursor-pointer hover:bg-[#bfbfbf] transition-colors duration-200"
                 disabled={isSubmitting}
               >
-                Cancel
+                {t("buttons.cancel")}
               </CustomButton>
             </div>
           </form>
