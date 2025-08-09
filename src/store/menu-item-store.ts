@@ -11,8 +11,10 @@ import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
 const initialState: MenuItemStoreState = {
-  menuItems: [],
-  singleMenuItem: null,
+  menuitems: {
+    items: [],
+    singleItem: null
+  },
   categories: [],
   subcategories: [],
   isFetching: false,
@@ -34,7 +36,7 @@ export const useMenuItemStore = create<
           if (!res.ok) throw new Error("Failed to fetch menu items data");
           const data = await res.json();
           set((state) => {
-            state.menuItems = data;
+            state.menuitems.items = data;
           });
         } catch (err: any) {
           setError(set, err.message || "Something went wrong");
@@ -51,7 +53,7 @@ export const useMenuItemStore = create<
             throw new Error("Failed to fetch single menu item data");
           const data = await res.json();
           set((state) => {
-            state.singleMenuItem = data;
+            state.menuitems.singleItem = data;
           });
         } catch (err: any) {
           setError(set, err.message || "Something went wrong");
@@ -72,7 +74,7 @@ export const useMenuItemStore = create<
           if (!res.ok) throw new Error("Failed to create menu item");
           const data = await res.json();
           set((state) => {
-            state.menuItems.push(data);
+            state.menuitems.items.push(data);
             state.status = "success";
           });
         } catch (err: any) {
@@ -95,7 +97,7 @@ export const useMenuItemStore = create<
           if (!res.ok) throw new Error("Failed to update menu item");
           const data = await res.json();
           set((state) => {
-            state.menuItems = state.menuItems.map((item) =>
+            state.menuitems.items = state.menuitems.items.map((item) =>
               item.id === id ? data : item
             );
             state.status = "success";
@@ -115,7 +117,7 @@ export const useMenuItemStore = create<
           });
           if (!res.ok) throw new Error("Failed to delete menu item");
           set((state) => {
-            state.menuItems = state.menuItems.filter((item) => item.id !== id);
+            state.menuitems.items = state.menuitems.items.filter((item) => item.id !== id);
             state.status = "success";
           });
         } catch (err: any) {

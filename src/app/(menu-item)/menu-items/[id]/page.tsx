@@ -11,7 +11,9 @@ export default function EditMenuItemPage() {
   const router = useRouter();
   const params = useParams() as { id?: string | string[] };
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
-  const { menuItems, singleMenuItem, getMenuItemsData, getSingleMenuItemData, updateMenuItem, getCategoriesData } = useMenuItemStore();
+  const { menuitems, getMenuItemsData, getSingleMenuItemData, updateMenuItem, getCategoriesData } = useMenuItemStore();
+  const menuItems = menuitems.items;
+  const singleMenuItem = menuitems.singleItem;
   const [defaultValues, setDefaultValues] = useState<Partial<MenuItemFormInput> | null>(null);
 
   useEffect(() => {
@@ -29,10 +31,11 @@ export default function EditMenuItemPage() {
 
   useEffect(() => {
     if (singleMenuItem) {
-      const { name, bilingualName, price, categoryId, subcategoryId, photo, modifiers, advancedSettings, buttonColor, active } = singleMenuItem;
+      const { name, bilingualName, barCode, price, categoryId, subcategoryId, photo, modifiers, advancedSettings, buttonColor, active } = singleMenuItem;
       setDefaultValues({ 
         name, 
         bilingualName, 
+        barCode, 
         price, 
         categoryId, 
         subcategoryId, 
@@ -62,4 +65,4 @@ export default function EditMenuItemPage() {
       />
     </section>
   );
-} 
+}

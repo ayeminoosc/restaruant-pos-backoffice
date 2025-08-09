@@ -44,8 +44,10 @@ export interface SubcategoryType {
 }
 
 export type MenuItemStoreState = {
-  menuItems: MenuItemType[];
-  singleMenuItem: MenuItemType | null;
+  menuitems: {
+    items: MenuItemType[];
+    singleItem: MenuItemType | null;
+  };
   categories: CategoryType[];
   subcategories: SubcategoryType[];
   isFetching: boolean;
@@ -64,4 +66,4 @@ export type MenuItemStoreActions = {
   getSubcategoriesData: () => Promise<void>;
   getSubcategoriesByCategory: (categoryName: string) => Promise<void>;
   resetStatus: () => void;
-}; 
+};

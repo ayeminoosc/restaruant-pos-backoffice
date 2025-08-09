@@ -4,22 +4,22 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { Plus } from "lucide-react";
-import { useMenuStore } from "@/store/useMenuStore";
+import { useMenuItemStore } from "@/store/menu-item-store";
 import ModifierGroupHeader from "@/components/modifier-group/modifier-group-header";
 import MenuItemList from "@/components/ui/menu-item-list";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 
 export default function MenuItemManagementPage() {
-  const menu = useMenuStore((state) => state.menu);
-  const fetchMenu = useMenuStore((state) => state.fetchMenu);
-  const loading = useMenuStore((state) => state.loading);
-  const error = useMenuStore((state) => state.error);
+  const menuItems = useMenuItemStore((state) => state.menuitems.items);
+  const getMenuItemsData = useMenuItemStore((state) => state.getMenuItemsData);
+  const isFetching = useMenuItemStore((state) => state.isFetching);
+  const error = useMenuItemStore((state) => state.error);
   const {t} = useTranslation();
 
   useEffect(() => {
-    fetchMenu();
-  }, [fetchMenu]);
+    getMenuItemsData();
+  }, [getMenuItemsData]);
 
   return (
     <div className="w-full">
@@ -28,7 +28,7 @@ export default function MenuItemManagementPage() {
       <div className="ml-[1.25rem] mr-[2.5rem]">
         <div className="flex justify-between items-end h-14 mt-[2rem] mb-[2.5rem]">
           <div className="text-black font-inter text-[1rem] sm:text-[1.25rem] md:text-[1.5rem] font-semibold leading-normal">
-            Menu Item ({menu?.length || 0})
+            Menu Item ({menuItems?.length || 0})
           </div>
 
           <Button asChild className="h-full">
@@ -38,9 +38,9 @@ export default function MenuItemManagementPage() {
           </Button>
         </div>
 
-        {loading && <div className="p-4 text-gray-500">Loading menu...</div>}
+        {isFetching && <div className="p-4 text-gray-500">Loading menu...</div>}
         {error && <div className="p-4 text-red-500">Error: {error}</div>}
-        {!loading && !error && <MenuItemList />}
+        {!isFetching && !error && <MenuItemList />}
       </div>
     </div>
   );
