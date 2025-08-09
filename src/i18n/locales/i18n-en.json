@@ -66,78 +66,62 @@
       "success_delete": "Modifier group deleted!"
     }
   },
-
-  "category": {
+  "category-list": {
+    "titles": {
+      "category": "Category",
+      "menu_category": "Menu Category"
+    },
     "buttons": {
       "add_category": "Add Category",
       "add_sub_category": "Add Sub Category"
-    },
-    "labels": {
-      "create_category_name": "Create category name",
-      "update_category_name": "Update category name",
-      "create_sub_category_name": "Create sub category name",
-      "update_sub_category_name": "Update sub category name",
-      "bilingual_name": "Bilingual name",
-      "image_url": "Image URL",
-      "active": "Active"
-    },
-    "placeholders": {
-      "enter_name": "Enter category name",
-      "enter_bliingual_name": "Enter translated name (e.g., 'Hta-min-kyaw')",
-      "enter_image_url": "Enter image URL"
-    },
-    "titles": {
-      "category_management": "Category Management",
-      "add_new_category": "Add new category",
-      "update_category": "Update category",
-      "add_new_sub_category": "Add new sub category",
-      "update_sub_category": "Update sub category"
-    },
-    "messages": {
-      "success_update_category": "Category updated!",
-      "success_create_category": "Category created!",
-      "success_delete_category": "Category deleted!",
-      "success_update_sub_category": "Sub Category updated!",
-      "success_create_sub_category": "Sub Category created!",
-      "success_delete_sub_category": "Sub Category deleted!"
     }
   },
-  "sub-category": {
-    "buttons": {
-      "add_sub_category": "Add Sub Category"
-    },
+  "add-category": {
     "labels": {
-      "create_sub_category_name": "Create sub category name",
-      "update_sub_category_name": "Update sub category name",
-      "bilingual_name": "Bilingual name",
-      "image_url": "Image URL",
-      "active": "Active"
+      "category_name": "Category Name",
+      "bilingual_name": "Bilingual Name"
     },
     "placeholders": {
-      "enter_name": "Enter sub category name",
-      "enter_bliingual_name": "Enter translated name (e.g., 'Hta-min-kyaw')",
-      "enter_image_url": "Enter image URL"
+      "enter_name": "Enter Category Name",
+      "enter_bilingual_name": "Enter Bilingual Name "
     },
     "titles": {
-      "sub_category_management": "Sub Category Management",
-      "add_new_sub_category": "Add new sub category",
-      "update_sub_category": "Update sub category"
-    },
-    "messages": {
-      "success_update_sub_category": "Sub Category updated!",
-      "success_create_sub_category": "Sub Category created!",
-      "success_delete_sub_category": "Sub Category deleted!"
+      "add_new_category": "Add New Category",
+      "update_category": "Update Category"
     }
   },
-  "inventory":{
-    "labels":{
-
+  "add-sub-category": {
+    "labels": {
+      "choose-category": "Choose Category",
+      "sub_category_name": "Sub category name",
+      "bilingual_name": "Bilingual name"
     },
-    "titles":{
+    "placeholders": {
+      "select_category": "Select a Category",
+      "enter_name": "Enter Sub Category Name",
+      "enter_bilingual_name": "Enter Bilingual Name "
+    },
+    "titles": {
+      "add_new_sub_category": "Add New Sub Category"
+    }
+  },
+  "item-in": {
+    "labels": {
+      "date": "Date",
+      "voucherNo": "Voucher No",
+      "vendor": "Vendor",
+      "description": "Description",
+      "itemReceived": "Items Received"
+    },
+    "titles": {
       "item_in": "Item In",
-      "receipt_management": "Receipt Information"
+      "receipt_info": "Receipt Information"
+    },
+    "placeholders": {
+      "date": "June 01, 2025",
+      "voucherNo": "Enter Voucher No...",
+      "vendor": "Select a vendor",
+      "description": "Enter additional notes..."
     }
   }
-
-
 }

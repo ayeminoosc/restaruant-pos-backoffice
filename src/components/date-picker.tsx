@@ -27,24 +27,31 @@ function isValidDate(date: Date | undefined) {
 }
 
 export function DatePicker({
-    label = "Date",
-    placeholder = "June 01, 2025",
-    defaultValue,
+    label ,
+    placeholder,
+    value, // <-- use value instead of defaultValue
     onChange,
     optional = false,
     error,
 }: {
     label?: string
     placeholder?: string
-    defaultValue?: Date
+    value?: Date // <-- change here
     onChange?: (date: Date | undefined) => void
     optional?: boolean,
     error?: string,
 }) {
     const [open, setOpen] = React.useState(false)
-    const [date, setDate] = React.useState<Date | undefined>(defaultValue)
-    const [month, setMonth] = React.useState<Date | undefined>(date)
-    const [value, setValue] = React.useState(formatDate(date))
+    const [date, setDate] = React.useState<Date | undefined>(value)
+    const [month, setMonth] = React.useState<Date | undefined>(value)
+    const [inputValue, setInputValue] = React.useState(formatDate(value))
+
+    // Sync local state with value (from form)
+    React.useEffect(() => {
+        setDate(value)
+        setMonth(value)
+        setInputValue(formatDate(value))
+    }, [value])
 
     return (
         <div className="flex flex-col gap-3 w-full">
@@ -64,18 +71,17 @@ export function DatePicker({
             <div className="relative flex gap-2 w-full">
                 <Input
                     id="date"
-                    value={value}
+                    value={inputValue}
                     placeholder={placeholder}
                     className="h-14 md:text-lg placeholder:text-lg placeholder:text-gray-300 focus-visible:ring-0 focus:outline-none aria-invalid:border-[#cdcdcd] border-ring w-full"
                     onChange={(e) => {
                         const inputValue = e.target.value;
-                        setValue(inputValue);
+                        setInputValue(inputValue);
 
                         // If input is empty, pass undefined
                         if (!inputValue) {
                             setDate(undefined);
                             setMonth(undefined);
-                            console.log("DatePicker value:", undefined); // <-- log here
                             onChange?.(undefined);
                             return;
                         }
@@ -84,16 +90,13 @@ export function DatePicker({
                         if (isValidDate(inputDate)) {
                             setDate(inputDate);
                             setMonth(inputDate);
-                            console.log("DatePicker value:", inputDate); // <-- log here
                             onChange?.(inputDate);
                         } else {
                             setDate(undefined);
                             setMonth(undefined);
-                            console.log("DatePicker value:", undefined); // <-- log here
                             onChange?.(undefined);
                         }
                     }}
-                // ...rest of props
                 />
                 <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
@@ -121,7 +124,7 @@ export function DatePicker({
                             onMonthChange={setMonth}
                             onSelect={(selectedDate) => {
                                 setDate(selectedDate)
-                                setValue(formatDate(selectedDate))
+                                setInputValue(formatDate(selectedDate))
                                 setOpen(false)
                                 onChange?.(selectedDate)
                             }}

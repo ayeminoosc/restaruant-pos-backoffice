@@ -9,13 +9,14 @@ import CustomSidebarItemHeader from "@/components/custom-sidebar-item-header";
 import CustomTableHeader from "@/components/custom-table-header";
 import CustomButton from "@/components/custom-button";
 import { CustomDeleteModal } from "@/components/custom-delete-modal";
+import { useTranslation } from "react-i18next";
 
 export default function CategoryPg() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<{ id: string, name: string, isSub?: boolean } | null>(null);
-
+  const { t } = useTranslation();
   const {
     categories,
     fetchCategories,
@@ -86,25 +87,25 @@ export default function CategoryPg() {
         onSearchChange={setSearchQuery}
         searchPlaceholder="Search categories..."
       >
-        Category
+        {t("category-list.titles.category")}
       </CustomSidebarItemHeader>
 
       <div className="p-5 h-[calc(55.375rem-7.688rem)]">
-        <CustomTableHeader title={`Menu-category (${filteredCategories.length})`}>
+        <CustomTableHeader title={`${t("category-list.titles.menu_category")} (${filteredCategories.length})`}>
           <div className="buttons flex gap-[0.625rem]">
             <CustomButton
-            href="/categories/new"
+              href="/categories/new"
               className="h-full font-medium text-xl"
             >
               <Plus className="size-6" />
-              Add Category
+              {t("category-list.buttons.add_category")}
             </CustomButton>
             <CustomButton
-            href="/sub-categories/new"
-              className="h-full font-medium text-xl"
+              href="/sub-categories/new"
+              className="h-full font-medium text-xl bg-white border border-primary text-black"
             >
               <Plus className="size-6" />
-              Add Sub-Category
+              {t("category-list.buttons.add_sub_category")}
             </CustomButton>
           </div>
         </CustomTableHeader>
@@ -140,7 +141,7 @@ export default function CategoryPg() {
           isSubmitting={false}
           status="idle"
           error={null}
-          resetStatus={() => {}}
+          resetStatus={() => { }}
           title={`Are you sure you want to delete ${deleteTarget?.isSub ? "subcategory" : "category"} "${deleteTarget?.name}"?`}
         />
       )}

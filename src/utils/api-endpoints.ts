@@ -51,7 +51,6 @@ export const ENDPOINTS = {
   getInventoryItems: `${API_BASE_URL}/inventory-allItems/1.0/allItems`,
   getInventorySummary: `${API_BASE_URL}/inventory-summary/1.0/inventory-summary`,
   getAlertStocks: `${API_BASE_URL}/stock-alert/1.0/stock-alert`,
-    `${API_BASE_URL}/subCategory/1.0/subCategory/${id}`,
 
   /* ---------- Item-In----------- */
   getItemIn: `${API_BASE_URL}/item-in/1.0/item-in`,
