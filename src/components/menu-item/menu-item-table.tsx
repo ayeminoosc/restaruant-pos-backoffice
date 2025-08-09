@@ -10,7 +10,7 @@ import { Edit, Trash2 } from "lucide-react";
 const MenuItemTable = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const menuItems = useMenuItemStore((s) => s.menuItems);
+  const menuItems = useMenuItemStore((s) => s.menuitems.items);
   const isFetching = useMenuItemStore((s) => s.isFetching);
   const error = useMenuItemStore((s) => s.error);
   const deleteMenuItem = useMenuItemStore((s) => s.deleteMenuItem);
@@ -152,7 +152,7 @@ const MenuItemTable = () => {
       render: (val, row) => (
         <div className="flex items-center gap-2">
           <button
-            onClick={() => router.push(`/menu-items/${row.id}`)}
+            onClick={() => router.push(`/dashboard/menu-items/${row.id}`)}
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
             <Edit className="w-5 h-5 text-blue-600" />
@@ -184,4 +184,4 @@ const MenuItemTable = () => {
   );
 };
 
-export default MenuItemTable; 
+export default MenuItemTable;

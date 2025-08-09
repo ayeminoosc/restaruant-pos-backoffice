@@ -27,5 +27,40 @@ export const ENDPOINTS = {
   deleteMenuItem: (id: number | string) =>
     `${API_BASE_URL}/Menu+Api/1.0/Menu/${id}`,
 
+  /* ---------- Categories ----------- */
+  getCategories: `${API_BASE_URL}/category/1.0/category`,
+  getCategoryById: (id: number | string) =>
+    `${API_BASE_URL}/category/1.0/category/${id}`,
+  addCategory: `${API_BASE_URL}/category/1.0/category`,
+  updateCategory: (id: number | string) =>
+    `${API_BASE_URL}/category/1.0/category/${id}`,
+  deleteCategory: (id: number | string) =>
+    `${API_BASE_URL}/category/1.0/category/${id}`,
+
+  /* ---------- Sub-Categories ----------- */
+  getSubCategories: `${API_BASE_URL}/subCategory/1.0/subCategory`,
+  getSubCategoryById: (id: number | string) =>
+    `${API_BASE_URL}/subCategory/1.0/subCategory/${id}`,
+  addSubCategory: `${API_BASE_URL}/subCategory/1.0/subCategory`,
+  updateSubCategory: (id: number | string) =>
+    `${API_BASE_URL}/subCategory/1.0/subCategory/${id}`,
+  deleteSubCategory: (id: number | string) =>
+    `${API_BASE_URL}/subCategory/1.0/subCategory/${id}`,
+
+  /* ---------- get Inventory ----------- */
+  getInventoryItems: `${API_BASE_URL}/inventory-allItems/1.0/allItems`,
+  getInventorySummary: `${API_BASE_URL}/inventory-summary/1.0/inventory-summary`,
+  getAlertStocks: `${API_BASE_URL}/stock-alert/1.0/stock-alert`,
+
+  /* ---------- Item-In----------- */
+  getItemIn: `${API_BASE_URL}/item-in/1.0/item-in`,
+  getItemInById: (id: number | string) => `${API_BASE_URL}/item-in/1.0/item/${id}`,
+  addItemIn: `${API_BASE_URL}/item-in/1.0/item-in`,
+  updateItemIn: (id: number | string) =>
+    `${API_BASE_URL}/item-in/1.0/item-in/${id}`,
+  deleteItemIn: (id: number | string) =>
+    `${API_BASE_URL}/item-in/1.0/item-in/${id}`,
 
 };
+
+

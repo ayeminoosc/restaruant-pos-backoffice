@@ -18,11 +18,13 @@ export type Column<T> = {
 type Props<T> = {
   data: T[]; // actual data rows
   columns: Column<T>[]; // array of column definitions
+  headerCenter?: boolean;
 };
 
 export function ReusableTable<T extends { [key: string]: any }>({
   data,
   columns,
+  headerCenter=false,
 }: Props<T>) {
   return (
     <div className="overflow-x-auto rounded-xl max-h-[40rem] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
@@ -37,7 +39,8 @@ export function ReusableTable<T extends { [key: string]: any }>({
                   "px-4",
                   col.width && `w-[${col.width}]`,
                   idx === 0 && "text-left",
-                  idx === columns.length - 1 && "text-end w-[5.813rem]"
+                  idx === columns.length - 1 && "text-end w-[5.813rem]",
+                  headerCenter ? (idx !== 0 && "text-center") : ""
                 )}
               >
                 {col.label}

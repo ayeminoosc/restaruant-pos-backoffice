@@ -12,9 +12,11 @@ const ModifierGroupPage = () => {
   const { t } = useTranslation();
   const itemCount = useModifierGroupStore((s) => s.modifierGroups).length;
 
+  const setSearchTerm = useModifierGroupStore((s) => s.setSearchTerm);
+
   return (
     <section>
-      <CustomSidebarItemHeader>
+      <CustomSidebarItemHeader onSearchChange={setSearchTerm}>
         {t("modifier_group.titles.group_management")}
       </CustomSidebarItemHeader>
       <div className="p-5 h-[calc(55.375rem-7.688rem)]">

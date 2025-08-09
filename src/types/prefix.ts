@@ -22,11 +22,13 @@ export interface PrefixStore {
   isSubmitting: boolean;
   error: string | null;
   status: "idle" | "success" | "error";
+  searchQuery: string;
 
   fetchPrefixes: () => Promise<void>;
   deletePrefix: (id: number | string) => Promise<void>;
   addPrefix: (data: PrefixFormInput | Partial<Prefix>) => Promise<void>;
   editPrefix: (id: number | string, updatedPrefix: Prefix) => Promise<void>;
+  setSearchQuery: (term: string) => void;
   resetStatus: () => void;
 }
 

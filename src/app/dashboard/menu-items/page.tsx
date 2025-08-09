@@ -1,35 +1,47 @@
+
 "use client";
 
-import CustomButton from "@/components/custom-button";
-import CustomSidebarItemHeader from "@/components/custom-sidebar-item-header";
-import CustomTableHeader from "@/components/custom-table-header";
-import MenuItemTable from "@/components/menu-item/menu-item-table";
+import React, { useEffect } from "react";
+import Link from "next/link";
 import { Plus } from "lucide-react";
-import { useTranslation } from "react-i18next";
 import { useMenuItemStore } from "@/store/menu-item-store";
+import ModifierGroupHeader from "@/components/modifier-group/modifier-group-header";
+import MenuItemList from "@/components/ui/menu-item-list";
+import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 
-const MenuItemsPage = () => {
-  const { t } = useTranslation();
-  const menuItems = useMenuItemStore((s) => s.menuItems);
+export default function MenuItemManagementPage() {
+  const menuItems = useMenuItemStore((state) => state.menuitems.items);
+  const getMenuItemsData = useMenuItemStore((state) => state.getMenuItemsData);
+  const isFetching = useMenuItemStore((state) => state.isFetching);
+  const error = useMenuItemStore((state) => state.error);
+  const {t} = useTranslation();
+
+  useEffect(() => {
+    getMenuItemsData();
+  }, [getMenuItemsData]);
 
   return (
-    <section>
-      <CustomSidebarItemHeader>{t("menuItems")}</CustomSidebarItemHeader>
-      <div className="p-5 h-[calc(55.375rem-7.688rem)]">
-        <CustomTableHeader title={`Menu Items (${menuItems.length})`}>
-          <CustomButton
-            href="/menu-items/new"
-            className="h-full font-medium text-xl"
-          >
-            <Plus className="size-6" /> 
-          </CustomButton>
-        </CustomTableHeader>
-        <div className="h-[calc(47.69rem-5rem)] pb-4 space-y-8">
-          <MenuItemTable />
-        </div>
-      </div>
-    </section>
-  );
-};
+    <div className="w-full">
+      <ModifierGroupHeader />
 
-export default MenuItemsPage;
+      <div className="ml-[1.25rem] mr-[2.5rem]">
+        <div className="flex justify-between items-end h-14 mt-[2rem] mb-[2.5rem]">
+          <div className="text-black font-inter text-[1rem] sm:text-[1.25rem] md:text-[1.5rem] font-semibold leading-normal">
+            Menu Item ({menuItems?.length || 0})
+          </div>
+
+          <Button asChild className="h-full">
+            <Link href="/menu-items/new" className="font-medium text-xl">
+              <Plus className="size-6" /> {t("add-menu-item")}
+            </Link>
+          </Button>
+        </div>
+
+        {isFetching && <div className="p-4 text-gray-500">Loading menu...</div>}
+        {error && <div className="p-4 text-red-500">Error: {error}</div>}
+        {!isFetching && !error && <MenuItemList />}
+      </div>
+    </div>
+  );
+}

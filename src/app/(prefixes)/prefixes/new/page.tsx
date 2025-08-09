@@ -8,6 +8,7 @@ import { PrefixFormInput } from "@/lib/validations/prefix-schema";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function AddPrefixPage() {
   const router = useRouter();
@@ -21,6 +22,7 @@ export default function AddPrefixPage() {
     };
     await addPrefix(payload);
   };
+    const { t } = useTranslation();
 
     useEffect(() => {
     if (status === "success") {
@@ -35,7 +37,7 @@ export default function AddPrefixPage() {
 
   return (
     <section>
-      <CustomPageTitle title="Add new prefix" />
+      <CustomPageTitle title={t("prefix.titles.add_new")}/>
       <PrefixForm
         mode="create"
         defaultValues={{
