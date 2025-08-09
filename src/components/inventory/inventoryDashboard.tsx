@@ -51,21 +51,21 @@ const InventoryDashboard = () => {
         <div className="flex gap-4">
           <CustomButton
             href="#"
-            className="h-14 min-w-[12.75rem] font-medium text-xl rounded-[4px]"
+            className="h-14 min-w-[12.75rem] font-medium text-xl rounded-[4px] border-primary"
             variant="outline"
           >
             {t("inventory.buttons.view_all_items")}
           </CustomButton>
           <CustomButton
             href="#"
-            className="h-14 min-w-[12.75rem] font-medium text-xl rounded-[4px]"
+            className="h-14 min-w-[12.75rem] font-medium text-xl rounded-[4px] border-primary"
             variant="outline"
           >
             {t("inventory.buttons.view_all_transaction")}
           </CustomButton>
           <CustomButton
             href="/inventory/adjust-stock"
-            className="h-14 min-w-[12.75rem] font-medium text-xl rounded-[4px]"
+            className="h-14 min-w-[12.75rem] font-medium text-xl rounded-[4px] border-primary"
             variant="outline"
           >
             {t("inventory.buttons.adjust_stock")}
