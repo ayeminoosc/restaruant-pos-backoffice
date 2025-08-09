@@ -10,12 +10,14 @@ const initialState: PrefixStore = {
   isSubmitting: false,
   error: null,
   status: "idle",
+  searchTerm: "",
 
   fetchPrefixes: async () => {},
   deletePrefix: async () => {},
   addPrefix: async () => {},
   editPrefix: async () => {},
   resetStatus: () => {},
+  setSearchTerm: (term) => {},
 };
 
  const setLoading = (set: any, key: "loading" | "isSubmitting") => {
@@ -129,6 +131,7 @@ export const usePrefixStore = create<PrefixStore>()(
           resetLoading(set, "isSubmitting");
         }
       },
+      setSearchTerm: (term: string) => set({ searchTerm: term }),
 
       resetStatus: () => {
         set((state) => {

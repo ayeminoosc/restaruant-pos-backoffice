@@ -1,0 +1,28 @@
+
+
+{
+  "menuItems": [
+    {
+      "id": "1",
+      "name": "Margherita Pizza",
+      "category": "Main Courses",
+      "subCategory": "Pasta",
+      "price": 25000,
+      "currency": "Ks",
+      "status": "Active",
+      "imageUrl": "/assets/pizza.jpg",
+      "text": "Delicious Margheriata Pizza"  
+    },
+    {
+      "id": "2",
+      "name": "Caesar Salad",
+      "category": "Main Courses",
+      "subCategory": "Pasta",
+      "price": 25000,
+      "currency": "Ks",
+      "status": "Active",
+      "imageUrl": "/assets/pizza.jpg",
+      "text": "Fresh Caesar Salad"
+    }
+  ]
+}
