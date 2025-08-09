@@ -3,7 +3,7 @@ import {
   MenuItemStoreState,
   MenuItemType,
 } from "@/types/menu-item";
-// import { Category, SubCategory, categoryApi } from "@/utils/category-api";
+import { Category, SubCategory, useCategoryStore } from "./category-store";
 import { ENDPOINTS } from "@/utils/api-endpoints";
 import { resetLoading, setError, setLoading } from "@/utils/zustand";
 import { create } from "zustand";
@@ -127,7 +127,8 @@ export const useMenuItemStore = create<
       getCategoriesData: async () => {
         setLoading(set, "isFetching");
         try {
-          const data = await categoryApi.getCategories();
+          await useCategoryStore.getState().fetchCategories();
+          const data = useCategoryStore.getState().categories;
           set((state) => {
             state.categories = data;
           });
@@ -140,7 +141,8 @@ export const useMenuItemStore = create<
       getSubcategoriesData: async () => {
         setLoading(set, "isFetching");
         try {
-          const data = await categoryApi.getSubCategories();
+          await useCategoryStore.getState().fetchSubCategories();
+          const data = useCategoryStore.getState().subCategories;
           set((state) => {
             state.subcategories = data.map(sub => ({
               id: sub.id,
@@ -157,9 +159,12 @@ export const useMenuItemStore = create<
       getSubcategoriesByCategory: async (categoryName: string) => {
         setLoading(set, "isFetching");
         try {
-          const data = await categoryApi.getSubCategoriesByCategory(categoryName);
+          await useCategoryStore.getState().fetchSubCategories();
+          const allSubCategories = useCategoryStore.getState().subCategories;
+          const filteredSubCategories = allSubCategories.filter(sub => sub.category === categoryName);
+          
           set((state) => {
-            state.subcategories = data.map(sub => ({
+            state.subcategories = filteredSubCategories.map(sub => ({
               id: sub.id,
               name: sub.name,
               categoryId: sub.category
@@ -180,4 +185,4 @@ export const useMenuItemStore = create<
     })),
     { name: "menu-item-store" }
   )
-); 
+);
