@@ -84,7 +84,7 @@ export function ModifierGroupForm() {
   }, [status]);
 
   return (
-    <div className="max-w-[1025px] overflow-y-auto mx-auto mt-10">
+    <div className="max-w-[64.063rem] overflow-y-auto mx-auto mt-10">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {/* GROUP NAME */}

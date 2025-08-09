@@ -36,7 +36,7 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-   --font-sans: var(--font-inter);
+  --font-sans: var(--font-inter);
   --radius: 0.625rem;
   --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
   --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
@@ -167,7 +167,7 @@
 
   body {
     @apply bg-background text-foreground;
-       font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
   }
 
   html,
@@ -176,4 +176,18 @@
     height: 100%;
     width: 100%;
   }
+}
+
+/* Normal hover */
+[cmdk-item]:hover {
+  background-color: var(--primary);
+  opacity: 0.7;
+  color: white;
+}
+
+/* When selected via arrow keys (cmdk uses aria-selected) */
+[cmdk-item][aria-selected="true"] {
+  background-color: var(--primary);
+  opacity: 0.7;
+  color: white;
 }

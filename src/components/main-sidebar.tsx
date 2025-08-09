@@ -54,7 +54,10 @@ const sidebarItems: SideBarItemsType[] = [
       { label: "Inventory Dashboard", url: "/dashboard/inventory-items" },
       { label: "All Items", url: "/dashboard/inventory-items/all-items" },
       { label: "Item In", url: "/dashboard/inventory-items/item-in" },
-      {label : "Inventory Transactions", url: "/dashboard/inventory-items/transactions"}
+      {
+        label: "Inventory Transactions",
+        url: "/dashboard/inventory-items/transactions",
+      },
     ],
   },
   {
@@ -77,11 +80,12 @@ const sidebarItems: SideBarItemsType[] = [
 export default function MainSideBar() {
   const pathname = usePathname();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleExpanded = (label: string) => {
-    setExpandedItems(prev => 
-      prev.includes(label) 
-        ? prev.filter(item => item !== label)
+    setExpandedItems((prev) =>
+      prev.includes(label)
+        ? prev.filter((item) => item !== label)
         : [...prev, label]
     );
   };
@@ -104,8 +108,10 @@ export default function MainSideBar() {
 
       <div className="flex flex-col w-full h-[47.6875rem] overflow-y-auto">
         {sidebarItems.map((item, index) => {
-          const isActive = pathname === item.url || 
-            (item.subItems && item.subItems.some(subItem => pathname === subItem.url));
+          const isActive =
+            pathname === item.url ||
+            (item.subItems &&
+              item.subItems.some((subItem) => pathname === subItem.url));
           const isExpanded = expandedItems.includes(item.label);
 
           return (
@@ -118,9 +124,12 @@ export default function MainSideBar() {
                       ? "bg-[#FFECD0] border-primary "
                       : "hover:bg-[#F6F6F6]"
                   }`}
-                  onClick={() => toggleExpanded(item.label)}
+                  onClick={() => {
+                    toggleExpanded(item.label);
+                    setIsOpen((prev) => !prev);
+                  }}
                 >
-                  <SideBarItem {...item} />
+                  <SideBarItem isOpen={isOpen} {...item} />
                 </div>
               ) : (
                 // Regular items (direct navigation)
@@ -136,7 +145,7 @@ export default function MainSideBar() {
                   </div>
                 </Link>
               )}
-              
+
               {/* Sub-items */}
               {item.subItems && isExpanded && (
                 <div className="bg-gray-50">
@@ -146,9 +155,7 @@ export default function MainSideBar() {
                       <Link key={subIndex} href={subItem.url}>
                         <div
                           className={`w-full h-12 flex items-center border-l-4 transition-colors duration-200 pl-12 ${
-                            isSubActive
-                              ? "text-primary"
-                              : "hover:bg-[#F6F6F6]"
+                            isSubActive ? "text-primary" : "hover:bg-[#F6F6F6]"
                           }`}
                         >
                           <div className="font-inter pl-6.5 font-medium text-[16px] leading-[100%] tracking-[0%]">

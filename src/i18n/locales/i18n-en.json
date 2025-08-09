@@ -65,5 +65,50 @@
       "success_create": "Modifier group created!",
       "success_delete": "Modifier group deleted!"
     }
+  },
+  "inventory_items": {
+    "titles": {
+      "new_inventory": "Add new inventory item"
+    },
+    "labels": {
+      "create_group_name": "Create inventory item name",
+      "update_group_name": "Update inventory item name",
+      "bilingual_name": "Bilingual name",
+      "description": "Description",
+      "code": "Bar Code",
+      "unit": "Unit",
+      "reorder_level": "Reorder Level",
+      "group": "Group"
+    },
+    "placeholders": {
+      "enter_name": "Enter item name",
+      "enter_bliingual_name": "Enter translated name (e.g., 'Hta-min-kyaw')",
+      "description": "Describe what the prefix means..",
+      "unit": "Select unit",
+      "code": "eg., IV00--",
+      "reorder_level": "0",
+      "group": "Select group"
+    }
+  },
+  "adjust_stock": {
+    "titles": {
+      "adjust_stock": "Adjust Stock"
+    },
+    "labels": {
+      "select_adjust_item": "Select to adjust item stock",
+      "add_stock": "Add to stock",
+      "add_stock_text": "Increase inventory levels",
+      "substract_stock": "Substract from stock",
+      "substract_stock_text": "Decrease inventory levels",
+      "adjustment": "Adjustment Qty",
+      "current_stock": "Current Stock",
+      "new_stock": "New Stock",
+      "reorder_level": "Reorder Level",
+      "reason": "Reason",
+      "note": "Note"
+    },
+    "placeholders": {
+      "note": "Type some notes.."
+    }
   }
 }
