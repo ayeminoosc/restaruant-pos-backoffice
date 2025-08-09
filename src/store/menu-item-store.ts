@@ -184,6 +184,11 @@ export const useMenuItemStore = create<
           state.error = "";
         });
       },
+      resetSingleMenuItem: () => {
+        set((state) => {
+          state.menuitems.singleItem = null;
+        });
+      },
     })),
     { name: "menu-item-store" }
   )
