@@ -182,7 +182,6 @@ export function MenuItemForm({ defaultValues, onSubmit, mode }: MenuItemFormProp
 
             {/* Item Photo Section */}
             <div className="flex justify-center">
-             
                 <ImageBox
                   imageUrl={form.watch('photo') || undefined}
                   onImageCropped={handleImageCropped}

@@ -27,24 +27,21 @@ function isValidDate(date: Date | undefined) {
 }
 
 export function DatePicker({
-    label = "Date",
-    placeholder = "June 01, 2025",
-    defaultValue,
+    label,
+    placeholder,
+    value,
     onChange,
     optional = false,
     error,
 }: {
     label?: string
     placeholder?: string
-    defaultValue?: Date
+    value?: Date
     onChange?: (date: Date | undefined) => void
     optional?: boolean,
     error?: string,
 }) {
     const [open, setOpen] = React.useState(false)
-    const [date, setDate] = React.useState<Date | undefined>(defaultValue)
-    const [month, setMonth] = React.useState<Date | undefined>(date)
-    const [value, setValue] = React.useState(formatDate(date))
 
     return (
         <div className="flex flex-col gap-3 w-full">
@@ -64,36 +61,22 @@ export function DatePicker({
             <div className="relative flex gap-2 w-full">
                 <Input
                     id="date"
-                    value={value}
+                    value={formatDate(value)}
                     placeholder={placeholder}
                     className="h-14 md:text-lg placeholder:text-lg placeholder:text-gray-300 focus-visible:ring-0 focus:outline-none aria-invalid:border-[#cdcdcd] border-ring w-full"
                     onChange={(e) => {
                         const inputValue = e.target.value;
-                        setValue(inputValue);
-
-                        // If input is empty, pass undefined
                         if (!inputValue) {
-                            setDate(undefined);
-                            setMonth(undefined);
-                            console.log("DatePicker value:", undefined); // <-- log here
                             onChange?.(undefined);
                             return;
                         }
-
                         const inputDate = new Date(inputValue);
                         if (isValidDate(inputDate)) {
-                            setDate(inputDate);
-                            setMonth(inputDate);
-                            console.log("DatePicker value:", inputDate); // <-- log here
                             onChange?.(inputDate);
                         } else {
-                            setDate(undefined);
-                            setMonth(undefined);
-                            console.log("DatePicker value:", undefined); // <-- log here
                             onChange?.(undefined);
                         }
                     }}
-                // ...rest of props
                 />
                 <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
@@ -115,13 +98,11 @@ export function DatePicker({
                     >
                         <Calendar
                             mode="single"
-                            selected={date}
+                            selected={value}
                             captionLayout="dropdown"
-                            month={month}
-                            onMonthChange={setMonth}
+                            month={value}
+                            onMonthChange={() => {}}
                             onSelect={(selectedDate) => {
-                                setDate(selectedDate)
-                                setValue(formatDate(selectedDate))
                                 setOpen(false)
                                 onChange?.(selectedDate)
                             }}

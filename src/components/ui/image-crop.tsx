@@ -180,18 +180,19 @@ export const ImageCrop = ({
     onComplete?.(pixelCrop, percentCrop);
   };
 
-  const applyCrop = async () => {
-    if (!(imgRef.current && completedCrop)) {
-      return;
-    }
-    const croppedImage = await getCroppedPngImage(
-      imgRef.current,
-      1,
-      completedCrop,
-      maxImageSize
-    );
-    onCrop?.(croppedImage);
-  };
+const applyCrop = async () => {
+  if (!(imgRef.current && completedCrop)) {
+    console.log("Cannot crop: missing image or crop");
+    return;
+  }
+  const croppedImage = await getCroppedPngImage(
+    imgRef.current,
+    1,
+    completedCrop,
+    maxImageSize
+  );
+  onCrop?.(croppedImage);
+};
 
   const resetCrop = () => {
     if (initialCrop) {

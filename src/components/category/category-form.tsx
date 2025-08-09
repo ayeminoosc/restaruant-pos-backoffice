@@ -23,7 +23,8 @@ type FormData = z.infer<typeof categorySchema>;
 export default function CategoryForm() {
   const router = useRouter();
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
-
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [croppedImage, setCroppedImage] = useState<string | null>(null);
   const {
     categories,
     fetchCategories,
@@ -78,13 +79,18 @@ export default function CategoryForm() {
   };
 
   const handleImageCropped = (croppedImageData: string) => {
+    console.log("Cropped image:", croppedImageData);
     if (isSubmitting) return;
     setFormImageUrl(croppedImageData);
+    setCroppedImage(croppedImageData);
+    setSelectedFile(null);
   };
 
   const handleImageRemoved = () => {
-    if (isSubmitting) return;
-    setFormImageUrl(null);
+    if (!isSubmitting) {
+      setFormImageUrl(null);
+      setCroppedImage(null);
+    }
   };
 
   const handleCancel = () => {
@@ -94,81 +100,84 @@ export default function CategoryForm() {
   };
 
   return (
-      <div className="max-w-[1025px] overflow-visible mx-auto my-13 ">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="flex justify-center overflow-visible">
-              <ImageBox
-                imageUrl={formImageUrl}
-                onImageCropped={handleImageCropped}
-                onImageRemoved={handleImageRemoved}
-              />
-            </div>
-            <CustomInput
-              control={form.control}
-              name="categoryName"
-              label="Category Name"
-              placeholder="Enter Category Name..."
-              optional={false}
+    <div className="max-w-[1025px] overflow-visible mx-auto my-13 ">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="flex justify-center overflow-visible">
+            <ImageBox
+              selectedFile={selectedFile}
+              croppedImage={croppedImage}
+              imageUrl={formImageUrl}
+              onFileChange={setSelectedFile}
+              onImageCropped={handleImageCropped}
+              onImageRemoved={handleImageRemoved}
             />
-            <CustomInput
-              control={form.control}
-              name="bilingualName"
-              label="Bilingual Name"
-              placeholder="Enter Bilingual Name..."
-              optional={true}
-            />
-            <CustomAdvanceSetting
-              control={form.control}
-              isAdvancedOpen={isAdvancedOpen}
-              setIsAdvancedOpen={setIsAdvancedOpen}
+          </div>
+          <CustomInput
+            control={form.control}
+            name="categoryName"
+            label="Category Name"
+            placeholder="Enter Category Name..."
+            optional={false}
+          />
+          <CustomInput
+            control={form.control}
+            name="bilingualName"
+            label="Bilingual Name"
+            placeholder="Enter Bilingual Name..."
+            optional={true}
+          />
+          <CustomAdvanceSetting
+            control={form.control}
+            isAdvancedOpen={isAdvancedOpen}
+            setIsAdvancedOpen={setIsAdvancedOpen}
+          >
+            <ColorPicker name="buttonColor" />
+          </CustomAdvanceSetting>
+          <FormField
+            control={form.control}
+            name="active"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center gap-2 space-y-0">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel className="text-xl">Active</FormLabel>
+                </div>
+              </FormItem>
+            )}
+          />
+          <div className="flex gap-3 pt-4 mb-10">
+            <CustomButton
+              type="submit"
+              className="flex-1 bg-primary hover:bg-orange-600 h-14 font-medium text-xl cursor-pointer transition-colors duration-200"
+              disabled={isSubmitting}
             >
-              <ColorPicker name="buttonColor" />
-            </CustomAdvanceSetting>
-            <FormField
-              control={form.control}
-              name="active"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center gap-2 space-y-0">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel className="text-xl">Active</FormLabel>
-                  </div>
-                </FormItem>
+              {isSubmitting ? (
+                <div className="flex gap-2 items-center">
+                  <LoaderCircle className="animate-spin size-6" />
+                </div>
+              ) : (
+                "Save"
               )}
-            />
-            <div className="flex gap-3 pt-4 mb-10">
-              <CustomButton
-                type="submit"
-                className="flex-1 bg-primary hover:bg-orange-600 h-14 font-medium text-xl cursor-pointer transition-colors duration-200"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <div className="flex gap-2 items-center">
-                    <LoaderCircle className="animate-spin size-6" />
-                  </div>
-                ) : (
-                  "Save"
-                )}
-              </CustomButton>
-              <CustomButton
-                type="button"
-                onClick={handleCancel}
-                variant="outline"
-                className="flex-1 bg-secondary h-14 font-medium text-xl cursor-pointer hover:bg-[#bfbfbf] transition-colors duration-200"
-                disabled={isSubmitting}
-              >
-                Cancel
-              </CustomButton>
-            </div>
-          </form>
-        </Form>
-      </div>
-    
+            </CustomButton>
+            <CustomButton
+              type="button"
+              onClick={handleCancel}
+              variant="outline"
+              className="flex-1 bg-secondary h-14 font-medium text-xl cursor-pointer hover:bg-[#bfbfbf] transition-colors duration-200"
+              disabled={isSubmitting}
+            >
+              Cancel
+            </CustomButton>
+          </div>
+        </form>
+      </Form>
+    </div>
+
   );
 }

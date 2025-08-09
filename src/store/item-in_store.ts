@@ -3,7 +3,7 @@ import { ENDPOINTS } from "@/utils/api-endpoints";
 
 export type ItemIn = {
     id: string;
-    date: string; // ISO string
+    date: string; 
     voucherNo: string;
     vendor: string;
     orderNote?: string;
@@ -23,8 +23,8 @@ type ItemInStore = {
     error: string | null;
     fetchItemsIn: () => Promise<void>;
     addItemIn: (data: Partial<ItemIn>) => Promise<void>;
-    // updateItemInById: (id: string, data: Partial<ItemIn>) => Promise<void>;
-    // deleteItemInById: (id: string) => Promise<void>;
+    updateItemInById: (id: string, data: Partial<ItemIn>) => Promise<void>;
+    deleteItemInById: (id: string) => Promise<void>;
     resetStatus: () => void;
 };
 

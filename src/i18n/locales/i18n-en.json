@@ -154,18 +154,42 @@
   "sub-category": {
     "buttons": {
       "add_sub_category": "Add Sub Category"
+    }
+  },
+  "category-list": {
+    "titles": {
+      "category": "Category",
+      "menu_category": "Menu Category"
     },
+    "buttons": {
+      "add_category": "Add Category",
+      "add_sub_category": "Add Sub Category"
+    }
+  },
+  "add-category": {
     "labels": {
-      "create_sub_category_name": "Create sub category name",
-      "update_sub_category_name": "Update sub category name",
-      "bilingual_name": "Bilingual name",
-      "image_url": "Image URL",
-      "active": "Active"
+      "category_name": "Category Name",
+      "bilingual_name": "Bilingual Name"
     },
     "placeholders": {
-      "enter_name": "Enter sub category name",
-      "enter_bliingual_name": "Enter translated name (e.g., 'Hta-min-kyaw')",
-      "enter_image_url": "Enter image URL"
+      "enter_name": "Enter Category Name",
+      "enter_bilingual_name": "Enter Bilingual Name "
+    },
+    "titles": {
+      "add_new_category": "Add New Category",
+      "update_category": "Update Category"
+    }
+  },
+  "add-sub-category": {
+    "labels": {
+      "choose-category": "Choose Category",
+      "sub_category_name": "Sub category name",
+      "bilingual_name": "Bilingual name"
+    },
+    "placeholders": {
+      "select_category": "Select a Category",
+      "enter_name": "Enter Sub Category Name",
+      "enter_bilingual_name": "Enter Bilingual Name "
     },
     "titles": {
       "sub_category_management": "Sub Category Management",
@@ -202,11 +226,30 @@
     },
 
     "titles": {
+      "add_new_sub_category": "Add New Sub Category"
+    }
+  },
+  "item-in": {
+    "labels": {
+      "date": "Date",
+      "voucherNo": "Voucher No",
+      "vendor": "Vendor",
+      "description": "Description",
+      "itemReceived": "Items Received"
+    },
+    "titles": {
       "item_in": "Item In",
       "receipt_management": "Receipt Information",
       "inventory_management": "Inventory Management",
       "inventory_dashboard": "Inventory Dashboard",
-      "inventory_summary": "Inventory Summary"
+      "inventory_summary": "Inventory Summary",
+      "receipt_info": "Receipt Information"
+    },
+    "placeholders": {
+      "date": "June 01, 2025",
+      "voucherNo": "Enter Voucher No...",
+      "vendor": "Select a vendor",
+      "description": "Enter additional notes..."
     }
   },
 

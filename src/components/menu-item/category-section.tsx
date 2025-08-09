@@ -1,6 +1,7 @@
 import CategoryInput from "./category-input-box";
 import { useEffect } from 'react';
 import { useCategoryStore } from '@/store/category-store';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface CategorySectionProps {
     selectedCategory: string;
@@ -49,34 +50,51 @@ export default function CategorySection({
                         Choose subcategory
                         <div className="text-gray-400"> (Optional)</div>
                     </label>
-                    <div className="relative h-14">
-                        <select 
-                            value={selectedSubCategory}
-                            onChange={(e) => setSelectedSubCategory(e.target.value)}
-                            className="w-full h-14
-                            px-4 py-2.5 border border-[#9C9C9C] rounded-[10px]
-                            font-inter text-[1.25rem] appearance-none bg-white"
+                    <div>
+                        <Select
+                            value={selectedSubCategory || "none"}
+                            onValueChange={(value) => {
+                                if (value === "none") {
+                                    setSelectedSubCategory("");
+                                } else {
+                                    setSelectedSubCategory(value);
+                                }
+                            }}
                             disabled={!selectedCategory}
                         >
-                            <option value="">Select a subcategory</option>
-                            {isLoading ? (
-                                <option value="" disabled>Loading subcategories...</option>
-                            ) : (
-                                filteredSubCategories.map((subCategory) => (
-                                    <option key={subCategory.id} value={subCategory.id}>
-                                        {subCategory.name}
-                                    </option>
-                                ))
-                            )}
-                        </select>
-                        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                            <svg className="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </div>
+                            <SelectTrigger
+                                className="h-14 w-full md:text-lg placeholder:text-lg placeholder:text-gray-300 focus-visible:ring-0 focus:outline-none aria-invalid:border-[#cdcdcd] border-ring rounded-md bg-background px-3 py-2 [&>svg]:w-6 [&>svg]:h-6"
+                                style={{ minHeight: '56px', height: '56px' }}
+                            >
+                                <SelectValue
+                                    placeholder="Select a subcategory"
+                                    className="md:text-lg"
+                                />
+                            </SelectTrigger>
+                            <SelectContent className="w-full min-w-[200px]">
+                                <SelectItem value="none">
+                                    Select a subcategory
+                                </SelectItem>
+                                {isLoading ? (
+                                    <SelectItem value="loading" disabled>
+                                        Loading subcategories...
+                                    </SelectItem>
+                                ) : (
+                                    filteredSubCategories.map((subCategory) => (
+                                        <SelectItem
+                                            key={subCategory.id}
+                                            value={subCategory.id}
+                                            className="md:text-lg p-[0.625rem] cursor-pointer hover:bg-[#FFE5D6] data-[highlighted]:bg-[#FFE5D6]"
+                                        >
+                                            {subCategory.name}
+                                        </SelectItem>
+                                    ))
+                                )}
+                            </SelectContent>
+                        </Select>
                     </div>
                 </div>
             </div>
         </>
     );
-} 
+}

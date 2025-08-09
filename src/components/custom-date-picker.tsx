@@ -4,18 +4,23 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 interface CustomDatePickerProps {
   control: any;
   optional?: boolean;
+  name: string;
+  label?: string;
+  placeholder?: string;
 }
 
-export default function CustomDatePicker({ control, optional = false }: CustomDatePickerProps) {
+export default function CustomDatePicker({ control, name, optional = false, label, placeholder }: CustomDatePickerProps) {
   return (
     <FormField
       control={control}
-      name="date"
+      name={name}
       render={({ field, fieldState }) => (
         <FormItem>
           <FormControl>
             <DatePicker
               {...field}
+              label={label}
+              placeholder={placeholder}
               value={field.value}
               onChange={field.onChange}
               optional={false}

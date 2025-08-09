@@ -1,7 +1,6 @@
 import * as z from "zod";
 
 export const itemInSchema = z.object({
-    //   date: z.string().nonempty("Date is required"),
     date: z
         .any()
         .refine(
@@ -12,9 +11,9 @@ export const itemInSchema = z.object({
     vendor: z.string().nonempty("Vendor is required"),
     orderNote: z.string().optional(),
     itemReceived: z.array(z.object({
-        itemName: z.string().nonempty("Item name is required"),
+        itemName: z.string(),
         quantity: z.number(),
-        unit: z.string().nonempty("Unit is required"),
+        unit: z.string(),
         costPerUnit: z.number(),
     })),
 });

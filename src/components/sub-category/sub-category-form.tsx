@@ -28,7 +28,8 @@ export default function SubCategoryForm({ editId }: SubCategoryFormProps) {
   const router = useRouter();
   const isEditMode = !!editId;
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
-
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [croppedImage, setCroppedImage] = useState<string | null>(null);
   const {
     categories,
     subCategories,
@@ -121,11 +122,18 @@ export default function SubCategoryForm({ editId }: SubCategoryFormProps) {
   };
 
   const handleImageCropped = (croppedImageData: string) => {
-    if (!isSubmitting) setFormSubCategoryImageUrl(croppedImageData);
+    console.log("Cropped image:", croppedImageData);
+    if (isSubmitting) return;
+    setFormSubCategoryImageUrl(croppedImageData);
+    setCroppedImage(croppedImageData);
+    setSelectedFile(null); 
   };
 
   const handleImageRemoved = () => {
-    if (!isSubmitting) setFormSubCategoryImageUrl(null);
+    if (!isSubmitting) {
+      setFormSubCategoryImageUrl(null);
+      setCroppedImage(null); 
+    }
   };
 
   const handleCancel = () => {
@@ -141,7 +149,10 @@ export default function SubCategoryForm({ editId }: SubCategoryFormProps) {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="flex justify-center">
               <ImageBox
+                selectedFile={selectedFile}
+                croppedImage={croppedImage}
                 imageUrl={formSubCategoryImageUrl}
+                onFileChange={setSelectedFile}
                 onImageCropped={handleImageCropped}
                 onImageRemoved={handleImageRemoved}
               />
