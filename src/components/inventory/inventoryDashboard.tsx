@@ -4,6 +4,7 @@ import InventoryCard from './inventoryCard'
 import { StockCard } from './stockCard'
 import InventoryButton from './inventoryButton';
 import { useInventoryStore } from '@/store/inventory-store';
+import { useTranslation } from 'react-i18next';
 
 const icons = {
   items: '/assets/totalItem.svg',
@@ -41,38 +42,38 @@ const InventoryDashboard = () => {
   useEffect(() => {
     fetchInventoryData()
   }, [])
-
+const { t } = useTranslation();
 
   return (
     <div className='m-4'>
 
       <div className="flex justify-between mt-2 items-end mb-8">
         <h2 className="font-semibold text-[24px] m-0 text-black">
-          Inventory Summary
+          {t("inventory.titles.inventory_summary")}
         </h2>
         <div className="flex gap-4">
-          <InventoryButton title="View all items" action={() => { }} className='min-w-[204px]' />
-          <InventoryButton title="View all Transaction" action={() => { }} className='min-w-[234px]' />
-          <InventoryButton title="Adjust Stock" action={() => { }} className='min-w-[200px]' />
+          <InventoryButton title={t("inventory.buttons.view_all_items")} action={() => { }} className='min-w-[204px]' />
+          <InventoryButton title={t("inventory.buttons.view_all_transaction")} action={() => { }} className='min-w-[234px]' />
+          <InventoryButton title={t("inventory.buttons.adjust_stock")} action={() => { }} className='min-w-[200px]' />
         </div>
       </div>
 
       <div className="flex mb-4">
         <InventoryCard
           icon={icons.items}
-          title="Total Items"
+          title= {t("inventory.labels.total_items")}
           count={summary?.totalItems ?? 0}
           stateThisweek={summary?.totalItemsChange??""}
         />
         <InventoryCard
           icon={icons.vendors}
-          title="Vendors"
+            title= {t("inventory.labels.vendors")}
           count={summary?.vendors ?? 0}
          stateThisweek={summary?.vendorsChange??""}
         />
         <InventoryCard
           icon={icons.warehouse}
-          title="Warehouses"
+            title= {t("inventory.labels.warehouses")}
           count={summary?.warehouses ?? 0}
           width='70px'
           stateThisweek={summary?.warehousesChange??""}
@@ -80,7 +81,7 @@ const InventoryDashboard = () => {
       </div>
 
       <div>
-        <h2 className='mb-4 font-semibold text-[24px]'>Stock Alerts (3)</h2>
+        <h2 className='mb-4 font-semibold text-[24px]'>{t("inventory.labels.stock_alert")}(3)</h2>
         <div className="flex flex-col ">
           {stockAlerts.map((item, index) => (
             <StockCard key={index} {...item} />

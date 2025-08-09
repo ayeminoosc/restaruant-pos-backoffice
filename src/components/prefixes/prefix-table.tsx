@@ -6,16 +6,15 @@ import React, { useEffect, useState } from "react";
 import { CustomDeleteModal } from "../custom-delete-modal";
 import { useRouter } from "next/navigation";
 import { usePrefixStore } from "@/store/prefix-store";
+import { useTranslation } from "react-i18next";
 const PrefixTable = () => {
   const { fetchPrefixes, prefixes, deletePrefix, status, isSubmitting, error, resetStatus, searchQuery } = usePrefixStore();
-
+  const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const router = useRouter();
 
   const lowerSearch = searchQuery.toLowerCase();
-
-
   const filteredPrefix =
     lowerSearch.length > 0
       ? prefixes.filter(
@@ -43,25 +42,22 @@ const PrefixTable = () => {
     fetchPrefixes();
   }, []);
 
-
-
-
   type RowType = (typeof data)[0];
 
   const columns: Column<RowType>[] = [
     {
       key: "prefixName",
-      label: "Prefix Name",
+      label: t("prefix.labels.prefix_name"),
       render: (val) => <div className=" text-xl w-1/3">{val}</div>,
     },
     {
       key: "description",
-      label: "Description",
+      label: t("prefix.labels.description"),
       render: (val) => <div className="text-[#7b7b7b] text-base">{val}</div>,
     },
     {
       key: "actions",
-      label: "Action",
+      label: t("labels.action"),
       render: (val, row) => (
         <div className="flex items-center justify-between ">
           <img
