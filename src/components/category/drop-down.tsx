@@ -21,7 +21,6 @@ export default function DropdownBox({ label, placeHolder, categoryNameList, valu
                 {!optional && (
                     <>
                         <span className="text-red-500 ml-1">*</span>
-                        {/* Add a space between * and error */}
                         {error && (
                             <span className="ml-1 text-red-500 text-base font-normal">
                                 {error}

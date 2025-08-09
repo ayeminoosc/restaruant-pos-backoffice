@@ -52,5 +52,15 @@ export const ENDPOINTS = {
   getInventorySummary: `${API_BASE_URL}/inventory-summary/1.0/inventory-summary`,
   getAlertStocks: `${API_BASE_URL}/stock-alert/1.0/stock-alert`,
 
+  /* ---------- Item-In----------- */
+  getItemIn: `${API_BASE_URL}/item-in/1.0/item-in`,
+  getItemInById: (id: number | string) => `${API_BASE_URL}/item-in/1.0/item/${id}`,
+  addItemIn: `${API_BASE_URL}/item-in/1.0/item-in`,
+  updateItemIn: (id: number | string) =>
+    `${API_BASE_URL}/item-in/1.0/item-in/${id}`,
+  deleteItemIn: (id: number | string) =>
+    `${API_BASE_URL}/item-in/1.0/item-in/${id}`,
+
 };
+
 
