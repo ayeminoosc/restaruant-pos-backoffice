@@ -6,15 +6,24 @@ import { useMenuItemStore } from "@/store/menu-item-store";
 import { MenuItemForm } from "@/components/menu-item/menu-item-form";
 import { MenuItemType } from "@/types/menu-item";
 import { MenuItemFormInput } from "@/lib/validations/menu-item-schema";
+import CustomPageTitle from "@/components/custom-page-title";
 
 export default function EditMenuItemPage() {
   const router = useRouter();
   const params = useParams() as { id?: string | string[] };
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
-  const { menuitems, getMenuItemsData, getSingleMenuItemData, updateMenuItem, getCategoriesData } = useMenuItemStore();
+  const {
+    menuitems,
+    getMenuItemsData,
+    getSingleMenuItemData,
+    updateMenuItem,
+    getCategoriesData,
+    resetSingleMenuItem,
+  } = useMenuItemStore();
   const menuItems = menuitems.items;
   const singleMenuItem = menuitems.singleItem;
-  const [defaultValues, setDefaultValues] = useState<Partial<MenuItemFormInput> | null>(null);
+  const [defaultValues, setDefaultValues] =
+    useState<Partial<MenuItemFormInput> | null>(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -27,23 +36,46 @@ export default function EditMenuItemPage() {
       }
     };
     loadData();
-  }, [id, getCategoriesData, getMenuItemsData, getSingleMenuItemData]);
+
+    // Cleanup function that runs when component unmounts or when id changes
+    return () => {
+      resetSingleMenuItem();
+    };
+  }, [
+    id,
+    getCategoriesData,
+    getMenuItemsData,
+    getSingleMenuItemData,
+    resetSingleMenuItem,
+  ]);
 
   useEffect(() => {
     if (singleMenuItem) {
-      const { name, bilingualName, barCode, price, categoryId, subcategoryId, photo, modifiers, advancedSettings, buttonColor, active } = singleMenuItem;
-      setDefaultValues({ 
-        name, 
-        bilingualName, 
-        barCode, 
-        price, 
-        categoryId, 
-        subcategoryId, 
-        photo, 
-        modifiers, 
-        advancedSettings, 
-        buttonColor, 
-        active 
+      const {
+        name,
+        bilingualName,
+        barCode,
+        price,
+        categoryId,
+        subcategoryId,
+        photo,
+        modifiers,
+        advancedSettings,
+        buttonColor,
+        active,
+      } = singleMenuItem;
+      setDefaultValues({
+        name,
+        bilingualName,
+        barCode,
+        price,
+        categoryId,
+        subcategoryId,
+        photo,
+        modifiers,
+        advancedSettings,
+        buttonColor,
+        active,
       });
     }
   }, [singleMenuItem]);
@@ -58,10 +90,11 @@ export default function EditMenuItemPage() {
 
   return (
     <section>
-      <MenuItemForm 
-        mode="edit" 
-        defaultValues={defaultValues} 
-        onSubmit={handleSubmit} 
+      <CustomPageTitle title="Edit menu item" />
+      <MenuItemForm
+        mode="edit"
+        defaultValues={defaultValues}
+        onSubmit={handleSubmit}
       />
     </section>
   );

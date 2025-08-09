@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useCategoryStore } from '@/store/category-store';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface CategoryInputProps {
     selectedCategory: string;
@@ -22,31 +23,48 @@ export default function CategoryInput({
                 Choose category
                 <div className="text-red-500">*</div>
             </label>
-            <div className="relative">
-                <select 
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="w-full h-14
-                    px-4 py-2.5 border border-[#9C9C9C] rounded-[10px]
-                    font-inter text-[1.25rem] appearance-none bg-white"
+            <div>
+                <Select
+                    value={selectedCategory || "none"}
+                    onValueChange={(value) => {
+                        if (value === "none") {
+                            setSelectedCategory("");
+                        } else {
+                            setSelectedCategory(value);
+                        }
+                    }}
                 >
-                    <option value="">Select a category</option>
-                    {isLoading ? (
-                        <option value="" disabled>Loading categories...</option>
-                    ) : (
-                        categories.map((category) => (
-                            <option key={category.id} value={category.id}>
-                                {category.name}
-                            </option>
-                        ))
-                    )}
-                </select>
-                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <svg className="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                </div>
+                    <SelectTrigger
+                        className="h-14 w-full md:text-lg placeholder:text-lg placeholder:text-gray-300 focus-visible:ring-0 focus:outline-none aria-invalid:border-[#cdcdcd] border-ring rounded-md bg-background px-3 py-2 [&>svg]:w-6 [&>svg]:h-6"
+                        style={{ minHeight: '56px', height: '56px' }}
+                    >
+                        <SelectValue
+                            placeholder="Select a category"
+                            className="md:text-lg"
+                        />
+                    </SelectTrigger>
+                    <SelectContent className="w-full min-w-[200px]">
+                        <SelectItem value="none">
+                            Select a category
+                        </SelectItem>
+                        {isLoading ? (
+                            <SelectItem value="loading" disabled>
+                                Loading categories...
+                            </SelectItem>
+                        ) : (
+                            categories.map((category) => (
+                                <SelectItem
+                                    key={category.id}
+                                    value={category.id}
+                                    className="md:text-lg p-[0.625rem] cursor-pointer hover:bg-[#FFE5D6] data-[highlighted]:bg-[#FFE5D6]"
+                                >
+                                    {category.name}
+                                </SelectItem>
+                            ))
+                        )}
+                    </SelectContent>
+                </Select>
             </div>
         </div>
     );
-} 
+}

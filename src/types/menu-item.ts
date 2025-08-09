@@ -66,4 +66,5 @@ export type MenuItemStoreActions = {
   getSubcategoriesData: () => Promise<void>;
   getSubcategoriesByCategory: (categoryName: string) => Promise<void>;
   resetStatus: () => void;
+  resetSingleMenuItem: () => void;
 };
