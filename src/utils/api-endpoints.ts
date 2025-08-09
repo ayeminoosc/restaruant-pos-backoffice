@@ -45,7 +45,17 @@ export const ENDPOINTS = {
   updateSubCategory: (id: number | string) =>
     `${API_BASE_URL}/subCategory/1.0/subCategory/${id}`,
   deleteSubCategory: (id: number | string) =>
-    `${API_BASE_URL}/subCategory/1.0/subCategory/${id}`
+    `${API_BASE_URL}/subCategory/1.0/subCategory/${id}`,
+
+  /* ---------- Item-In----------- */
+  getItemIn: `${API_BASE_URL}/item-in/1.0/item-in`,
+  getItemInById: (id: number | string) => `${API_BASE_URL}/item-in/1.0/item/${id}`,
+  addItemIn: `${API_BASE_URL}/item-in/1.0/item-in`,
+  updateItemIn: (id: number | string) =>
+    `${API_BASE_URL}/item-in/1.0/item-in/${id}`,
+  deleteItemIn: (id: number | string) =>
+    `${API_BASE_URL}/item-in/1.0/item-in/${id}`,
 
 };
+
 

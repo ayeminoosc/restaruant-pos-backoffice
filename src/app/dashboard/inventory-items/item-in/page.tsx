@@ -10,8 +10,11 @@ import { LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 import { itemInSchema } from "@/lib/validations/item-in-schema";
 import CustomDropDownBox from "@/components/custom-drop-down-box";
-import { CustomDatePicker } from "@/components/custom-date-picker";
 import { Textarea } from "@/components/ui/textarea";
+import ItemsReceivedForm from "@/components/items-received-form";
+import CustomDatePicker from "@/components/custom-date-picker";
+import { useEffect } from "react";
+import { useItemInStore } from "@/store/item-in_store";
 
 type FormData = z.infer<typeof itemInSchema>;
 export default function ItemInPage() {
@@ -20,9 +23,17 @@ export default function ItemInPage() {
     shouldFocusError: true,
     resolver: zodResolver(itemInSchema),
     defaultValues: {
-      // receiptNumber: "",
+      date: undefined,
+      voucherNo: "",
+      vendor: "",
+      receiptNumber: "",
+      orderNote: "",
+      itemReceived: [],
     },
   });
+  const addItemIn = useItemInStore((state) => state.addItemIn);
+
+
 
   const vendorOptions = [
     { id: "1", name: "Vendor A" },
@@ -32,7 +43,11 @@ export default function ItemInPage() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      // Handle submit logic here
+      const payload = {
+        ...data,
+        date: data.date instanceof Date ? data.date.toISOString() : data.date,
+      };
+      await addItemIn(payload);
       toast.success("Saved!");
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
@@ -50,19 +65,18 @@ export default function ItemInPage() {
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-[1.25rem]">
-            
+
             <CustomDatePicker
-              label="Date"
-              placeholder="Enter date..."
-              optional={false} // or true for optional
+              control={form.control}
+              optional={false}
             />
 
             <CustomInput
               control={form.control}
-              name="receiptNumber"
-              label="Receipt Number"
-              placeholder="Enter Receipt Number..."
-              className="mt-4"
+              name="voucherNo"
+              label="Voucher No"
+              placeholder="Enter Vouncher No..."
+              optional={false}
             />
             <CustomDropDownBox
               control={form.control}
@@ -74,7 +88,7 @@ export default function ItemInPage() {
               optional={false}
             />
 
-             <FormField
+            <FormField
               control={form.control as any}
               name="description"
               render={({ field }) => (
@@ -91,9 +105,11 @@ export default function ItemInPage() {
               )}
             />
 
+            <ItemsReceivedForm />
+
             <div className="flex gap-3 pt-4 mb-10">
               <CustomButton
-                type="button"
+                type="submit"
                 // onClick={handleCancel}
                 variant="outline"
                 className="flex-1 bg-primary text-white hover:bg-orange-600 h-14 font-medium text-xl cursor-pointer transition-colors duration-200"
