@@ -1,11 +1,9 @@
 "use client";
-import { useModifierGroupStore } from "@/store/modifier-group-store";
 import { Search } from "lucide-react";
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "./language-switcher";
 import { Input } from "./ui/input";
-import { usePrefixStore } from "@/store/prefix-store";
 
 type CustomSidebarItemHeaderProps = {
   children: ReactNode;
@@ -17,7 +15,6 @@ const CustomSidebarItemHeader = ({
   children,
 }: CustomSidebarItemHeaderProps) => {
   const { t } = useTranslation();
-  // const setSearchTerm = useModifierGroupStore((s) => s.setSearchTerm);
 
   return (
     <div className="flex items-center justify-between px-5 border-b-[2px] h-[7.688rem] border-[#D9D9D9]">

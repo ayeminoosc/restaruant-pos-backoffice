@@ -5,14 +5,14 @@ import CustomSidebarItemHeader from "@/components/custom-sidebar-item-header";
 import CustomTableHeader from "@/components/custom-table-header";
 import ModifierTable from "@/components/modifier-group/modifier-table";
 import { useModifierGroupStore } from "@/store/modifier-group-store";
+import { useProfileStore } from "@/store/profile-store";
 import { Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const ModifierGroupPage = () => {
   const { t } = useTranslation();
   const itemCount = useModifierGroupStore((s) => s.modifierGroups).length;
-
-  const setSearchTerm = useModifierGroupStore((s) => s.setSearchTerm);
+  const setSearchTerm = useProfileStore((s) => s.setSearchTerm);
 
   return (
     <section>

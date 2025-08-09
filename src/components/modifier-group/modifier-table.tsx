@@ -2,6 +2,7 @@
 
 import { Column, ReusableTable } from "@/components/custom-table";
 import { useModifierGroupStore } from "@/store/modifier-group-store";
+import { useProfileStore } from "@/store/profile-store";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -23,7 +24,7 @@ const ModifierTable = () => {
   const getModifierGroupsData = useModifierGroupStore(
     (s) => s.getModifierGroupsData
   );
-  const searchTerm = useModifierGroupStore((s) => s.searchTerm);
+  const searchTerm = useProfileStore((s) => s.searchTerm);
   const router = useRouter();
 
   // filter logic

@@ -43,7 +43,7 @@ export const inventorySchema = z.object({
 
   barCode: z
     .string()
-    .min(1, "Barcode is required") // required check
+    .min(1, "Barcode is required")
     .refine((val) => /^[A-Za-z0-9\s]+$/.test(val) && val.length >= 4, {
       message:
         "Must be at least 4 characters and contain only letters and numbers.",

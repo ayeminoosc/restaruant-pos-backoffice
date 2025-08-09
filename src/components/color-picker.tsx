@@ -1,6 +1,5 @@
 import { Label } from "@/components/ui/label";
-import { useGlobalStore } from "@/store/global-store";
-import { Colortype } from "@/types/global";
+import { useProfileStore } from "@/store/profile-store";
 import { Controller, useFormContext } from "react-hook-form";
 
 type ColorPickerProps = {
@@ -10,12 +9,14 @@ type ColorPickerProps = {
 
 export const ColorPicker = ({ name, label }: ColorPickerProps) => {
   const { control } = useFormContext();
-  const data: Colortype[] = useGlobalStore((store) => store.advanceColors);
-  const colors = data && data.length > 0 ? data[0].colors : [];
+  const data = useProfileStore((store) => store.profile?.colorOptions);
+  const colors = data && data.length > 0 ? data : [];
 
   return (
     <div className="space-y-2">
-      <Label className="text-[20px] text-[#2A2A2A] font-medium block">{label}</Label>
+      <Label className="text-[20px] text-[#2A2A2A] font-medium block">
+        {label}
+      </Label>
       <Controller
         name={name}
         control={control}

@@ -1,6 +1,10 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const PROFILE_ID = process.env.NEXT_PUBLIC_PROFILE_ID;
 
 export const ENDPOINTS = {
+  /* ------------ Profile ------- */
+  getInitialData: `${API_BASE_URL}/profile/1/Profile/${PROFILE_ID}`,
+
   /* ---------- Modifier Groups ----------- */
   getModifierGroups: `${API_BASE_URL}/modifier-groups/1/modifier`,
   getModifierGroupById: (id: number | string) =>
@@ -13,9 +17,11 @@ export const ENDPOINTS = {
 
   /* ---------- Prefixes ----------- */
   getPrefixes: `${API_BASE_URL}/mockprefixes/1.0/prefixes`,
-  deletePrefix: (id: number | string) => `${API_BASE_URL}/mockprefixes/1.0/prefixes/${id}`,
+  deletePrefix: (id: number | string) =>
+    `${API_BASE_URL}/mockprefixes/1.0/prefixes/${id}`,
   addPrefix: `${API_BASE_URL}/mockprefixes/1.0/prefixes`,
-  updatePrefix: (id: number | string) => `${API_BASE_URL}/mockprefixes/1.0/prefixes/${id}`,
+  updatePrefix: (id: number | string) =>
+    `${API_BASE_URL}/mockprefixes/1.0/prefixes/${id}`,
 
   /* ---------- Menu Items ----------- */
   getMenuItems: `${API_BASE_URL}/Menu+Api/1.0/Menu`,
@@ -54,13 +60,11 @@ export const ENDPOINTS = {
 
   /* ---------- Item-In----------- */
   getItemIn: `${API_BASE_URL}/item-in/1.0/item-in`,
-  getItemInById: (id: number | string) => `${API_BASE_URL}/item-in/1.0/item/${id}`,
+  getItemInById: (id: number | string) =>
+    `${API_BASE_URL}/item-in/1.0/item/${id}`,
   addItemIn: `${API_BASE_URL}/item-in/1.0/item-in`,
   updateItemIn: (id: number | string) =>
     `${API_BASE_URL}/item-in/1.0/item-in/${id}`,
   deleteItemIn: (id: number | string) =>
     `${API_BASE_URL}/item-in/1.0/item-in/${id}`,
-
 };
-
-

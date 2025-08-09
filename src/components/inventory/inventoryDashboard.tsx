@@ -1,16 +1,16 @@
-'use client';
-import React, { useEffect } from 'react'
-import InventoryCard from './inventoryCard'
-import { StockCard } from './stockCard'
-import InventoryButton from './inventoryButton';
-import { useInventoryStore } from '@/store/inventory-store';
-import { useTranslation } from 'react-i18next';
+"use client";
+import { useInventoryStore } from "@/store/inventory-store";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import CustomButton from "../custom-button";
+import InventoryCard from "./inventoryCard";
+import { StockCard } from "./stockCard";
 
 const icons = {
-  items: '/assets/totalItem.svg',
-  vendors: '/assets/vendor.svg',
-  warehouse: '/assets/warehouse.svg',
-}
+  items: "/assets/totalItem.svg",
+  vendors: "/assets/vendor.svg",
+  warehouse: "/assets/warehouse.svg",
+};
 
 // const items = [
 //   {
@@ -34,54 +34,71 @@ const icons = {
 //   },
 // ];
 
-
 const InventoryDashboard = () => {
-
-  const {stockAlerts, summary, fetchInventoryData } = useInventoryStore()
+  const { stockAlerts, summary, fetchInventoryData } = useInventoryStore();
 
   useEffect(() => {
-    fetchInventoryData()
-  }, [])
-const { t } = useTranslation();
+    fetchInventoryData();
+  }, []);
+  const { t } = useTranslation();
 
   return (
-    <div className='m-4'>
-
+    <div className="m-4">
       <div className="flex justify-between mt-2 items-end mb-8">
         <h2 className="font-semibold text-[24px] m-0 text-black">
           {t("inventory.titles.inventory_summary")}
         </h2>
         <div className="flex gap-4">
-          <InventoryButton title={t("inventory.buttons.view_all_items")} action={() => { }} className='min-w-[204px]' />
-          <InventoryButton title={t("inventory.buttons.view_all_transaction")} action={() => { }} className='min-w-[234px]' />
-          <InventoryButton title={t("inventory.buttons.adjust_stock")} action={() => { }} className='min-w-[200px]' />
+          <CustomButton
+            href="#"
+            className="h-14 min-w-[12.75rem] font-medium text-xl rounded-[4px]"
+            variant="outline"
+          >
+            {t("inventory.buttons.view_all_items")}
+          </CustomButton>
+          <CustomButton
+            href="#"
+            className="h-14 min-w-[12.75rem] font-medium text-xl rounded-[4px]"
+            variant="outline"
+          >
+            {t("inventory.buttons.view_all_transaction")}
+          </CustomButton>
+          <CustomButton
+            href="/inventory/adjust-stock"
+            className="h-14 min-w-[12.75rem] font-medium text-xl rounded-[4px]"
+            variant="outline"
+          >
+            {t("inventory.buttons.adjust_stock")}
+          </CustomButton>
         </div>
       </div>
 
       <div className="flex mb-4">
         <InventoryCard
           icon={icons.items}
-          title= {t("inventory.labels.total_items")}
+          title={t("inventory.labels.total_items")}
           count={summary?.totalItems ?? 0}
-          stateThisweek={summary?.totalItemsChange??""}
+          stateThisweek={summary?.totalItemsChange ?? ""}
         />
         <InventoryCard
           icon={icons.vendors}
-            title= {t("inventory.labels.vendors")}
+          title={t("inventory.labels.vendors")}
           count={summary?.vendors ?? 0}
-         stateThisweek={summary?.vendorsChange??""}
+          stateThisweek={summary?.vendorsChange ?? ""}
         />
         <InventoryCard
           icon={icons.warehouse}
-            title= {t("inventory.labels.warehouses")}
+          title={t("inventory.labels.warehouses")}
           count={summary?.warehouses ?? 0}
-          width='70px'
-          stateThisweek={summary?.warehousesChange??""}
+          width="70px"
+          stateThisweek={summary?.warehousesChange ?? ""}
         />
       </div>
 
       <div>
-        <h2 className='mb-4 font-semibold text-[24px]'>{t("inventory.labels.stock_alert")}(3)</h2>
+        <h2 className="mb-4 font-semibold text-[24px]">
+          {t("inventory.labels.stock_alert")}(3)
+        </h2>
         <div className="flex flex-col ">
           {stockAlerts.map((item, index) => (
             <StockCard key={index} {...item} />
@@ -89,7 +106,7 @@ const { t } = useTranslation();
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default InventoryDashboard
+export default InventoryDashboard;

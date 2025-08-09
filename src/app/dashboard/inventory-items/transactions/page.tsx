@@ -1,9 +1,9 @@
 "use client";
-import { useState } from "react";
-import { Plus } from "lucide-react";
 import CustomButton from "@/components/custom-button";
 import CustomSidebarItemHeader from "@/components/custom-sidebar-item-header";
 import TransactionsTable from "@/components/inventory/transactions-table";
+import { Plus } from "lucide-react";
+import { useState } from "react";
 
 interface InventoryTransaction {
   id: string;
@@ -80,7 +80,10 @@ export default function InventoryTransactionsPage() {
           </div>
           {/* Action Buttons */}
           <div className="flex gap-4 mb-6">
-            <CustomButton className="flex items-center h-[56px] min-w-[204px] bg-primary text-white text-xl hover:bg-orange-600">
+            <CustomButton
+              className="flex items-center h-[56px] min-w-[204px] bg-primary text-white text-xl hover:bg-orange-600"
+              href="/inventory/new"
+            >
               <Plus className="w-4 h-4" />
               Add Item
             </CustomButton>
@@ -93,6 +96,7 @@ export default function InventoryTransactionsPage() {
             <CustomButton
               variant="outline"
               className="px-6 py-3 text-xl h-[56px] min-w-[204px] border border-primary text-black hover:bg-orange-50"
+              href="/inventory/adjust-stock"
             >
               Adjust Stock
             </CustomButton>

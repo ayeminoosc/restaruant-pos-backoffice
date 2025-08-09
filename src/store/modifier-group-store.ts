@@ -15,7 +15,6 @@ const initialState: ModifierGroupsStoreState = {
   isSubmitting: false,
   status: "idle",
   error: "",
-  searchTerm: "",
 };
 
 export const useModifierGroupStore = create<
@@ -148,7 +147,6 @@ export const useModifierGroupStore = create<
           resetLoading(set, "isSubmitting");
         }
       },
-      setSearchTerm: (term) => set({ searchTerm: term }),
       resetStatus: () =>
         set((state) => {
           state.status = "idle";

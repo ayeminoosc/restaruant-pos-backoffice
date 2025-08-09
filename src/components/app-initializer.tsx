@@ -1,14 +1,14 @@
 "use client";
 
-import { useGlobalStore } from "@/store/global-store";
+import { useProfileStore } from "@/store/profile-store";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 const AppInitializer = ({ children }: { children: React.ReactNode }) => {
   const { t } = useTranslation();
-  const fetchInitialData = useGlobalStore((s) => s.fetchInitialData);
-  const isLoading = useGlobalStore((s) => s.isLoading);
-  const error = useGlobalStore((s) => s.error);
+  const fetchInitialData = useProfileStore((s) => s.fetchInitialData);
+  const isLoading = useProfileStore((s) => s.isLoading);
+  const error = useProfileStore((s) => s.error);
 
   useEffect(() => {
     fetchInitialData();

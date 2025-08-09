@@ -30,6 +30,7 @@
     "error": "Something went wrong.",
     "loading": "Loading data..."
   },
+
   "modifier_group": {
     "buttons": {
       "add_group": "Add Modifier Group",
@@ -92,6 +93,7 @@
       "group": "Select group"
     }
   },
+
   "adjust_stock": {
     "titles": {
       "adjust_stock": "Adjust Stock"
@@ -148,6 +150,7 @@
       }
     }
   },
+
   "sub-category": {
     "buttons": {
       "add_sub_category": "Add Sub Category"
@@ -175,6 +178,7 @@
       "success_delete_sub_category": "Sub Category deleted!"
     }
   },
+
   "inventory": {
     "labels": {
       "total_items": "Total Items",

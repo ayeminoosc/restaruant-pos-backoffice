@@ -19,7 +19,6 @@ export type ModifierGroupsStoreState = {
   isSubmitting: boolean;
   status: "idle" | "success" | "error";
   error: string;
-  searchTerm: string;
 };
 
 export type ModifierGroupsStoreActions = {
@@ -29,5 +28,4 @@ export type ModifierGroupsStoreActions = {
   updateModifierGroup: (id: string, data: ModifierGroupsType) => Promise<void>;
   deleteModifierGroup: (id: string) => Promise<void>;
   resetStatus: () => void;
-  setSearchTerm: (term: string) => void;
 };
