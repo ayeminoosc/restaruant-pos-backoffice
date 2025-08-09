@@ -5,16 +5,19 @@ import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "./language-switcher";
 import { Input } from "./ui/input";
+import { usePrefixStore } from "@/store/prefix-store";
 
 type CustomSidebarItemHeaderProps = {
   children: ReactNode;
+  onSearchChange?: (value: string) => void;
 };
 
 const CustomSidebarItemHeader = ({
+  onSearchChange,
   children,
 }: CustomSidebarItemHeaderProps) => {
   const { t } = useTranslation();
-  const setSearchTerm = useModifierGroupStore((s) => s.setSearchTerm);
+  // const setSearchTerm = useModifierGroupStore((s) => s.setSearchTerm);
 
   return (
     <div className="flex items-center justify-between px-5 border-b-[2px] h-[7.688rem] border-[#D9D9D9]">
@@ -25,7 +28,7 @@ const CustomSidebarItemHeader = ({
         <Input
           className="h-full border-none focus-visible:ring-0 focus:outline-none text-[#a2a2a2] !text-[1.063rem] font-normal leading-6 placeholder:text-[#a2a2a2] pl-7"
           placeholder={t("placeholders.search")}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => onSearchChange?.(e.target.value)}
         />
       </div>
     </div>

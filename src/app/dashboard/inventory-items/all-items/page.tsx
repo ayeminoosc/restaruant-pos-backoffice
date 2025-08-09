@@ -6,12 +6,19 @@ import InventoryManagementTable from "@/components/inventory-management/inventor
 import InventoryButton from "@/components/inventory/inventoryButton";
 import InventoryDashboard from "@/components/inventory/inventoryDashboard";
 import PrefixTable from "@/components/prefixes/prefix-table";
+import { useInventoryStore } from "@/store/inventory-store";
 import { Plus } from "lucide-react";
+import { useEffect } from "react";
 
 const InventoryManagementPage = () => {
+  const {setSearchQuery, fetchInventoryData} = useInventoryStore()
+    useEffect(() => {
+      fetchInventoryData
+    }, [])
+  
   return (
     <section>
-      <CustomSidebarItemHeader>
+      <CustomSidebarItemHeader onSearchChange={setSearchQuery}>
        Inventory Management
       </CustomSidebarItemHeader>
       <div className="p-5 h-[calc(55.375rem-7.688rem)]">

@@ -13,8 +13,11 @@ type InventoryStore = {
   error: string | null;
   status: "idle" | "loading" | "error" | "success";
 
+  searchQuery: string;
+
   fetchInventoryData: () => Promise<void>;
   resetStatus: () => void;
+  setSearchQuery: (term: string) => void;
 };
 
 export const useInventoryStore = create<InventoryStore>()(
@@ -23,6 +26,7 @@ export const useInventoryStore = create<InventoryStore>()(
       items: [],
       stockAlerts: [],
       summary: null,
+      searchQuery: "",
 
       loading: false,
       error: null,
@@ -69,6 +73,9 @@ export const useInventoryStore = create<InventoryStore>()(
           });
         }
       },
+
+      setSearchQuery: (term) => set({ searchQuery: term }),
+
 
       resetStatus: () => {
         set((state) => {

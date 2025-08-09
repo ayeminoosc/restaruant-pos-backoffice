@@ -7,11 +7,32 @@ import { CustomDeleteModal } from "../custom-delete-modal";
 import { useRouter } from "next/navigation";
 import { usePrefixStore } from "@/store/prefix-store";
 const PrefixTable = () => {
-  const { fetchPrefixes, prefixes, deletePrefix, status, isSubmitting, error, resetStatus } = usePrefixStore();
+  const { fetchPrefixes, prefixes, deletePrefix, status, isSubmitting, error, resetStatus, searchQuery } = usePrefixStore();
 
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const router = useRouter();
+
+  const lowerSearch = searchQuery.toLowerCase();
+
+
+  const filteredPrefix =
+    lowerSearch.length > 0
+      ? prefixes.filter(
+        (p) =>
+          p.name.toLowerCase().includes(lowerSearch) ||
+          (p.description?.toLowerCase().includes(lowerSearch) ?? false)
+      )
+      : prefixes;
+
+
+  const data = filteredPrefix.map((p) => ({
+    id: p.id,
+    prefixName: p.name,
+    description: p.description
+  }));
+
+
   const openModal = (id: string) => {
     setSelectedId(id);
     setShowModal(true);
@@ -23,12 +44,6 @@ const PrefixTable = () => {
   }, []);
 
 
-
-  const data = prefixes.map((p) => ({
-    id: p.id,
-    prefixName: p.name,
-    description: p.description
-  }))
 
 
   type RowType = (typeof data)[0];
@@ -65,7 +80,7 @@ const PrefixTable = () => {
       ),
     },
   ];
-  
+
   return (
     <>
       <ReusableTable data={data} columns={columns} />

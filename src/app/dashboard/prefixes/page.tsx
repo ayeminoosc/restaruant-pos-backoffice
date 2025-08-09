@@ -8,7 +8,7 @@ import CustomButton from "@/components/custom-button";
 import { Plus } from "lucide-react";
 
 const Prefix = () => {
-  const { fetchPrefixes, prefixes } = usePrefixStore();
+  const { fetchPrefixes, prefixes, setSearchQuery } = usePrefixStore();
 
   useEffect(() => {
     fetchPrefixes
@@ -16,7 +16,7 @@ const Prefix = () => {
 
   return (
       <section>
-        <CustomSidebarItemHeader>
+        <CustomSidebarItemHeader onSearchChange={setSearchQuery}>
           Prefix Management
         </CustomSidebarItemHeader>
         <div className="p-5 h-[calc(55.375rem-7.688rem)]">
