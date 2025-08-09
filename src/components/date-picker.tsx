@@ -27,31 +27,21 @@ function isValidDate(date: Date | undefined) {
 }
 
 export function DatePicker({
-    label ,
+    label,
     placeholder,
-    value, // <-- use value instead of defaultValue
+    value,
     onChange,
     optional = false,
     error,
 }: {
     label?: string
     placeholder?: string
-    value?: Date // <-- change here
+    value?: Date
     onChange?: (date: Date | undefined) => void
     optional?: boolean,
     error?: string,
 }) {
     const [open, setOpen] = React.useState(false)
-    const [date, setDate] = React.useState<Date | undefined>(value)
-    const [month, setMonth] = React.useState<Date | undefined>(value)
-    const [inputValue, setInputValue] = React.useState(formatDate(value))
-
-    // Sync local state with value (from form)
-    React.useEffect(() => {
-        setDate(value)
-        setMonth(value)
-        setInputValue(formatDate(value))
-    }, [value])
 
     return (
         <div className="flex flex-col gap-3 w-full">
@@ -71,29 +61,19 @@ export function DatePicker({
             <div className="relative flex gap-2 w-full">
                 <Input
                     id="date"
-                    value={inputValue}
+                    value={formatDate(value)}
                     placeholder={placeholder}
                     className="h-14 md:text-lg placeholder:text-lg placeholder:text-gray-300 focus-visible:ring-0 focus:outline-none aria-invalid:border-[#cdcdcd] border-ring w-full"
                     onChange={(e) => {
                         const inputValue = e.target.value;
-                        setInputValue(inputValue);
-
-                        // If input is empty, pass undefined
                         if (!inputValue) {
-                            setDate(undefined);
-                            setMonth(undefined);
                             onChange?.(undefined);
                             return;
                         }
-
                         const inputDate = new Date(inputValue);
                         if (isValidDate(inputDate)) {
-                            setDate(inputDate);
-                            setMonth(inputDate);
                             onChange?.(inputDate);
                         } else {
-                            setDate(undefined);
-                            setMonth(undefined);
                             onChange?.(undefined);
                         }
                     }}
@@ -118,13 +98,11 @@ export function DatePicker({
                     >
                         <Calendar
                             mode="single"
-                            selected={date}
+                            selected={value}
                             captionLayout="dropdown"
-                            month={month}
-                            onMonthChange={setMonth}
+                            month={value}
+                            onMonthChange={() => {}}
                             onSelect={(selectedDate) => {
-                                setDate(selectedDate)
-                                setInputValue(formatDate(selectedDate))
                                 setOpen(false)
                                 onChange?.(selectedDate)
                             }}

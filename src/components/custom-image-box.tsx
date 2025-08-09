@@ -8,40 +8,30 @@ import {
 import { Button } from '@/components/ui/button';
 import { XIcon } from 'lucide-react';
 import Image from 'next/image';
-import { ChangeEvent, useState, useEffect } from 'react';
 
 interface ImageBoxProps {
-  imageUrl?: string | null;
-  onImageCropped?: (imageData: string) => void;
-  onImageRemoved?: () => void;
+  selectedFile: File | null;
+  croppedImage: string | null;
+  onFileChange: (file: File | null) => void;
+  onImageCropped: (imageData: string) => void;
+  onImageRemoved: () => void;
 }
 
-const ImageBox = ({ imageUrl, onImageCropped, onImageRemoved }: ImageBoxProps) => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [croppedImage, setCroppedImage] = useState<string | null>(imageUrl || null);
-
-  useEffect(() => {
-    setCroppedImage(imageUrl || null);
-  }, [imageUrl]);
-
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-      setCroppedImage(null);
-    }
-  };
-
-  const handleCroppedImage = (croppedImageData: string) => {
-    setCroppedImage(croppedImageData);
-    setSelectedFile(null);
-    onImageCropped?.(croppedImageData);
+const ImageBox = ({
+  selectedFile,
+  croppedImage,
+  onFileChange,
+  onImageCropped,
+  onImageRemoved,
+}: ImageBoxProps) => {
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null;
+    onFileChange(file);
   };
 
   const handleReset = () => {
-    setSelectedFile(null);
-    setCroppedImage(null);
-    onImageRemoved?.();
+    onFileChange(null);
+    onImageRemoved();
   };
 
   if (!selectedFile && !croppedImage) {
@@ -102,7 +92,6 @@ const ImageBox = ({ imageUrl, onImageCropped, onImageRemoved }: ImageBoxProps) =
   if (croppedImage && !selectedFile) {
     return (
       <div className="space-y-1 relative overflow-visible">
-        {/* Floating X icon half outside */}
         <div className="absolute -top-4 -right-2 z-30">
           <Button
             onClick={handleReset}
@@ -113,7 +102,6 @@ const ImageBox = ({ imageUrl, onImageCropped, onImageRemoved }: ImageBoxProps) =
             <XIcon className="size-6" />
           </Button>
         </div>
-
         <div
           className="w-[15rem] h-[13.625rem] max-w-full relative flex flex-col items-center justify-center bg-[#F9F9F9] rounded-[0.625rem] cursor-pointer overflow-hidden hover:bg-gray-100 transition-colors"
           onClick={() => document.getElementById('file-input')?.click()}
@@ -157,12 +145,9 @@ const ImageBox = ({ imageUrl, onImageCropped, onImageRemoved }: ImageBoxProps) =
         aspect={1}
         file={selectedFile}
         maxImageSize={1024 * 1024}
-        onChange={console.log}
-        onComplete={console.log}
-        onCrop={handleCroppedImage}
+        onCrop={onImageCropped}
       >
         <div className="relative w-full">
-          {/* Floating icon buttons outside crop box */}
           <div className="absolute -top-4.5 right-0 flex z-30" style={{ transform: 'translateX(10%)' }}>
             <ImageCropApply type="button" />
             <Button

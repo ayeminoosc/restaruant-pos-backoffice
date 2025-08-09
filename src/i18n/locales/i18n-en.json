@@ -148,10 +148,7 @@
       }
     }
   },
-  "sub-category": {
-    "buttons": {
-      "add_sub_category": "Add Sub Category"
-    },
+ 
   "category-list": {
     "titles": {
       "category": "Category",
@@ -282,5 +279,4 @@
   }
 }
 
-  }
-}
+  
